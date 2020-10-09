@@ -1,6 +1,7 @@
 # Mass Spectrometry Data Analysis with `Spectra`
 
 [![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
+[https://img.shields.io/docker/build/jorainer/SpectraTutorials](https://hub.docker.com/repositories/jorainer/SpectraTutorials)
 
 <img
 src="https://raw.githubusercontent.com/rformassspectrometry/stickers/master/Spectra/Spectra.png"
@@ -15,6 +16,7 @@ analyze mass spectrometry (MS) data.
 
 This
 [tutorial](https://jorainer.github.io/SpectraTutorials/articles/analyzing-MS-data-from-different-sources-with-Spectra.html)
+(source: [here](https://github.com/jorainer/SpectraTutorials/blob/main/vignettes/analyzing-MS-data-from-different-sources-with-Spectra.Rmd))
 shows the use of different backends (extending the `MsBackend` class) to import
 and export mass spectrometry data from and to different file formats (and
 resources). As a simple use case, experimental MS/MS spectra are processed and
@@ -23,7 +25,7 @@ exported.
 
 ### Workshop goals and objectives
 
-- Understand the principle of different data *backends*.
+- Understand the principles of different data *backends*.
 - Learn to handle and analyze mass spectrometry data with `Spectra`.
 
 ### Pre-requisites
