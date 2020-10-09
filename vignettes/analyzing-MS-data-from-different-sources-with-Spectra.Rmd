@@ -1,6 +1,6 @@
 ---
 title: "Seamless Integration of Mass Spectrometry Data from Different Sources with the `Spectra` Package"
-author: "Johannes Rainer"
+author: "Johannes Rainer^[Institute for Biomedicine, Eurac Research, Bolzano, Italy; johannes.rainer@eurac.edu]"
 output:
   rmarkdown::html_document:
     highlight: pygments
@@ -50,9 +50,11 @@ format](https://www.matrixscience.com/help/data_file_help.html) (MGF).
 
 # Installation
 
-This tutorial needs a recent version or [R](https://r-project.org) (4.0 or
-higher) and a set of R and Bioconductor packages that can be installed with the
-R code shown below.
+The source code of this tutorial is available at
+[https://github.com/jorainer/SpectraTutorials](https://github.com/jorainer/SpectraTutorials). A
+recent version or [R](https://r-project.org) (4.0 or higher) and a set of R and
+Bioconductor packages are required to run the tutorial. These can be installed
+with the R code shown below.
 
 ```{r installation, eval = FALSE}
 install.packages(c("devtools", "rmarkdown", "BiocManager"))
@@ -64,13 +66,14 @@ BiocManager::install("RforMassSpectrometry/MsBackendHmdb")
 BiocManager::install("RforMassSpectrometry/MsBackendMgf")
 ```
 
-To run the workshop locally:
+To run the tutorial locally:
 - clone [this github
-repository](https://github.com/jorainer/metabolomics2020), e.g. with `git clone
-https://github.com/jorainer/metabolomics2020`.
-- download the *All Spectra Files (XML)* from the [hmdb downloads
-  page](https://hmdb.ca/downloads) and unzip the contents of the
-  *hmdb_all_spectra.zip* archive into the folder *data/hmdb_all_spectra*.
+repository](https://github.com/jorainer/SpectraTutorials), e.g. with `git clone
+https://github.com/jorainer/SpectraTutorials`.
+- to run also the code to import the MS2 spectra from HMDB the *All Spectra Files (XML)* from the [hmdb downloads
+  page](https://hmdb.ca/downloads) has to be downloaded. The contents of the
+  *hmdb_all_spectra.zip* archive should then be unzipped into the folder
+  *data/hmdb_all_spectra*.
 
 
 # Analysing MS data with `Spectra`
