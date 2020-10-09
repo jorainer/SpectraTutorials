@@ -14,7 +14,7 @@ analyze mass spectrometry (MS) data.
 ## Seamless Integration of Mass Spectrometry Data from Different Sources
 
 This
-[tutorial](vignettes/analyzing-MS-data-from-different-sources-with-Spectra.Rmd)
+[tutorial](https://jorainer.github.io/SpectraTutorials/articles/analyzing-MS-data-from-different-sources-with-Spectra.html)
 shows the use of different backends (extending the `MsBackend` class) to import
 and export mass spectrometry data from and to different file formats (and
 resources). As a simple use case, experimental MS/MS spectra are processed and
