@@ -34,7 +34,7 @@ Imports:
     MsBackendHmdb,
     MsBackendMgf
 Remotes:
-    RforMassSpectrometry/MsBackendMgf
+    RforMassSpectrometry/MsBackendMgf,
     RforMassSpectrometry/MsBackendHmdb
 URL: https://jorainer.github.io/SpectraTutorials/
 BugReports: https://github.com/jorainer/SpectraTutorials/issues/new
