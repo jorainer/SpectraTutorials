@@ -1,5 +1,9 @@
 # Mass Spectrometry Data Analysis with `Spectra`
 
+<img
+src="https://raw.githubusercontent.com/rformassspectrometry/stickers/master/Spectra/Spectra.png"
+height="150">
+
 Tutorials and workshops for the use of the `Spectra` Bioconductor package to
 analyze mass spectrometry (MS) data.
 

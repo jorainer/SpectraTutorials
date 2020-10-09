@@ -1,0 +1,42 @@
+Package: SpectraTutorials
+Title: Mass Spectrometry Data Analysis with Spectra
+Version: 0.0.1
+Authors@R: c(
+	     person(given = "Johannes", family = "Rainer",
+		    email = "Johannes.Rainer@eurac.edu",
+		    role = c("aut", "cre"),
+		    comment = c(ORCID = "0000-0002-6977-7147")),
+             person(given = "Laurent", family = "Gatto",
+		    email = "laurent.gatto@uclouvain.be",
+		    role = c("aut"),
+		    comment = c(ORCID = "0000-0002-1520-2268")),
+	     person(given = "Sebastian", family = "Gibb",
+		    email = "mail@sebastiangibb.de",
+		    role = c("aut"),
+		    comment = c(ORCID = "0000-0001-7406-4443")))
+Description: These workshops and tutorials provide use cases and examples for
+    mass spectrometry data handling and analysis using the Spectra Bioconductor
+    package.
+License: Artistic-2.0
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+Depends:
+    R (>= 4.0.0),
+    Spectra
+Suggests:
+    pkgdown,
+    BiocStyle,
+    knitr,
+    rmarkdown
+Imports:
+    pheatmap,
+    MsBackendHmdb,
+    MsBackendMgf
+Remotes:
+    RforMassSpectrometry/MsBackendMgf
+    RforMassSpectrometry/MsBackendHmdb
+URL: https://jorainer.github.io/SpectraTutorials/
+BugReports: https://github.com/jorainer/SpectraTutorials/issues/new
+VignetteBuilder: knitr
+RoxygenNote: 7.1.1
