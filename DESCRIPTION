@@ -28,7 +28,8 @@ Suggests:
     pkgdown,
     BiocStyle,
     knitr,
-    rmarkdown
+    rmarkdown,
+    mzR
 Imports:
     pheatmap,
     MsBackendHmdb,
