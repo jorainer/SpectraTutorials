@@ -1,7 +1,8 @@
 # Mass Spectrometry Data Analysis with `Spectra`
 
 [![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
-[![docker build](https://img.shields.io/docker/build/jorainer/spectra_tutorials)](https://hub.docker.com/repositories/jorainer/spectra_tutorials)
+![docker pulls](https://img.shields.io/docker/pulls/jorainer/spectra_tutorials)
+[![Docker Image Version (latest by date)](https://img.shields.io/docker/v/jorainer/spectra_tutorials?label=docker%20image)](https://hub.docker.com/repository/docker/jorainer/spectra_tutorials)
 
 <img
 src="https://raw.githubusercontent.com/rformassspectrometry/stickers/master/Spectra/Spectra.png"
