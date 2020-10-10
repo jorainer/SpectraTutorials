@@ -21,11 +21,6 @@ jobs:
           sudo apt-get upgrade -y
           ## latest git version
           git --version
-          sudo apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
-          curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-          sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-          sudo apt-get update -y
-          sudo apt-get -y install docker-ce docker-ce-cli containerd.io
           shell: bash {0}
       ## Related to https://github.com/rocker-org/rocker-versioned2/issues/52
 
@@ -99,33 +94,3 @@ jobs:
         ## at least one locally before this will work. This creates the gh-pages
         ## branch (erasing anything you haven't version controlled!) and
         ## makes the git history recognizable by pkgdown.
-
-      - name: Set up QEMU
-        if: github.ref == 'refs/heads/main'
-        uses: docker/setup-qemu-action@v1
-      - name: Set up Docker Buildx
-        if: github.ref == 'refs/heads/main'
-        uses: docker/setup-buildx-action@v1
-
-      - name: Dockerhub login
-        if: github.ref == 'refs/heads/main'
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
-
-      - name: build-and-push
-        if: github.ref == 'refs/heads/main'
-        uses: docker/build-push-action@v2
-        with:
-          context: ./
-          file: ./Dockerfile
-          push: true
-          repository: jorainer/spectra_tutorials
-          tag_with_ref: true
-          tag_with_sha: true
-          tags: latest
-
-      - name: image-digest
-        if: github.ref == 'refs/heads/main'
-        run: echo ${{ steps.docker_build.outputs.digest }}
