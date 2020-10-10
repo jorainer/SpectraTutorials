@@ -1,11 +1,11 @@
-name: ci
+name: docker
 
 on:
-  push:
-    branches: main
+  repository_dispatch:
+    types: [trigger-workflow-2]
 
 jobs:
-  main:
+  build-docker-and-push:
     runs-on: ubuntu-latest
     steps:
       -
@@ -25,6 +25,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
+          ref: ${{ github.event.client_payload.sha }}
           push: true
           tags: jorainer/spectra_tutorials:latest
       -
