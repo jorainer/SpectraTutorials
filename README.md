@@ -33,3 +33,38 @@ exported.
 
 - Basic knowledge of mass spectrometry data.
 - Basic knowledge of R.
+
+### Installation
+
+To run the code of the tutorial locally a recent version of
+[R](https://r-project.org) is required (version >= 4.0) and a set of
+R/Bioconductor packages that can be installed with the code below:
+
+```r
+install.packages(c("devtools", "rmarkdown", "BiocManager"))
+BiocManager::install(c("BiocStyle",
+                       "MsCoreUtils",
+                       "Spectra",
+                       "pheatmap"))
+BiocManager::install("RforMassSpectrometry/MsBackendHmdb")
+BiocManager::install("RforMassSpectrometry/MsBackendMgf")
+```
+
+Alternatively, a [docker](https://www.docker.com/) image with all necessary
+packages pre-installed is available
+[here](https://hub.docker.com/r/jorainer/spectra_tutorials). This can be
+installed with `docker pull jorainer/spectra_tutorials:latest`.
+
+To run the docker use:
+
+```r
+docker run \
+ 	-e PASSWORD=bioc \
+ 	-p 8787:8787 \
+ 	jorainer/spectra_tutorials:latest
+```
+
+Interaction with the R within the running docker container is then possible
+by entering the address `http://localhost:8787/` in a web browser and logging in
+with user `rstudio` password `bioc`. This gives access to a RStudio instance
+running within the container.
