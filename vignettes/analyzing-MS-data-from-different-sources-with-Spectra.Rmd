@@ -75,6 +75,25 @@ https://github.com/jorainer/SpectraTutorials`.
   *hmdb_all_spectra.zip* archive should then be unzipped into the folder
   *data/hmdb_all_spectra*.
 
+Alternatively, a [docker](https://www.docker.com/) image with all necessary
+packages pre-installed is available
+[here](https://hub.docker.com/r/jorainer/spectra_tutorials). This can be
+installed with `docker pull jorainer/spectra_tutorials:latest`.
+
+To run the docker use:
+
+```r
+docker run \
+ 	-e PASSWORD=bioc \
+ 	-p 8787:8787 \
+ 	jorainer/spectra_tutorials:latest
+```
+
+Interaction with the R within the running docker container is then possible
+by entering the address `http://localhost:8787/` in a web browser and logging in
+with user `rstudio` password `bioc`. This gives access to a RStudio instance
+running within the container.
+
 
 # Analysing MS data with `Spectra`
 
@@ -162,7 +181,7 @@ sps
 We could identify `r length(sps)` spectra matching our condition. The plot below
 shows the first spectrum.
 
-```{r raw-ms2, width = 7, height = 7, fig.path = "images"}
+```{r raw-ms2, fig.width = 7, fig.height = 7}
 plotSpectra(sps[1])
 ```
 
