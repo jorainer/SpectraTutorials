@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">SpectraTutorials</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
       </span>
     </div>
 
@@ -105,6 +105,26 @@
 <li>Basic knowledge of mass spectrometry data.</li>
 <li>Basic knowledge of R.</li>
 </ul>
+</div>
+<div id="installation" class="section level3">
+<h3 class="hasAnchor">
+<a href="#installation" class="anchor"></a>Installation</h3>
+<p>To run the code of the tutorial locally a recent version of <a href="https://r-project.org">R</a> is required (version &gt;= 4.0) and a set of R/Bioconductor packages that can be installed with the code below:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"devtools"</span>, <span class="st">"rmarkdown"</span>, <span class="st">"BiocManager"</span><span class="op">)</span><span class="op">)</span>
+<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"BiocStyle"</span>,
+                       <span class="st">"MsCoreUtils"</span>,
+                       <span class="st">"Spectra"</span>,
+                       <span class="st">"pheatmap"</span><span class="op">)</span><span class="op">)</span>
+<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="st">"RforMassSpectrometry/MsBackendHmdb"</span><span class="op">)</span>
+<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="st">"RforMassSpectrometry/MsBackendMgf"</span><span class="op">)</span></pre></div>
+<p>Alternatively, a <a href="https://www.docker.com/">docker</a> image with all necessary packages pre-installed is available <a href="https://hub.docker.com/r/jorainer/spectra_tutorials">here</a>. This can be installed with <code>docker pull jorainer/spectra_tutorials:latest</code>.</p>
+<p>To run the docker use:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>docker run \</span>
+<span id="cb2-2"><a href="#cb2-2"></a>    <span class="op">-</span>e PASSWORD=bioc \</span>
+<span id="cb2-3"><a href="#cb2-3"></a>    <span class="op">-</span>p <span class="dv">8787</span><span class="op">:</span><span class="dv">8787</span> \</span>
+<span id="cb2-4"><a href="#cb2-4"></a>    jorainer<span class="op">/</span>spectra_tutorials<span class="op">:</span>latest</span></code></pre></div>
+<p>Interaction with the R within the running docker container is then possible by entering the address <code>http://localhost:8787/</code> in a web browser and logging in with user <code>rstudio</code> password <code>bioc</code>. This gives access to a RStudio instance running within the container.</p>
 </div>
 </div>
 </div>
