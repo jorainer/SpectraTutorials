@@ -1,7 +1,6 @@
 ---
 title: "Seamless Integration of Mass Spectrometry Data from Different Sources with the `Spectra` Package"
-author: "Johannes Rainer^[Institute for Biomedicine, Eurac Research, Bolzano,
-Italy; johannes.rainer@eurac.edu], Sebastian Gibb^[], Laurent Gatto^[]"
+author: "Johannes Rainer^[Institute for Biomedicine, Eurac Research, Bolzano, Italy; johannes.rainer@eurac.edu], Sebastian Gibb^[Department of Anaesthesiology and Intensive Care, University Medicine Greifswald, Germany], Laurent Gatto^[Computational Biology Unit, de Duve Institute, UCLouvain, Brussels, Belgium]"
 output:
   rmarkdown::html_document:
     highlight: pygments
