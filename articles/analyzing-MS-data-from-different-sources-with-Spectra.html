@@ -73,9 +73,7 @@
       </header><script src="analyzing-MS-data-from-different-sources-with-Spectra_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Seamless Integration of Mass Spectrometry Data from Different Sources with the <code>Spectra</code> Package</h1>
-                        <h4 class="author">Johannes Rainer<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>
-</h4>
+      <h1 data-toc-skip></h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/jorainer/SpectraTutorials/blob/master/vignettes/analyzing-MS-data-from-different-sources-with-Spectra.Rmd"><code>vignettes/analyzing-MS-data-from-different-sources-with-Spectra.Rmd</code></a></small>
@@ -85,13 +83,13 @@
 
     
     
-<p><strong>Last modified:</strong> 2020-10-11 14:28:20<br><strong>Compiled</strong>: Sun Oct 11 14:34:07 2020</p>
+<p><strong>Last modified:</strong> 2020-10-14 06:50:29<br><strong>Compiled</strong>: Wed Oct 14 06:56:40 2020</p>
 <div id="abstract" class="section level1">
 <h1 class="hasAnchor">
 <a href="#abstract" class="anchor"></a>Abstract</h1>
-<p>The R statistical environment has become one of the most frequently used analysis platforms in (bio)statistical data analysis. Several software solutions exist also in R to handle, process and analyze metabolomics data or mass spectrometry (MS) data in general, but they mostly don’t share data structures hence preventing interoperability.</p>
-<p>The objective of the <a href="https://www.rformassspectrometry.org">R for Mass Spectrometry initiative</a> is to provide a data analysis and development environment that is flexible (it must support user-centered applications such as data exploration and analysis, and developer-centered requirements such as enabling novel method development), efficient and scalable (applicable to small and large data sets on desktops, laptops or HPC systems), reproducible (to support reproducible research practices) and thoroughly tested and documented.</p>
-<p>This workshop shows the expandability of the infrastructure to enable a seamless integration and analysis of MS data from a variety of input formats illustrated by a simple matching of experimental MS2 spectra against a public spectral database and export of the data in <a href="https://www.matrixscience.com/help/data_file_help.html">mascot generic format</a> (MGF).</p>
+<p>Mass spectrometry (MS) data is a key technology in modern proteomics and metabolomics experiments. Due to continuous improvements in MS instrumentation, the generated data can easily become very large. Also, different additional resources of MS data exist, such as spectra libraries and databases, all with their own specific file formats that sometimes do not support manipulations of the original data.</p>
+<p>Learning from experiences with the <em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em> Bioconductor package we developed a novel infrastructure to handle MS spectral data in R, the <code>r Biocpkg("Spectra")</code> package. This package implements a clear separation of user functionality from code to provide, store and import mass spectrometry data. Different <em>backends</em> can hence be used that enable access to data from various data resources or that are designed specifically for very large MS data sets. Data manipulations are by default not directly applied to the data but cached in a <em>lazy processing queue</em> which allows analyses also of <em>read-only</em> data representations.</p>
+<p>This workshop shows the expandability of the new infrastructure to enable a seamless integration and analysis of MS data from a variety of input formats illustrated by a simple matching of experimental MS2 spectra against a public spectral database and export of the data in a format commonly used for exchange of MS2 data.</p>
 </div>
 <div id="installation" class="section level1">
 <h1 class="hasAnchor">
@@ -118,7 +116,7 @@
 <h1 class="hasAnchor">
 <a href="#analysing-ms-data-with-spectra" class="anchor"></a>Analysing MS data with <code>Spectra</code>
 </h1>
-<p>The <code>Spectra</code> package implements a clear separation of user functionality from code to provide, store and read mass spectrometry data. Thus, different data or file format-specific <em>backends</em> can be implemented and directly <em>plugged-in</em> without affecting the way the user would access or analyze the data. This represents an extension to the <em>in-memory</em> and <em>on-disk</em> data modes in the <code>r Biocpkg("MSnbase")</code> package that enabled either fast data processings or analysis of very large data sets by keeping only a limited amount of data in the computer’s memory <span class="citation">(Gatto, Gibb, and Rainer 2020)</span>.</p>
+<p>The <code>Spectra</code> package implements a clear separation of user functionality from code to provide, store and read mass spectrometry data. Thus, different data or file format-specific <em>backends</em> can be implemented and directly <em>plugged-in</em> without affecting the way the user would access or analyze the data. This represents an extension to the <em>in-memory</em> and <em>on-disk</em> data modes in the <code>r Biocpkg("MSnbase")</code> package that enabled either fast data processings or analysis of very large data sets by keeping only a limited amount of data in the computer’s memory <span class="citation">(<span class="citeproc-not-found" data-reference-id="gattoMSnbaseEfficientElegant2020a"><strong>???</strong></span>)</span>.</p>
 <p>In this workshop we will import MS data from mzML files, match the MS2 fragment spectra for one ion against MS2 spectra from a public database (i.e. the Human Metabolome Database <a href="https://hmdb.ca">HMDB</a>) and export the data as a MGF file. For each of the data sources and the export file format we will use a specific backend.</p>
 <p>Below we import the MS data from the mzML files provided within this package. These files contain MSn data of a mix of 8 standard compounds (solved either in water or a pool of human serum samples) measured with a HILIC-based LC-MS/MS setup. MS2 data was generated by data dependent acquisition using two different collision energies. For data import and representation we use the <code>MsBackendMzR</code> backend which supports import (and export) of data from the most common <em>raw</em> mass spectrometry file formats (i.e. mzML, mzXML and CDF).</p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
@@ -166,8 +164,8 @@
 ## 11         2   224.662       801
 ##  ... 33 more variables/columns.
 ## Processing:
-##  Switch backend from MsBackendMzR to MsBackendDataFrame [Sun Oct 11 14:34:12 2020]
-##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Sun Oct 11 14:34:12 2020]</code></pre>
+##  Switch backend from MsBackendMzR to MsBackendDataFrame [Wed Oct 14 06:56:45 2020]
+##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Wed Oct 14 06:56:46 2020]</code></pre>
 <p>We could identify 11 spectra matching our condition. The plot below shows the first spectrum.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectra</a></span><span class="op">(</span><span class="va">sps</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></pre></div>
@@ -273,20 +271,9 @@
 <a href="#summary" class="anchor"></a>Summary</h1>
 <p>With the simple use case of matching experimental MS2 spectra against a public database we illustrated in this short tutorial the flexibility and expandability of the <code>Spectra</code> package that enables the seamless integration of mass spectrometry data from different sources. This was only possible with a clear separation of the user functionality (<code>Spectra</code> object) from the representation of the data (<code>MsBackend</code> object). Backends such as the <a href="https://github.com/RforMassSpectrometry/MsBackendMgf"><code>MsBackendMgf</code></a> or <a href="https://github.com/RforMassSpectrometry/MsBackendHmdb"><code>MsBackendHmdbXml</code></a> can provide support for additional data formats or data sources, while others, due to their much lower memory footprint (<code>MsBackendMzR</code>, <code>MsBackendHdf5Peaks</code>), enable the analysis of also very large data sets. Most importantly however, these backends are interchangeable and do not affect the way users can handle and analyze MS data with the <code>Spectra</code> package.</p>
 </div>
-<div id="references" class="section level1 unnumbered">
+<div id="references" class="section level1">
 <h1 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h1>
-<div id="refs" class="references">
-<div id="ref-gattoMSnbaseEfficientElegant2020a">
-<p>Gatto, Laurent, Sebastian Gibb, and Johannes Rainer. 2020. “MSnbase, Efficient and Elegant R-Based Processing and Visualization of Raw Mass Spectrometry Data.” <em>Journal of Proteome Research</em>, September. <a href="https://doi.org/10.1021/acs.jproteome.0c00313">https://doi.org/10.1021/acs.jproteome.0c00313</a>.</p>
-</div>
-</div>
-</div>
-<div class="footnotes">
-<hr>
-<ol>
-<li id="fn1"><p>Institute for Biomedicine, Eurac Research, Bolzano, Italy; <a href="mailto:johannes.rainer@eurac.edu" class="email">johannes.rainer@eurac.edu</a><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
-</ol>
 </div>
   </div>
 
