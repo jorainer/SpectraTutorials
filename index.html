@@ -90,6 +90,7 @@
 <h2 class="hasAnchor">
 <a href="#seamless-integration-of-mass-spectrometry-data-from-different-sources" class="anchor"></a>Seamless Integration of Mass Spectrometry Data from Different Sources</h2>
 <p>This <a href="https://jorainer.github.io/SpectraTutorials/articles/analyzing-MS-data-from-different-sources-with-Spectra.html">tutorial</a> (source: <a href="https://github.com/jorainer/SpectraTutorials/blob/main/vignettes/analyzing-MS-data-from-different-sources-with-Spectra.Rmd">here</a>) shows the use of different backends (extending the <code>MsBackend</code> class) to import and export mass spectrometry data from and to different file formats (and resources). As a simple use case, experimental MS/MS spectra are processed and cleaned, compared against <em>reference</em> spectra from a public database and finally exported.</p>
+<p>See <em>Installation</em> section below for the description how to run this workshop interactively.</p>
 <div id="workshop-goals-and-objectives" class="section level3">
 <h3 class="hasAnchor">
 <a href="#workshop-goals-and-objectives" class="anchor"></a>Workshop goals and objectives</h3>
@@ -109,22 +110,37 @@
 <div id="installation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h3>
-<p>To run the code of the tutorial locally a recent version of <a href="https://r-project.org">R</a> is required (version &gt;= 4.0) and a set of R/Bioconductor packages that can be installed with the code below:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"devtools"</span>, <span class="st">"rmarkdown"</span>, <span class="st">"BiocManager"</span><span class="op">)</span><span class="op">)</span>
+<div id="using-the-docker-image-of-this-tutorial" class="section level4">
+<h4 class="hasAnchor">
+<a href="#using-the-docker-image-of-this-tutorial" class="anchor"></a>Using the docker image of this tutorial</h4>
+<p>A pre-build <a href="https://www.docker.com/">docker</a> image with all data and necessary packages is available <a href="https://hub.docker.com/r/jorainer/spectra_tutorials">here</a>. This docker image can be installed with <code>docker pull jorainer/spectra_tutorials:latest</code>.</p>
+<p>The source code of this repository, which contains the R-markdown files of the tutorial(s) can then be downloaded with</p>
+<pre><code>git clone https://github.com/jorainer/SpectraTutorials</code></pre>
+<p>The docker image can be run by typing the following command into a terminal (ideally by first changing the directory to the <em>SpectraTutorials</em> folder):</p>
+<pre><code>docker run \
+    -e PASSWORD=bioc \
+    -p 8787:8787 \
+    jorainer/spectra_tutorials:latest</code></pre>
+<p>Interaction with R within the running docker container is then possible by entering the address <code>http://localhost:8787/</code> in a web browser and logging into the server version of RStudio with user <code>rstudio</code> and password <code>bioc</code>. By opening the Rmd file <em>vignettes/analyzing-MS-data-from-different-sources-with-Spectra.Rmd</em> (in the RStudio within the browser) it is then possible to run the tutorial interactively.</p>
+</div>
+<div id="manual-setup" class="section level4">
+<h4 class="hasAnchor">
+<a href="#manual-setup" class="anchor"></a>Manual setup</h4>
+<p>For more advanced users it is also possible to <em>manually</em> install all the resources required for this tutorial. In addition to R version &gt;= 4, specifically for the examples involving the <a href="https://massbank.eu/MassBank/">MassBank</a> database, a running MySQL/MariaDB server is also required.</p>
+<p>The required R packages can be installed with the code below:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"devtools"</span>, <span class="st">"rmarkdown"</span>, <span class="st">"BiocManager"</span><span class="op">)</span><span class="op">)</span>
 <span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"BiocStyle"</span>,
                        <span class="st">"MsCoreUtils"</span>,
                        <span class="st">"Spectra"</span>,
                        <span class="st">"pheatmap"</span><span class="op">)</span><span class="op">)</span>
 <span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="st">"RforMassSpectrometry/MsBackendHmdb"</span><span class="op">)</span>
-<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="st">"RforMassSpectrometry/MsBackendMgf"</span><span class="op">)</span></pre></div>
-<p>Alternatively, a <a href="https://www.docker.com/">docker</a> image with all necessary packages pre-installed is available <a href="https://hub.docker.com/r/jorainer/spectra_tutorials">here</a>. This can be installed with <code>docker pull jorainer/spectra_tutorials:latest</code>.</p>
-<p>To run the docker use:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>docker run \</span>
-<span id="cb2-2"><a href="#cb2-2"></a>    <span class="op">-</span>e PASSWORD=bioc \</span>
-<span id="cb2-3"><a href="#cb2-3"></a>    <span class="op">-</span>p <span class="dv">8787</span><span class="op">:</span><span class="dv">8787</span> \</span>
-<span id="cb2-4"><a href="#cb2-4"></a>    jorainer<span class="op">/</span>spectra_tutorials<span class="op">:</span>latest</span></code></pre></div>
-<p>Interaction with the R within the running docker container is then possible by entering the address <code>http://localhost:8787/</code> in a web browser and logging in with user <code>rstudio</code> password <code>bioc</code>. This gives access to a RStudio instance running within the container.</p>
+<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="st">"RforMassSpectrometry/MsBackendMgf"</span><span class="op">)</span></code></pre></div>
+<p>A MySQL database dump of the <code>MassBank</code> database can be downloaded from <a href="https://github.com/MassBank/MassBank-data/releases">the official github page</a>. A database named <code>MassBank</code> should then be created in the local MySQL/MariaDB server. The downloaded <em>.sql.gz</em> needs to be unzipped and can then be installed with <code>mysql MassBank &lt; *.sql</code>.</p>
+<p>The source code for all tutorials in this package can be downloaded with:</p>
+<pre><code>git clone https://github.com/jorainer/SpectraTutorials</code></pre>
+<p>Then open the R-markdown (<em>Rmd</em>) files of one of the tutorials (which are located within the <em>vignettes</em> folder with the editor of choice (e.g. RStudio, emacs, vim, …) and evaluate the R-code in the tutorial interactively.</p>
+</div>
 </div>
 </div>
 </div>
