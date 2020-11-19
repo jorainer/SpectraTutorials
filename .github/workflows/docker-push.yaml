@@ -27,7 +27,7 @@ jobs:
         with:
           ref: ${{ github.event.client_payload.sha }}
           push: true
-          tags: jorainer/spectra_tutorials:latest
+          tags: jorainer/spectra_tutorials:devel
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

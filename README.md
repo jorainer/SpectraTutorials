@@ -24,6 +24,9 @@ resources). As a simple use case, experimental MS/MS spectra are processed and
 cleaned, compared against *reference* spectra from a public database and finally
 exported.
 
+See *Installation* section below for the description how to run this workshop
+interactively.
+
 ### Workshop goals and objectives
 
 - Understand the principles of different data *backends*.
@@ -36,9 +39,48 @@ exported.
 
 ### Installation
 
-To run the code of the tutorial locally a recent version of
-[R](https://r-project.org) is required (version >= 4.0) and a set of
-R/Bioconductor packages that can be installed with the code below:
+#### Using the docker image of this tutorial
+
+A pre-build [docker](https://www.docker.com/) image with all data and necessary
+packages is available
+[here](https://hub.docker.com/r/jorainer/spectra_tutorials). This docker image
+can be installed with `docker pull jorainer/spectra_tutorials:latest`.
+
+The source code of this repository, which contains the R-markdown files of the
+tutorial(s) can then be downloaded with
+
+```
+git clone https://github.com/jorainer/SpectraTutorials
+```
+
+The docker image can be run by typing the following command into a terminal
+(ideally by first changing the directory to the *SpectraTutorials* folder):
+
+```
+docker run \
+ 	-e PASSWORD=bioc \
+ 	-p 8787:8787 \
+ 	jorainer/spectra_tutorials:latest
+```
+
+Interaction with R within the running docker container is then possible by
+entering the address `http://localhost:8787/` in a web browser and logging into
+the server version of RStudio with user `rstudio` and password `bioc`. By
+opening the Rmd file
+*vignettes/analyzing-MS-data-from-different-sources-with-Spectra.Rmd* (in the
+RStudio within the browser) it is then possible to run the tutorial
+interactively.
+
+
+#### Manual setup
+
+For more advanced users it is also possible to *manually* install all the
+resources required for this tutorial. In addition to R version >= 4,
+specifically for the examples involving the
+[MassBank](https://massbank.eu/MassBank/) database, a running MySQL/MariaDB
+server is also required.
+
+The required R packages can be installed with the code below:
 
 ```r
 install.packages(c("devtools", "rmarkdown", "BiocManager"))
@@ -50,21 +92,20 @@ BiocManager::install("RforMassSpectrometry/MsBackendHmdb")
 BiocManager::install("RforMassSpectrometry/MsBackendMgf")
 ```
 
-Alternatively, a [docker](https://www.docker.com/) image with all necessary
-packages pre-installed is available
-[here](https://hub.docker.com/r/jorainer/spectra_tutorials). This can be
-installed with `docker pull jorainer/spectra_tutorials:latest`.
+A MySQL database dump of the `MassBank` database can be downloaded from [the
+official github
+page](https://github.com/MassBank/MassBank-data/releases). A database named
+`MassBank` should then be created in the local MySQL/MariaDB server. The downloaded
+*.sql.gz* needs to be unzipped and can then be installed with `mysql MassBank <
+*.sql`.
 
-To run the docker use:
 
-```r
-docker run \
- 	-e PASSWORD=bioc \
- 	-p 8787:8787 \
- 	jorainer/spectra_tutorials:latest
+The source code for all tutorials in this package can be downloaded with:
+
+```
+git clone https://github.com/jorainer/SpectraTutorials
 ```
 
-Interaction with the R within the running docker container is then possible
-by entering the address `http://localhost:8787/` in a web browser and logging in
-with user `rstudio` password `bioc`. This gives access to a RStudio instance
-running within the container.
+Then open the R-markdown (*Rmd*) files of one of the tutorials (which are
+located within the *vignettes* folder with the editor of choice (e.g. RStudio,
+emacs, vim, ...) and evaluate the R-code in the tutorial interactively.
