@@ -4,7 +4,9 @@ name: pkgdown
 
 on:
   push:
-    branches: main
+    branches:
+    - main
+    - massbank
 
 jobs:
   build-and-deploy:
