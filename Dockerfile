@@ -13,8 +13,6 @@ COPY --chown=rstudio:rstudio . /home/rstudio/
 ## Install the SpectraTutorials package
 RUN Rscript -e "options(repos = c(CRAN = 'https://cran.r-project.org')); BiocManager::install('jorainer/SpectraTutorials', update = FALSE, ask = FALSE, dependencies = TRUE)"
 
-RUN Rscript -e "BiocManager::install('RMariaDB')"
-
 RUN groupadd -r mysql && useradd -r -g mysql mysql
 
 RUN apt-get update; \

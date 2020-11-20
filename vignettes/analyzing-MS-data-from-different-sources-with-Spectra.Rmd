@@ -54,10 +54,36 @@ of MS2 data.
 # Installation
 
 The source code of this tutorial is available at
-[https://github.com/jorainer/SpectraTutorials](https://github.com/jorainer/SpectraTutorials). A
-recent version or [R](https://r-project.org) (4.0 or higher) and a set of R and
-Bioconductor packages are required to run the tutorial. These can be installed
-with the R code shown below.
+[https://github.com/jorainer/SpectraTutorials](https://github.com/jorainer/SpectraTutorials).
+A [docker](https://www.docker.com/) image with all data and necessary packages
+is available [here](https://hub.docker.com/r/jorainer/spectra_tutorials). This
+docker image (given that docker is installed on the computer) can be installed
+with `docker pull jorainer/spectra_tutorials:latest`.
+
+To run this tutorial locally:
+- Clone [this github
+repository](https://github.com/jorainer/SpectraTutorials), e.g. with `git clone
+https://github.com/jorainer/SpectraTutorials`.
+- Optionally, to run also the code to import the MS2 spectra from HMDB the *All
+  Spectra Files (XML)* from the [hmdb downloads page](https://hmdb.ca/downloads)
+  have to be downloaded. The contents of the *hmdb_all_spectra.zip* archive
+  should then be unzipped into the folder *data/hmdb_all_spectra*.
+- Start docker using
+  ```
+  docker run \
+      -e PASSWORD=bioc \
+      -p 8787:8787 \
+      jorainer/spectra_tutorials:devel
+  ```
+- Enter `http://localhost:8787` in a web browser and log in with username
+  `rstudio` and password `bioc`.
+- Open this R-markdown file
+  (*vignettes/analyzing-MS-data-from-different-sources-with-Spectra.Rmd*) in the
+  RStudio server version in the web browser.
+
+Alternatively to the docker-based usage it is also possible to install all
+required R packages using the code below (using an [R](https://r-project.org)
+version 4.0 or higher).
 
 ```{r installation, eval = FALSE}
 install.packages(c("devtools", "rmarkdown", "BiocManager"))
@@ -69,33 +95,14 @@ BiocManager::install("RforMassSpectrometry/MsBackendHmdb")
 BiocManager::install("RforMassSpectrometry/MsBackendMgf")
 ```
 
-To run the tutorial locally:
-- clone [this github
-repository](https://github.com/jorainer/SpectraTutorials), e.g. with `git clone
-https://github.com/jorainer/SpectraTutorials`.
-- to run also the code to import the MS2 spectra from HMDB the *All Spectra Files (XML)* from the [hmdb downloads
-  page](https://hmdb.ca/downloads) has to be downloaded. The contents of the
-  *hmdb_all_spectra.zip* archive should then be unzipped into the folder
-  *data/hmdb_all_spectra*.
-
-Alternatively, a [docker](https://www.docker.com/) image with all necessary
-packages pre-installed is available
-[here](https://hub.docker.com/r/jorainer/spectra_tutorials). This can be
-installed with `docker pull jorainer/spectra_tutorials:latest`.
-
-To run the docker use:
-
-```r
-docker run \
- 	-e PASSWORD=bioc \
- 	-p 8787:8787 \
- 	jorainer/spectra_tutorials:latest
-```
-
-Interaction with the R within the running docker container is then possible
-by entering the address `http://localhost:8787/` in a web browser and logging in
-with user `rstudio` password `bioc`. This gives access to a RStudio instance
-running within the container.
+To use the examples with the `MsBackendMassBank` a local *MassBank* installation
+is required, which requires access to a MySQL or MariaDB server with the
+possibility to create new databases. A MySQL database dump of the `MassBank`
+database can be downloaded from [the official github
+page](https://github.com/MassBank/MassBank-data/releases). A database named
+`MassBank` should then be created in the local MySQL/MariaDB server. The
+downloaded *.sql.gz* needs to be unzipped and can then be installed with `mysql
+MassBank < *.sql`.
 
 
 # Analysing MS data with `Spectra`
@@ -379,6 +386,33 @@ MGF format.
 library(MsBackendMgf)
 export(sps_ce20, backend = MsBackendMgf(), file = "Cystine_ce20.mgf")
 ```
+
+
+## Access to other public spectral libraries
+
+There are also other (public) spectral libraries for small molecules available
+such as [MassBank](https://massbank.eu/MassBank/),
+[MoNa](https://mona.fiehnlab.ucdavis.edu/) (MassBank of North America) or
+[GNPS](https://gnps.ucsd.edu/ProteoSAFe/static/gnps-splash.jsp). Ultimatively
+the goal is to provide `MsBackend` interfaces for all of these to allow a direct
+and unified access to these resources from within R. For the MassBank database
+backends are already available in the
+[MsBackendMassbank](https://github.com/michaelwitting/MsBackendMassbank)
+package. This package provides the `MsBackendMassbank` backend for import/export
+of [MassBank files](https://github.com/MassBank/MassBank-data) as well as the
+`MsBackendMassbankSql` that directly interfaces the MassBank MySQL database.
+
+Below we load the `MsBackendMassbank` library and connect to a local
+installation of the MassBank MySQL database (release *2020.10* which is provided
+within the docker image of this tutorial).
+
+```{r}
+library(RMariaDB)
+library(MsBackendMassbank)
+
+con <- dbConnect(MariaDB(), user = "massbank", dbname = "MassBank")
+```
+
 
 
 # Summary
