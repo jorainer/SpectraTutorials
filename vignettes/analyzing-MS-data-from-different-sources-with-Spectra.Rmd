@@ -1,6 +1,6 @@
 ---
 title: "Seamless Integration of Mass Spectrometry Data from Different Sources with the `Spectra` Package"
-author: "Johannes Rainer^[Institute for Biomedicine, Eurac Research, Bolzano, Italy; johannes.rainer@eurac.edu], Sebastian Gibb^[Department of Anaesthesiology and Intensive Care, University Medicine Greifswald, Germany], Laurent Gatto^[Computational Biology Unit, de Duve Institute, UCLouvain, Brussels, Belgium]"
+author: "Johannes Rainer^[Institute for Biomedicine, Eurac Research, Bolzano, Italy; johannes.rainer@eurac.edu], Michael Witting^[Research Unit Analytical BioGeoChemistry, Helmholtz Zentrum München and Chair of Analytical Food Chemistry, TUM School or Life Sciences, Technical University of Munich, Germany], Sebastian Gibb^[Department of Anaesthesiology and Intensive Care, University Medicine Greifswald, Germany], Laurent Gatto^[Computational Biology Unit, de Duve Institute, UCLouvain, Brussels, Belgium]"
 output:
   rmarkdown::html_document:
     highlight: pygments
@@ -12,7 +12,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding[utf8]{inputenc}
   %\VignettePackage{SpectraTutorials}
-  %\VignetteDepends{Spectra,mzR,MsBackendHmdb,MsBackendMgf,pheatmap,BiocStyle}
+  %\VignetteDepends{Spectra,mzR,MsBackendHmdb,MsBackendMgf,MsBackendMassbank,RMariaDB,pheatmap,BiocStyle}
 bibliography: references.bib
 ---
 
@@ -29,25 +29,25 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE)
 
 Mass spectrometry (MS) data is a key technology in modern proteomics and
 metabolomics experiments. Due to continuous improvements in MS instrumentation,
-the generated data can easily become very large. Also, different additional
-resources of MS data exist, such as spectra libraries and databases, all with
-their own specific file formats that sometimes do not support manipulations of
-the original data.
+the generated data can easily become very large. Also, additional resources of
+MS data exist, such as spectra libraries and databases, all with their own
+specific file formats and database systems that sometimes do not support
+manipulations of the original data.
 
-Learning from experiences with the `r Biocpkg("MSnbase")` Bioconductor package
+Learning from experiences with the `r Biocpkg("MSnbase")` Bioconductor package,
 the `r Biocpkg("Spectra")` package was developed to provide an even more
 flexible and expandable infrastructure for MS data in R. This package implements
 a clear separation of user functionality from code to provide, store and import
 MS data. Different *backends* can hence be used that enable access to data from
-various data resources or that are designed specifically for very large MS data
+various resources or that are designed specifically for very large MS data
 sets. Data manipulations are by default not directly applied to the data but
 cached in a *lazy processing queue* which allows analyses also of *read-only*
 data representations.
 
 This workshop shows the expandability of the new infrastructure to enable a
 seamless integration and analysis of MS data from a variety of input formats
-illustrated by a simple matching of experimental MS2 spectra against a public
-spectral database and export of the data in a format commonly used for exchange
+illustrated by a simple matching of experimental MS2 spectra against public
+spectral databases and export of the data in a format commonly used for exchange
 of MS2 data.
 
 
@@ -65,9 +65,10 @@ To run this tutorial locally:
 repository](https://github.com/jorainer/SpectraTutorials), e.g. with `git clone
 https://github.com/jorainer/SpectraTutorials`.
 - Optionally, to run also the code to import the MS2 spectra from HMDB the *All
-  Spectra Files (XML)* from the [hmdb downloads page](https://hmdb.ca/downloads)
-  have to be downloaded. The contents of the *hmdb_all_spectra.zip* archive
-  should then be unzipped into the folder *data/hmdb_all_spectra*.
+  Spectra Files (XML)* archive from the [hmdb downloads
+  page](https://hmdb.ca/downloads) has to be downloaded. The contents of the
+  *hmdb_all_spectra.zip* archive should then be unzipped into the folder
+  *data/hmdb_all_spectra*.
 - Start docker using
   ```
   docker run \
@@ -79,26 +80,29 @@ https://github.com/jorainer/SpectraTutorials`.
   `rstudio` and password `bioc`.
 - Open this R-markdown file
   (*vignettes/analyzing-MS-data-from-different-sources-with-Spectra.Rmd*) in the
-  RStudio server version in the web browser.
+  RStudio server version in the web browser and evaluate the R code blocks.
 
-Alternatively to the docker-based usage it is also possible to install all
-required R packages using the code below (using an [R](https://r-project.org)
+Alternatively to the docker-based usage, it is also possible to install all
+required R packages with the code below (using an [R](https://r-project.org)
 version 4.0 or higher).
 
 ```{r installation, eval = FALSE}
+Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS="true")
 install.packages(c("devtools", "rmarkdown", "BiocManager"))
 BiocManager::install(c("BiocStyle",
                        "MsCoreUtils",
                        "Spectra",
                        "pheatmap"))
-BiocManager::install("RforMassSpectrometry/MsBackendHmdb")
-BiocManager::install("RforMassSpectrometry/MsBackendMgf")
+devtools::install_github("RforMassSpectrometry/MsBackendHmdb")
+devtools::install_github("RforMassSpectrometry/MsBackendMgf")
+devtools::install_github("michaelwitting/MsBackendMassbank")
+devtools::install_github("jorainer/SpectraTutorials")
 ```
 
-To use the examples with the `MsBackendMassBank` a local *MassBank* installation
-is required, which requires access to a MySQL or MariaDB server with the
-possibility to create new databases. A MySQL database dump of the `MassBank`
-database can be downloaded from [the official github
+For the examples with the `MsBackendMassbank` package either access to a local
+*MassBank* instance, or the possibility to create and install new databases in a
+local MySQL or MariaDB database server is required. A dump of the `MassBank`
+MySQL database can be downloaded from [the official github
 page](https://github.com/MassBank/MassBank-data/releases). A database named
 `MassBank` should then be created in the local MySQL/MariaDB server. The
 downloaded *.sql.gz* needs to be unzipped and can then be installed with `mysql
@@ -117,11 +121,12 @@ processing or an analysis of very large data sets by keeping only a limited
 amount of data in the computer's memory [@gattoMSnbaseEfficientElegant2020a].
 
 In this workshop we will import MS data from mzML files, match the MS2 fragment
-spectra for one ion against MS2 spectra from a public database (i.e. the Human
-Metabolome Database [HMDB](https://hmdb.ca)) and export the data as a MGF
-file. A different backend is used for each data import and export operation.
+spectra for one ion against MS2 spectra from public databases
+(i.e. [MassBank](https://massbank.eu/MassBank/) and the Human Metabolom Database
+[HMDB](https://hmdb.ca)) and export the data as a MGF file. A different backend
+is used for each data import and export operation.
 
-Below we import first the MS data from the mzML files provided within this
+Below we import the MS data from the mzML files provided within this
 package. These files contain MSn data of a mix of 8 standard compounds (solved
 either in water or a pool of human serum samples) measured with a HILIC-based
 LC-MS/MS setup. MS2 data was generated by data dependent acquisition using two
@@ -138,12 +143,12 @@ sps_all <- Spectra(fls, backend = MsBackendMzR())
 ```
 
 The MS data is now represented by a `Spectra` object, which can be thought of as
-being a `data.frame`, columns being the spectra variables (such as `"rtime"`,
-i.e. the retention time) and rows the individual spectra.  Each spectra variable
-can be accessed either *via* `$` and its name or using its dedicated access
+a `data.frame` with columns being the spectra variables (such as `"rtime"`,
+i.e. the retention time) and rows the individual spectra. Each spectra variable
+can be accessed either *via* `$` and its name or by using its dedicated access
 function (which is the preferred way). Below we access the retention times of
 the first spectra using either `$rtime` or the function `rtime`. The
-`spectraVariables` function can be used to list all available spectra variables
+`spectraVariables` function can be used to list all available variables
 within such a `Spectra` object.
 
 ```{r rtime}
@@ -161,16 +166,15 @@ print(object.size(sps_all), units = "MB")
 ```
 
 We can also load the full data into memory by changing the backend from
-`MsBackendMzR` to `MsBackendDataFrame`. This does not affect the way how we can
-use the `Spectra` object itself. The same operations and functions are
-available, independently of the way how the data is stored (i.e. which backend
-is used).
+`MsBackendMzR` to `MsBackendDataFrame`. This does not affect the way we use the
+`Spectra` object itself: the same operations and functions are available,
+independently of the way the data is stored (i.e. which backend is used).
 
 ```{r change-backend}
 sps_all <- setBackend(sps_all, MsBackendDataFrame())
 ```
 
-The size of our `Spectra` object is now however larger, since the full data has
+The size of our `Spectra` object however is now larger, since the full data has
 been loaded into memory.
 
 ```{r in-mem-size}
@@ -181,21 +185,26 @@ Next we subset our data to MS2 spectra with a precursor ion that matches the m/z
 of the [M+H]+ ion of the metabolite Cystine (accepting a difference in m/z of 10
 parts-per-million (ppm)).
 
-```{r}
+```{r filter-precursor-mz}
 mz <- 241.0311
 
 sps <- filterPrecursorMz(sps_all, mz = mz + ppm(c(-mz, mz), 10))
 sps
 ```
 
-In total `r length(sps)` spectra matched our target precursor m/z. The plot
-below shows the first of these spectra.
+In total `r length(sps)` spectra matched our target precursor m/z.
+
+
+## Data processing and manipulation
+
+The `plotSpectra` function can be used to visualize spectra. Below we plot the
+first of the spectra we selected above.
 
 ```{r raw-ms2, fig.width = 7, fig.height = 7}
 plotSpectra(sps[1])
 ```
 
-This raw MS2 spectrum contains still very low abundance peaks, most likely
+This raw MS2 spectrum contains many very low abundance peaks, most likely
 representing noise. Thus we next filter the spectra removing all peaks with an
 intensity smaller than 5% of the maximum intensity of each spectrum (i.e. the
 base peak intensity). To this end we define a function that takes intensity
@@ -211,13 +220,13 @@ sps <- filterIntensity(sps, intensity = low_int)
 ```
 
 In addition we *normalize* each spectrum replacing the absolute intensity values
-with relative values to the maximum intensity (which is set to 100). For this
-operation we also define a function which takes a *peak matrix* as input and
-returns also a matrix with the same dimension. The peak matrix is the two-column
-matrix with m/z (first column) and intensity values (second column) of each peak
-of a spectrum. This function is then passed with parameter `FUN` to the
-`addProcessing` function which allows to apply any user-defined function to the
-peak matrix of each spectrum in a `Spectra` object.
+with values relative to the spectrum's maximum intensity (which is set to
+100). For this operation we also define a function which takes a *peak matrix*
+as input and returns a matrix with the same dimensions. The peak matrix is the
+two-column matrix with m/z (first column) and intensity values (second column)
+of each peak of a spectrum. This function is then passed with parameter `FUN` to
+the `addProcessing` function which allows to apply any user-defined function to
+the peak matrix of each spectrum in a `Spectra` object.
 
 ```{r normalize}
 norm_int <- function(x, ...) {
@@ -238,41 +247,45 @@ intensity(sps)[[1]]
 The intensity values are now all between 0 and 100. Note that all these data
 manipulations (intensity filtering and normalization) did **not** change the
 original m/z and intensity values. Data manipulation operations are cached by
-default within the *lazy processing queue* of the `Spectra` object and applied
+default in the *lazy processing queue* of the `Spectra` object and applied
 to the data *on-the-fly* each time m/z or intensity values are accessed. This
 ensures that the same data manipulations can be used for any type of backend,
-even if the data resource is *read-only*.
+even if the data resource is *read-only* (e.g. if the data is retrieved on the
+fly from mzML files).
 
-This enables us also to *undo* cached data manipulations with the `reset`
-function:
+This mechanism enables us also to *undo* cached data manipulations with the
+`reset` function:
 
 ```{r reset}
 sps_orig <- reset(sps)
 head(intensity(sps_orig)[[1]])
 ```
 
-We next perform a pairwise comparison of the spectra using the dot product as
-similarity measure. Prior to the actual similarity calculation the peaks of the
-individual spectra have to be matched against each other (based on their
-m/z). We specify `ppm = 20` so that peaks with a difference in m/z smaller than
-20ppm will be considered matching.
 
-```{r}
+## Spectrum data comparison
+
+We next perform a pairwise comparison of the spectra using the dot product as
+similarity measure. Prior to the actual similarity calculation, the peaks of the
+individual spectra have to be matched against each other (i.e. it has to be
+determined which peak from one spectrum correspond to which from the other
+spectrum based on their mass-to-charge ratios). We specify `ppm = 20` so that
+peaks with a difference in m/z smaller than 20ppm will be considered matching.
+
+```{r compare-spectra-self}
 cormat <- compareSpectra(sps, ppm = 20)
 ```
 
-The similarity of the spectra with each other is represented in the heatmap
-below.
+The pairwise spectra similarities are represented with the heatmap below.
 
 ```{r ms2-heatmap, fig.width = 7, fig.height = 7}
 library(pheatmap)
 hm <- pheatmap(cormat, cutree_rows = 3)
 ```
 
-The spectra group into 3 clusters, which are related to the collision energy
-used for the fragmentation (see below; the collision energy is encoded in the
-file name as CE20 and CE30). We subsequently reduce our dataset to the cluster
-with the spectra generated with a collision energy of 20eV.
+The 11 spectra group into 3 clusters, which are in fact related to the collision
+energy used for the fragmentation (see below; the collision energy is encoded in
+the file name as CE20 and CE30). We subsequently reduce our dataset to the
+cluster with the spectra generated with a collision energy of 20eV.
 
 ```{r}
 split(basename(dataOrigin(sps)), cutree(hm$tree_row, 3))
@@ -280,20 +293,196 @@ sps_ce20 <- split(sps, cutree(hm$tree_row, 3))[[1L]]
 ```
 
 Although the precursor m/z of our spectra matches the m/z of Cystine, we can
-still not exclude that they might represent fragmentation of ions from different
-compounds (i.e. that would have the same precursor m/z). We thus need to compare
-our experimental MS2 spectra against reference spectra. In our example we use
-MS2 spectra from the public Human Metabolome Database (HMDB) as
-reference. Predicted and experimental MS2 spectra are provided by HMDB as
-individual xml files in a custom file format which are bundled (and can hence be
-downloaded) in a single archive. The `MsBackendHmdbXml` backend (provided by the
-[MsBackendHmdb](https://github.com/RforMassSpectrometry/MsBackendHmdb) package)
-allows to import spectral data from these xml files. To reproduce the following
-code it is expected (as detailed in the Installation section) that all xml files
-from HMDB are available in a folder *data/hmdb_all_spectra*. Below we identify
-all xml files containing the key word `"ms_ms"` in their file name and load them
-into a `Spectra` object using the `MsBackendHmdbXml` backend. Note that this
-import operation from ~ 500,000 individual xml files takes a long time.
+still not exclude that they might represent fragmentations of ions from
+a different compound (i.e. that would have the same precursor m/z).
+
+Matching experimental spectra against a public spectral library can be used as a
+first step in the identification process. Several (public) spectral libraries
+for small molecules are available, such as
+[MassBank](https://massbank.eu/MassBank/),
+[MoNa](https://mona.fiehnlab.ucdavis.edu/) (MassBank of North America), the
+Human Metabolom Database [HMDB](https://hmdb.ca/) or
+[GNPS](https://gnps.ucsd.edu/ProteoSAFe/static/gnps-splash.jsp). For some of
+these databases `MsBackend` interfaces are already implemented allowing
+inclusion of their data directly into R-based analysis workflows. Access to
+MassBank data is for example possible with the
+[MsBackendMassbank](https://github.com/michaelwitting/MsBackendMassbank)
+package. This package provides the `MsBackendMassbank` for import/export
+of [MassBank files](https://github.com/MassBank/MassBank-data) as well as the
+`MsBackendMassbankSql` backend that directly interfaces the MassBank MySQL
+database.
+
+Below we load the `MsBackendMassbank` package and connect to a local
+installation of the MassBank MySQL database (release *2020.10* which is provided
+within the docker image of this tutorial).
+
+```{r massbank-library}
+library(RMariaDB)
+library(MsBackendMassbank)
+
+con <- dbConnect(MariaDB(), user = "massbank", dbname = "MassBank",
+                 host = "localhost")
+```
+
+We can now initialize a `Spectra` object with a `MsBackendMassbankSql` backend
+to access all the data in MassBank.
+
+```{r massbank}
+mbank <- Spectra(con, source = MsBackendMassbankSql())
+mbank
+```
+
+The `Spectra` object `mbank` *represents* now the MS data from the
+MassBank database with in total `length(mbank)` spectra. In fact, the `mbank`
+object does only contain the primary keys of the spectra but no MS data. Hence,
+it's size in memory is only relatively small:
+
+```{r massbank-size}
+print(object.size(mbank), units = "MB")
+```
+
+Any operation on this `Spectra` object will load the requested data from the
+database on-the-fly.
+
+We can now compare our experimental spectra against the *reference* spectra from
+MassBank. Because loading data from the database takes some time, we first
+screen for spectra that have a peak matching the precursor m/z (even this
+operation takes ~ 30 seconds to finish).
+
+```{r massbank-contains-mz}
+has_mz <- containsMz(mbank, mz = mz, ppm = 20)
+```
+
+Note that, to improve performance, we could also load all the spectra data into
+memory by simply changing the backend with `setBackend` to a
+`MsBackendDataFrame` (as we did with the experimental spectra data above).
+
+In total `r sum(has_mz)` spectra contain a peak with the required m/z and we can
+proceed to calculate spectral similarities between our experimental spectra and
+this subset from MassBank.
+
+```{r massbank-compare-subset}
+mbank_with_mz <- mbank[has_mz]
+res <- compareSpectra(sps_ce20, mbank_with_mz, ppm = 20)
+```
+
+The highest similarity between our spectra and the spectra from MassBank is
+`r max(res)`. Below we indentify the best matching spectrum and access its
+intensity values.
+
+```{r massbank-intensity}
+idx <- which(res == max(res), arr.ind = TRUE)
+intensity(mbank_with_mz[idx[2]])
+```
+
+Absolute intensities are reported for the MassBank spectrum, but for better
+visualizations we would like to *normalize* them the same way we did with our
+experimental spectra. As a side note it should also be mentioned that the used
+dot product function for spectra similarity is independent of absolute intensity
+values, thus, it did not matter if we performed the spectra comparisons on
+absolute or relative intensities.
+
+The above described *lazy processing queue* of `Spectra` objects allows us to
+perform data manipulations on the MassBank data without actually modifying the
+original data. We thus normalize the MassBank spectra with the same function we
+used for the experimental spectra.
+
+```{r massbank-normalize}
+mbank_with_mz <- addProcessing(mbank_with_mz, norm_int)
+```
+
+Below we can then compare the two best matching spectra with a *mirror plot*, in
+the upper panel showing our experimental spectrum and in the lower panel the
+best matching MS2 spectrum from MassBank.
+
+```{r massbank-mirror-plot, fig.width = 7, fig.height = 7}
+## Specifying a function to draw peak labels
+label_fun <- function(x) {
+    format(unlist(mz(x)), digits = 4)
+}
+plotSpectraMirror(sps_ce20[idx[1]], mbank_with_mz[idx[2]], tolerance = 0.2,
+                  labels = label_fun, labelPos = 2, labelOffset = 0.2,
+                  labelSrt = -30)
+grid()
+```
+
+Our experimental spectrum nicely matches the *reference* MS2 in MassBank. We
+next want to know which compound this spectrum actually represents. `Spectra`
+objects can have arbitrarily many additional annotation fields (so called
+*spectra variables*) and we can use the `spectraVariables` function to list all
+of them which are available in a specific `Spectra` object.
+
+```{r massbank-spectra-variables}
+spectraVariables(mbank_with_mz)
+```
+
+While we can get a large number of information for each spectrum, there is only
+limited information on the actual compound available (i.e. only a *compound_id*
+field available, but for example no compound name).
+
+The `MsBackendMassbank` package defines however an additional function
+`compounds` which takes a `Spectra` object (that uses a `MsBackendMassbankSql`
+backend) and retrieves the compound information for the spectra from the
+MassBank database. Thus, below we first subset our `Spectra` object to the
+MassBank spectrum that best matches our experimental spectrum and call the
+`compounds` function on this spectrum to get all of its compound annotations
+from the database.
+
+```{r massbank-one-spectrum}
+mbank_best_match <- mbank_with_mz[idx[2]]
+mbank_cmpd <- compounds(mbank_best_match)
+mbank_cmpd
+```
+
+Thus, the best matching spectrum is in fact a MS2 spectrum of Cystine. Below we
+add the name and the chemical formula for the best matching spectrum to our
+experimental spectra. We also set the collision energy for these spectra to 20eV
+and assign the ion/adduct of Cystine from which the reference spectrum was
+created.
+
+```{r}
+sps_ce20$hmdb_id <- mbank_cmpd$name
+sps_ce20$formula <- mbank_cmpd$formula
+sps_ce20$adduct <- mbank_best_match$adduct
+sps_ce20$collisionEnergy <- 20
+```
+
+
+## Data export
+
+At last we want to export our spectra to a file in MGF format. For this we use
+the [MsBackendMgf](https://github.com/RforMassSpectrometry/MsBackendMgf) R
+package which provides the `MsBackendMgf` backend that adds support for MGF file
+import/export to `Spectra` objects.
+
+Data from `Spectra` objects can generally be exported with the `export`
+function. The format in which the data is exported depends on the specified
+`MsBackend` class. By using an instance of `MsBackendMgf` we can write below the
+data to a file in MGF format.
+
+```{r export}
+library(MsBackendMgf)
+export(sps_ce20, backend = MsBackendMgf(), file = "Cystine_ce20.mgf")
+```
+
+
+## Matching against HMDB
+
+In addition to the `MsBackendMassbank`, which provides access to MassBank data,
+there is also the
+[`MsBackendHmdb`](https://github.com/RforMassSpectrometry/MsBackendHmdb) package
+supporting spectral data from the public Human Metabolome Database (HMDB). This
+package does however not yet provide direct access to the HMDB database but,
+through the `MsBackendHmdbXml` backend, allows to import MS2 spectra files in
+HMDB format. These are provided by HMDB as individual xml files in a custom file
+format which are bundled (and can hence be downloaded) in a single archive.
+
+To reproduce the following code it is expected (as detailed in the Installation
+section) that all xml files from HMDB are available in a folder
+*data/hmdb_all_spectra*. Below we identify all xml files containing the key word
+`"ms_ms"` in their file name and load them into a `Spectra` object using the
+`MsBackendHmdbXml` backend. Note that this import operation from the ~ 500,000
+individual xml files takes up to ~ 2 hours to finish.
 
 ```{r hmdb-import, eval = FALSE}
 library(MsBackendHmdb)
@@ -312,19 +501,19 @@ library(MsBackendHmdb)
 data("hmdb", package = "SpectraTutorials")
 ```
 
-With this we have now also a `Spectra` object containing all MS2 spectra from
-HMDB.
+With this we have now a `Spectra` object containing all MS2 spectra from
+HMDB. Note that with the `MsBackendHmdbXml` all spectra data is kept in memory.
 
 ```{r}
 hmdb
 ```
 
-To avoid comparing our experimental spectra against all these ~500,000 spectra,
-we first determine with the `containsMz` function which of the HMDB spectra
-contain a peak matching the m/z of our ion of interest. We have to use a rather
-large `tolerance` value (which defines the maximal acceptable absolute
-difference in m/z values) since some of the experimental spectra in HMDB seem to
-be recorded by not well calibrated instruments.
+Also here, to avoid comparing our experimental spectra against all these
+~500,000 spectra, we first determine with the `containsMz` function which of the
+HMDB spectra contain a peak matching the m/z of our ion of interest. We have to
+use a rather large `tolerance` value (which defines the maximal acceptable
+absolute difference in m/z values) since some of the experimental spectra in
+HMDB seem to be recorded by not well calibrated instruments.
 
 ```{r has-mz}
 has_mz <- containsMz(hmdb, mz = mz, tolerance = 0.2)
@@ -358,61 +547,14 @@ grid()
 
 Our experimental spectrum seems to nicely match the *reference* MS2 in
 HMDB. Below we extract the compound identifier from the best matching HMDB
-spectrum (stored in a spectra variable called `"compound_id"`) and add it as an
-additional spectra variable `"hmdb_id"` to our experimental spectra. We also set
-the collision energy for these spectra to 20eV.
+spectrum (stored in a spectra variable called `"compound_id"`)
 
 ```{r}
-sps_ce20$hmdb_id <- hmdb_with_mz[idx[2]]$compound_id
-sps_ce20$collisionEnergy <- 20
+hmdb_with_mz[idx[2]]$compound_id
 ```
 
 In fact, the matching spectrum from HMDB is an experimental spectrum for
 [L-Cystine](https://hmdb.ca/metabolites/HMDB0000192).
-
-At last we export our spectra to a file in MGF format. The `Spectra` package
-does however not have any built-in support for this file format. The required
-functionality is implemented in the
-[MsBackendMgf](https://github.com/RforMassSpectrometry/MsBackendMgf) R package
-and can thus be added to `Spectra` by using `MsBackendMgf` backend provided by
-that package.
-
-Data from `Spectra` objects can be exported with the `export` function. The
-format in which the data is exported depends on the specified `MsBackend`
-class. By using an instance of `MsBackendMgf` we can write the data to a file in
-MGF format.
-
-```{r export}
-library(MsBackendMgf)
-export(sps_ce20, backend = MsBackendMgf(), file = "Cystine_ce20.mgf")
-```
-
-
-## Access to other public spectral libraries
-
-There are also other (public) spectral libraries for small molecules available
-such as [MassBank](https://massbank.eu/MassBank/),
-[MoNa](https://mona.fiehnlab.ucdavis.edu/) (MassBank of North America) or
-[GNPS](https://gnps.ucsd.edu/ProteoSAFe/static/gnps-splash.jsp). Ultimatively
-the goal is to provide `MsBackend` interfaces for all of these to allow a direct
-and unified access to these resources from within R. For the MassBank database
-backends are already available in the
-[MsBackendMassbank](https://github.com/michaelwitting/MsBackendMassbank)
-package. This package provides the `MsBackendMassbank` backend for import/export
-of [MassBank files](https://github.com/MassBank/MassBank-data) as well as the
-`MsBackendMassbankSql` that directly interfaces the MassBank MySQL database.
-
-Below we load the `MsBackendMassbank` library and connect to a local
-installation of the MassBank MySQL database (release *2020.10* which is provided
-within the docker image of this tutorial).
-
-```{r}
-library(RMariaDB)
-library(MsBackendMassbank)
-
-con <- dbConnect(MariaDB(), user = "massbank", dbname = "MassBank")
-```
-
 
 
 # Summary
@@ -423,13 +565,14 @@ of the `Spectra` package that enables the seamless integration of mass
 spectrometry data from different sources. This was only possible with a clear
 separation of the user functionality (`Spectra` object) from the representation
 of the data (`MsBackend` object). Backends such as the
-[`MsBackendMgf`](https://github.com/RforMassSpectrometry/MsBackendMgf) or
-[`MsBackendHmdbXml`](https://github.com/RforMassSpectrometry/MsBackendHmdb) can
-provide support for additional data formats or data sources, while others, due
-to their much lower memory footprint (`MsBackendMzR`, `MsBackendHdf5Peaks`),
-enable the analysis of also very large data sets. Most importantly however, these
-backends are interchangeable and do not affect the way users can handle and
-analyze MS data with the `Spectra` package.
+[`MsBackendMgf`](https://github.com/RforMassSpectrometry/MsBackendMgf), the
+[`MsBackendMassbank`](https://github.com/michealwitting/MsBackendMassbank) or
+the [`MsBackendHmdbXml`](https://github.com/RforMassSpectrometry/MsBackendHmdb)
+can provide support for additional data formats or data sources, while others,
+due to their much lower memory footprint (`MsBackendMzR`, `MsBackendHdf5Peaks`),
+enable the analysis of also very large data sets. Most importantly however,
+these backends are interchangeable and do not affect the way users can handle
+and analyze MS data with the `Spectra` package.
 
 
 # References

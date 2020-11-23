@@ -29,8 +29,8 @@ interactively.
 
 ### Workshop goals and objectives
 
-- Understand the principles of different data *backends*.
 - Learn to handle and analyze mass spectrometry data with `Spectra`.
+- Understand the principles of different `Spectra` data *backends*.
 
 ### Pre-requisites
 
@@ -44,7 +44,8 @@ interactively.
 A pre-build [docker](https://www.docker.com/) image with all data and necessary
 packages is available
 [here](https://hub.docker.com/r/jorainer/spectra_tutorials). This docker image
-can be installed with `docker pull jorainer/spectra_tutorials:latest`.
+can be installed (given docker is installed on the system) with
+`docker pull jorainer/spectra_tutorials:latest`.
 
 The source code of this repository, which contains the R-markdown files of the
 tutorial(s) can then be downloaded with
@@ -83,6 +84,7 @@ server is also required.
 The required R packages can be installed with the code below:
 
 ```r
+Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS="true")
 install.packages(c("devtools", "rmarkdown", "BiocManager"))
 BiocManager::install(c("BiocStyle",
                        "MsCoreUtils",
@@ -90,6 +92,8 @@ BiocManager::install(c("BiocStyle",
                        "pheatmap"))
 BiocManager::install("RforMassSpectrometry/MsBackendHmdb")
 BiocManager::install("RforMassSpectrometry/MsBackendMgf")
+BiocManager::install("michaelwitting/MsBackendMassbank")
+devtools::install_github("jorainer/SpectraTutorials")
 ```
 
 A MySQL database dump of the `MassBank` database can be downloaded from [the
