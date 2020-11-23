@@ -34,11 +34,8 @@ Suggests:
     knitr,
     rmarkdown,
     mzR,
-    RMariaDB
-Imports:
-    pheatmap,
-    MsBackendHmdb,
-    MsBackendMgf
+    RMariaDB,
+    pheatmap
 Remotes:
     RforMassSpectrometry/MsBackendMgf,
     RforMassSpectrometry/MsBackendHmdb,
