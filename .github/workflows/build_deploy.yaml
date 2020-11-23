@@ -24,13 +24,13 @@ jobs:
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
         shell: Rscript {0}
 
-      - name: Cache R packages
-        if: runner.os != 'Windows'
-        uses: actions/cache@v1
-        with:
-          path: /usr/local/lib/R/site-library
-          key: ${{ runner.os }}-r-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ runner.os }}-r-1-
+      # - name: Cache R packages
+      #   if: runner.os != 'Windows'
+      #   uses: actions/cache@v1
+      #   with:
+      #     path: /usr/local/lib/R/site-library
+      #     key: ${{ runner.os }}-r-1-${{ hashFiles('.github/depends.Rds') }}
+      #     restore-keys: ${{ runner.os }}-r-1-
 
       # This lets us augment with additional dependencies
       - name: Install mysql client
@@ -57,10 +57,8 @@ jobs:
 
       - name: Install deps
         run: |
-          options(repos = c(CRAN = "https://cran.r-project.org"))
-          BiocManager::install(version = "3.12")
-          BiocManager::install(c("Spectra", "RMariaDB", "BiocStyle", "rmarkdown", "mzR", "pheatmap"))
           remotes::install_cran("rcmdcheck")
+          BiocManager::install(c("Spectra", "RMariaDB", "BiocStyle", "rmarkdown", "mzR", "pheatmap"))
         shell: Rscript {0}
 
       - name: Check
