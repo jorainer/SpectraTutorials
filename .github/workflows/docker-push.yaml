@@ -1,8 +1,11 @@
+## Check here for sequential workflow configuration
+## https://www.r-bloggers.com/2020/07/running-github-actions-sequentially/
 name: docker
 
 on:
-  repository_dispatch:
-    types: [trigger-workflow-2]
+  push:
+    branches:
+    - main
 
 jobs:
   build-docker-and-push:
@@ -31,3 +34,12 @@ jobs:
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+
+      - name: Trigger next workflow
+        if: success()
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.REPO_GHA_PAT }}
+          repository: ${{ github.repository }}
+          event-type: trigger-workflow-2
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'

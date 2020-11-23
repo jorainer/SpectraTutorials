@@ -1,17 +1,13 @@
-## Check here for sequential workflow configuration
-## https://www.r-bloggers.com/2020/07/running-github-actions-sequentially/
 name: pkgdown
 
 on:
-  push:
-    branches:
-    - main
-    - massbank
+  repository_dispatch:
+    types: [trigger-workflow-2]
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    container: bioconductor/bioconductor_docker:RELEASE_3_12
+    container: jorainer/spectra_tutorials:latest
     steps:
       ## Most of these steps are the same as the ones in
       ## https://github.com/r-lib/actions/blob/master/examples/check-standard.yaml
@@ -33,11 +29,11 @@ jobs:
       #     restore-keys: ${{ runner.os }}-r-1-
 
       # This lets us augment with additional dependencies
-      - name: Install mysql client
-        if: runner.os == 'Linux'
-        run: |
-          apt-get update
-          apt-get -y install mariadb-server
+      # - name: Install mysql client
+      #   if: runner.os == 'Linux'
+      #   run: |
+      #     apt-get update
+      #     apt-get -y install mariadb-server
 
       # - name: Install system dependencies
       #   if: runner.os == 'Linux'
@@ -58,10 +54,6 @@ jobs:
       - name: Install deps
         run: |
           remotes::install_cran("rcmdcheck")
-          BiocManager::install(c("Spectra", "RMariaDB", "BiocStyle", "rmarkdown", "mzR", "pheatmap"))
-          remotes::install_github("RforMassSpectrometry/MsBackendMgf")
-          remotes::install_github("RforMassSpectrometry/MsBackendHmdb")
-          remotes::install_github("michaelwitting/MsBackendMassbank")
         shell: Rscript {0}
 
       - name: Check
@@ -96,12 +88,3 @@ jobs:
         ## at least one locally before this will work. This creates the gh-pages
         ## branch (erasing anything you haven't version controlled!) and
         ## makes the git history recognizable by pkgdown.
-
-      - name: Trigger next workflow
-        if: success()
-        uses: peter-evans/repository-dispatch@v1
-        with:
-          token: ${{ secrets.REPO_GHA_PAT }}
-          repository: ${{ github.repository }}
-          event-type: trigger-workflow-2
-          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
