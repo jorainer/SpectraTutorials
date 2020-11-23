@@ -59,6 +59,9 @@ jobs:
         run: |
           remotes::install_cran("rcmdcheck")
           BiocManager::install(c("Spectra", "RMariaDB", "BiocStyle", "rmarkdown", "mzR", "pheatmap"))
+          remotes::install_github("RforMassSpectrometry/MsBackendMgf")
+          remotes::install_github("RforMassSpectrometry/MsBackendHmdb")
+          remotes::install_github("michaelwitting/MsBackendMassbank")
         shell: Rscript {0}
 
       - name: Check

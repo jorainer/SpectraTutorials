@@ -29,7 +29,6 @@ Depends:
     R (>= 4.0.0),
     Spectra
 Suggests:
-    pkgdown,
     BiocStyle,
     knitr,
     rmarkdown,
