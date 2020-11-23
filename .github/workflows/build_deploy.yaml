@@ -22,8 +22,6 @@ jobs:
         run: |
           install.packages('remotes')
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
-          message(paste('****', Sys.time(), 'installing BiocManager ****'))
-          remotes::install_cran("BiocManager")
         shell: Rscript {0}
 
       - name: Cache R packages
@@ -35,6 +33,12 @@ jobs:
           restore-keys: ${{ runner.os }}-r-1-
 
       # This lets us augment with additional dependencies
+      - name: Install mysql client
+        if: runner.os == 'Linux'
+        run: |
+          apt-get update
+          apt-get -y install mariadb-server
+
       - name: Install system dependencies
         if: runner.os == 'Linux'
         env:
