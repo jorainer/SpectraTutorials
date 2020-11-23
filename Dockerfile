@@ -10,8 +10,11 @@ WORKDIR /home/rstudio
 
 COPY --chown=rstudio:rstudio . /home/rstudio/
 
-## Install the SpectraTutorials package
-RUN Rscript -e "options(repos = c(CRAN = 'https://cran.r-project.org')); BiocManager::install('jorainer/SpectraTutorials', update = FALSE, ask = FALSE, dependencies = TRUE)"
+## Install the SpectraTutorials package and additional required packages
+RUN Rscript -e "options(repos = c(CRAN = 'https://cran.r-project.org')); BiocManager::install('jorainer/SpectraTutorials', update = FALSE, ask = FALSE, dependencies = TRUE)" \
+    Rscript -e "remotes::install_github("RforMassSpectrometry/MsBackendHmdb")" \
+    Rscript -e "remotes::install_github("RforMassSpectrometry/MsBackendHmdb")" \
+    Rscript -e "remotes::install_github("michaelwitting/MsBackendMassbank")"
 
 RUN groupadd -r mysql && useradd -r -g mysql mysql
 
