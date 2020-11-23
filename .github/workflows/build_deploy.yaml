@@ -58,7 +58,7 @@ jobs:
       - name: Install deps
         run: |
           options(repos = c(CRAN = "https://cran.r-project.org"))
-	  BiocManager::install(c("Spectra", "RMariaDB", "BiocStyle", "rmarkdown", "mzR", "pheatmap"))
+          BiocManager::install(c("Spectra", "RMariaDB", "BiocStyle", "rmarkdown", "mzR", "pheatmap"))
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
 
