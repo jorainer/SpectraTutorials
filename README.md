@@ -53,7 +53,7 @@ BiocManager::install("RforMassSpectrometry/MsBackendMgf")
 Alternatively, a [docker](https://www.docker.com/) image with all necessary
 packages pre-installed is available
 [here](https://hub.docker.com/r/jorainer/spectra_tutorials). This can be
-installed with `docker pull jorainer/spectra_tutorials:latest`.
+installed with `docker pull jorainer/spectra_tutorials:hmdb`.
 
 To run the docker use:
 
@@ -61,7 +61,7 @@ To run the docker use:
 docker run \
  	-e PASSWORD=bioc \
  	-p 8787:8787 \
- 	jorainer/spectra_tutorials:latest
+ 	jorainer/spectra_tutorials:hmdb
 ```
 
 Interaction with the R within the running docker container is then possible
