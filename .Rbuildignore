@@ -10,3 +10,4 @@
 ^playground$
 ^revdep$
 ^scripts$
+^Dockerfile$
