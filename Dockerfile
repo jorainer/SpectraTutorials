@@ -21,8 +21,6 @@ RUN apt-get update; \
     chmod 777 /var/run/mysqld; \
     chmod 777 -R /var/lib/mysql;
 
-## ADD inst/sql/minimassbank.sql /home/rstudio
-
 RUN service mysql start; \
     mysql < scripts/mysql-prepare.sql;
 
