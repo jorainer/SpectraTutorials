@@ -12,7 +12,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding[utf8]{inputenc}
   %\VignettePackage{SpectraTutorials}
-  %\VignetteDepends{Spectra,mzR,MsBackendHmdb,MsBackendMgf,MsBackendMassbank,RMariaDB,pheatmap,BiocStyle}
+  %\VignetteDepends{Spectra,mzR,RMariaDB,pheatmap,BiocStyle}
 bibliography: references.bib
 ---
 
