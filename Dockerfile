@@ -1,9 +1,9 @@
-FROM bioconductor/bioconductor_docker:RELEASE_3_12
+FROM bioconductor/bioconductor_docker:devel
 
 LABEL name="jorainer/spectra_tutorials" \
       url="https://github.com/jorainer/SpectraTutorials" \
       maintainer="johannes.rainer@eurac.edu" \
-      description="Docker container to run the Spectra tutorial." \
+      description="Docker container to run the Spectra tutorials." \
       license="Artistic-2.0"
 
 WORKDIR /home/rstudio
@@ -11,10 +11,9 @@ WORKDIR /home/rstudio
 COPY --chown=rstudio:rstudio . /home/rstudio/
 
 ## Install the SpectraTutorials package and additional required packages
-RUN Rscript -e "options(repos = c(CRAN = 'https://cran.r-project.org')); BiocManager::install('jorainer/SpectraTutorials', update = FALSE, ask = FALSE, dependencies = TRUE)"
-RUN Rscript -e "remotes::install_github('RforMassSpectrometry/MsBackendHmdb')"
-RUN Rscript -e "remotes::install_github('RforMassSpectrometry/MsBackendMgf')"
-RUN Rscript -e "remotes::install_github('michaelwitting/MsBackendMassbank')"
+RUN Rscript -e "options(repos = c(CRAN = 'https://cran.r-project.org')); BiocManager::install(ask = FALSE)"
+
+RUN Rscript -e "options(repos = c(CRAN = 'https://cran.r-project.org')); devtools::install('.', dependencies = TRUE, build_vignettes = TRUE, repos = BiocManager::repositories())"
 
 RUN groupadd -r mysql && useradd -r -g mysql mysql
 

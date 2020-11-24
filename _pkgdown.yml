@@ -1,0 +1,15 @@
+url: https://jorainer.github.io/SpectraTutorials
+
+template:
+  params:
+    bootswatch: flatly
+
+home:
+  title: "Mass Spectrometry Data Analysis with Specrta"
+  type: inverse
+
+
+navbar:
+  right:
+   - icon: fa-github
+     href: https://github.com/jorainer/SpectraTutorials
