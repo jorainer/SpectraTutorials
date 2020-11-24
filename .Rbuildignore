@@ -11,3 +11,4 @@
 ^revdep$
 ^scripts$
 ^Dockerfile$
+_pkgdown.yml
