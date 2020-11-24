@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">SpectraTutorials</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -95,8 +95,8 @@
 <h3 class="hasAnchor">
 <a href="#workshop-goals-and-objectives" class="anchor"></a>Workshop goals and objectives</h3>
 <ul>
-<li>Understand the principles of different data <em>backends</em>.</li>
 <li>Learn to handle and analyze mass spectrometry data with <code>Spectra</code>.</li>
+<li>Understand the principles of different <code>Spectra</code> data <em>backends</em>.</li>
 </ul>
 </div>
 <div id="pre-requisites" class="section level3">
@@ -113,7 +113,7 @@
 <div id="using-the-docker-image-of-this-tutorial" class="section level4">
 <h4 class="hasAnchor">
 <a href="#using-the-docker-image-of-this-tutorial" class="anchor"></a>Using the docker image of this tutorial</h4>
-<p>A pre-build <a href="https://www.docker.com/">docker</a> image with all data and necessary packages is available <a href="https://hub.docker.com/r/jorainer/spectra_tutorials">here</a>. This docker image can be installed with <code>docker pull jorainer/spectra_tutorials:latest</code>.</p>
+<p>A pre-build <a href="https://www.docker.com/">docker</a> image with all data and necessary packages is available <a href="https://hub.docker.com/r/jorainer/spectra_tutorials">here</a>. This docker image can be installed (given docker is installed on the system) with <code>docker pull jorainer/spectra_tutorials:latest</code>.</p>
 <p>The source code of this repository, which contains the R-markdown files of the tutorial(s) can then be downloaded with</p>
 <pre><code>git clone https://github.com/jorainer/SpectraTutorials</code></pre>
 <p>The docker image can be run by typing the following command into a terminal (ideally by first changing the directory to the <em>SpectraTutorials</em> folder):</p>
@@ -129,13 +129,16 @@
 <p>For more advanced users it is also possible to <em>manually</em> install all the resources required for this tutorial. In addition to R version &gt;= 4, specifically for the examples involving the <a href="https://massbank.eu/MassBank/">MassBank</a> database, a running MySQL/MariaDB server is also required.</p>
 <p>The required R packages can be installed with the code below:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"devtools"</span>, <span class="st">"rmarkdown"</span>, <span class="st">"BiocManager"</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv</a></span><span class="op">(</span>R_REMOTES_NO_ERRORS_FROM_WARNINGS<span class="op">=</span><span class="st">"true"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"devtools"</span>, <span class="st">"rmarkdown"</span>, <span class="st">"BiocManager"</span><span class="op">)</span><span class="op">)</span>
 <span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"BiocStyle"</span>,
                        <span class="st">"MsCoreUtils"</span>,
                        <span class="st">"Spectra"</span>,
                        <span class="st">"pheatmap"</span><span class="op">)</span><span class="op">)</span>
 <span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="st">"RforMassSpectrometry/MsBackendHmdb"</span><span class="op">)</span>
-<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="st">"RforMassSpectrometry/MsBackendMgf"</span><span class="op">)</span></code></pre></div>
+<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="st">"RforMassSpectrometry/MsBackendMgf"</span><span class="op">)</span>
+<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="st">"michaelwitting/MsBackendMassbank"</span><span class="op">)</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"jorainer/SpectraTutorials"</span><span class="op">)</span></code></pre></div>
 <p>A MySQL database dump of the <code>MassBank</code> database can be downloaded from <a href="https://github.com/MassBank/MassBank-data/releases">the official github page</a>. A database named <code>MassBank</code> should then be created in the local MySQL/MariaDB server. The downloaded <em>.sql.gz</em> needs to be unzipped and can then be installed with <code>mysql MassBank &lt; *.sql</code>.</p>
 <p>The source code for all tutorials in this package can be downloaded with:</p>
 <pre><code>git clone https://github.com/jorainer/SpectraTutorials</code></pre>
@@ -167,6 +170,7 @@
 <h2>Developers</h2>
 <ul class="list-unstyled">
 <li>Johannes Rainer <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-6977-7147" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Michael Witting <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-1462-4426" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Laurent Gatto <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-1520-2268" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Sebastian Gibb <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-7406-4443" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
@@ -184,7 +188,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Johannes Rainer, Laurent Gatto, Sebastian Gibb.</p>
+  <p>Developed by Johannes Rainer, Michael Witting, Laurent Gatto, Sebastian Gibb.</p>
 </div>
 
 <div class="pkgdown">
