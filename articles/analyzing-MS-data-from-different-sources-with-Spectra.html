@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Seamless Integration of Mass Spectrometry Data from Different Sources with the `Spectra` Package • SpectraTutorials</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SpectraTutorials</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
       </span>
     </div>
 
@@ -55,8 +55,8 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/jorainer/SpectraTutorials/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/jorainer/SpectraTutorials">
+    <span class="fa fa-github"></span>
      
   </a>
 </li>
@@ -85,12 +85,12 @@
 
     
     
-<p><strong>Last modified:</strong> 2020-11-24 07:51:24<br><strong>Compiled</strong>: Tue Nov 24 07:58:03 2020</p>
+<p><strong>Last modified:</strong> 2020-11-24 15:32:57<br><strong>Compiled</strong>: Tue Nov 24 15:39:32 2020</p>
 <div id="abstract" class="section level1">
 <h1 class="hasAnchor">
 <a href="#abstract" class="anchor"></a>Abstract</h1>
 <p>Mass spectrometry (MS) data is a key technology in modern proteomics and metabolomics experiments. Due to continuous improvements in MS instrumentation, the generated data can easily become very large. Also, additional resources of MS data exist, such as spectra libraries and databases, all with their own specific file formats and database systems that sometimes do not support manipulations of the original data.</p>
-<p>Learning from experiences with the <em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em> Bioconductor package, the <em><a href="https://bioconductor.org/packages/3.12/Spectra">Spectra</a></em> package was developed to provide an even more flexible and expandable infrastructure for MS data in R. This package implements a clear separation of user functionality from code to provide, store and import MS data. Different <em>backends</em> can hence be used that enable access to data from various resources or that are designed specifically for very large MS data sets. Data manipulations are by default not directly applied to the data but cached in a <em>lazy processing queue</em> which allows analyses also of <em>read-only</em> data representations.</p>
+<p>Learning from experiences with the <em><a href="https://bioconductor.org/packages/3.13/MSnbase">MSnbase</a></em> Bioconductor package, the <em><a href="https://bioconductor.org/packages/3.13/Spectra">Spectra</a></em> package was developed to provide an even more flexible and expandable infrastructure for MS data in R. This package implements a clear separation of user functionality from code to provide, store and import MS data. Different <em>backends</em> can hence be used that enable access to data from various resources or that are designed specifically for very large MS data sets. Data manipulations are by default not directly applied to the data but cached in a <em>lazy processing queue</em> which allows analyses also of <em>read-only</em> data representations.</p>
 <p>This workshop shows the expandability of the new infrastructure to enable a seamless integration and analysis of MS data from a variety of input formats illustrated by a simple matching of experimental MS2 spectra against public spectral databases and export of the data in a format commonly used for exchange of MS2 data.</p>
 </div>
 <div id="installation" class="section level1">
@@ -129,7 +129,7 @@
 <h1 class="hasAnchor">
 <a href="#analysing-ms-data-with-spectra" class="anchor"></a>Analysing MS data with <code>Spectra</code>
 </h1>
-<p>The <code>Spectra</code> package implements a clear separation of user functionality from code to provide, store and read mass spectrometry data. Thus, different data or file format-specific <em>backends</em> can be implemented and directly <em>plugged-in</em> without affecting the way the user would access or analyze the data. This represents an extension to the <em>in-memory</em> and <em>on-disk</em> data modes already available in the <em><a href="https://bioconductor.org/packages/3.12/MSnbase">MSnbase</a></em> package that enabled either a fast data processing or an analysis of very large data sets by keeping only a limited amount of data in the computer’s memory <span class="citation">(Gatto, Gibb, and Rainer 2020)</span>.</p>
+<p>The <code>Spectra</code> package implements a clear separation of user functionality from code to provide, store and read mass spectrometry data. Thus, different data or file format-specific <em>backends</em> can be implemented and directly <em>plugged-in</em> without affecting the way the user would access or analyze the data. This represents an extension to the <em>in-memory</em> and <em>on-disk</em> data modes already available in the <em><a href="https://bioconductor.org/packages/3.13/MSnbase">MSnbase</a></em> package that enabled either a fast data processing or an analysis of very large data sets by keeping only a limited amount of data in the computer’s memory <span class="citation">(Gatto, Gibb, and Rainer 2020)</span>.</p>
 <p>In this workshop we will import MS data from mzML files, match the MS2 fragment spectra for one ion against MS2 spectra from public databases (i.e. <a href="https://massbank.eu/MassBank/">MassBank</a> and the Human Metabolom Database <a href="https://hmdb.ca">HMDB</a>) and export the data as a MGF file. A different backend is used for each data import and export operation.</p>
 <p>Below we import the MS data from the mzML files provided within this package. These files contain MSn data of a mix of 8 standard compounds (solved either in water or a pool of human serum samples) measured with a HILIC-based LC-MS/MS setup. MS2 data was generated by data dependent acquisition using two different collision energies. For data import and representation of these experimantal data we use the <code>MsBackendMzR</code> backend which supports import (and export) of data from the most common <em>raw</em> mass spectrometry file formats (i.e. mzML, mzXML and CDF).</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -177,8 +177,8 @@
 ## 11         2   224.662       801
 ##  ... 33 more variables/columns.
 ## Processing:
-##  Switch backend from MsBackendMzR to MsBackendDataFrame [Tue Nov 24 07:58:10 2020]
-##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Tue Nov 24 07:58:10 2020]</code></pre>
+##  Switch backend from MsBackendMzR to MsBackendDataFrame [Tue Nov 24 15:39:38 2020]
+##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Tue Nov 24 15:39:38 2020]</code></pre>
 <p>In total 11 spectra matched our target precursor m/z.</p>
 <div id="data-processing-and-manipulation" class="section level2">
 <h2 class="hasAnchor">
