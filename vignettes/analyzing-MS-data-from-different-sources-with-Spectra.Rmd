@@ -61,6 +61,7 @@ docker image (given that docker is installed on the computer) can be installed
 with `docker pull jorainer/spectra_tutorials:latest`.
 
 To run this tutorial locally:
+
 - Clone [this github
 repository](https://github.com/jorainer/SpectraTutorials), e.g. with `git clone
 https://github.com/jorainer/SpectraTutorials`.
