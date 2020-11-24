@@ -90,9 +90,9 @@ BiocManager::install(c("BiocStyle",
                        "MsCoreUtils",
                        "Spectra",
                        "pheatmap"))
-BiocManager::install("RforMassSpectrometry/MsBackendHmdb")
-BiocManager::install("RforMassSpectrometry/MsBackendMgf")
-BiocManager::install("michaelwitting/MsBackendMassbank")
+devtools::install_github("RforMassSpectrometry/MsBackendHmdb")
+devtools::install_github("RforMassSpectrometry/MsBackendMgf")
+devtools::install_github("michaelwitting/MsBackendMassbank")
 devtools::install_github("jorainer/SpectraTutorials")
 ```
 
