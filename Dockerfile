@@ -8,6 +8,8 @@ LABEL name="jorainer/spectra_tutorials" \
 
 WORKDIR /home/rstudio
 
+COPY --chown=rstudio:rstudio . /home/rstudio/
+
 ## Setup MySQL and fill with MassBank data
 RUN groupadd -r mysql && useradd -r -g mysql mysql
 
@@ -25,8 +27,6 @@ RUN scripts/install-massbank.sh
 
 ## Setup init scripts for mariadb
 RUN scripts/mysql-init.sh
-
-COPY --chown=rstudio:rstudio . /home/rstudio/
 
 ## Install the SpectraTutorials package and additional required packages
 RUN Rscript -e "options(repos = c(CRAN = 'https://cran.r-project.org')); BiocManager::install(ask = FALSE)"
