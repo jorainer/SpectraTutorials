@@ -314,7 +314,7 @@ of [MassBank files](https://github.com/MassBank/MassBank-data) as well as the
 database.
 
 Below we load the `MsBackendMassbank` package and connect to a local
-installation of the MassBank MySQL database (release *2020.10* which is provided
+installation of the MassBank MySQL database (release *2020.11* which is provided
 within the docker image of this tutorial).
 
 ```{r massbank-library}
