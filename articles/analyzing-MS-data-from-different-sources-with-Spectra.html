@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SpectraTutorials</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
       </span>
     </div>
 
@@ -85,7 +85,7 @@
 
     
     
-<p><strong>Last modified:</strong> 2020-11-24 15:32:57<br><strong>Compiled</strong>: Tue Nov 24 15:39:32 2020</p>
+<p><strong>Last modified:</strong> 2020-11-25 17:05:40<br><strong>Compiled</strong>: Wed Nov 25 17:11:16 2020</p>
 <div id="abstract" class="section level1">
 <h1 class="hasAnchor">
 <a href="#abstract" class="anchor"></a>Abstract</h1>
@@ -177,8 +177,8 @@
 ## 11         2   224.662       801
 ##  ... 33 more variables/columns.
 ## Processing:
-##  Switch backend from MsBackendMzR to MsBackendDataFrame [Tue Nov 24 15:39:38 2020]
-##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Tue Nov 24 15:39:38 2020]</code></pre>
+##  Switch backend from MsBackendMzR to MsBackendDataFrame [Wed Nov 25 17:11:21 2020]
+##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Wed Nov 25 17:11:22 2020]</code></pre>
 <p>In total 11 spectra matched our target precursor m/z.</p>
 <div id="data-processing-and-manipulation" class="section level2">
 <h2 class="hasAnchor">
@@ -242,7 +242,7 @@
 <code class="sourceCode R"><span class="va">sps_ce20</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html">split</a></span><span class="op">(</span><span class="va">sps</span>, <span class="fu"><a href="https://rdrr.io/r/stats/cutree.html">cutree</a></span><span class="op">(</span><span class="va">hm</span><span class="op">$</span><span class="va">tree_row</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">[[</span><span class="fl">1L</span><span class="op">]</span><span class="op">]</span></code></pre></div>
 <p>Although the precursor m/z of our spectra matches the m/z of Cystine, we can still not exclude that they might represent fragmentations of ions from a different compound (i.e. that would have the same precursor m/z).</p>
 <p>Matching experimental spectra against a public spectral library can be used as a first step in the identification process. Several (public) spectral libraries for small molecules are available, such as <a href="https://massbank.eu/MassBank/">MassBank</a>, <a href="https://mona.fiehnlab.ucdavis.edu/">MoNa</a> (MassBank of North America), the Human Metabolom Database <a href="https://hmdb.ca/">HMDB</a> or <a href="https://gnps.ucsd.edu/ProteoSAFe/static/gnps-splash.jsp">GNPS</a>. For some of these databases <code>MsBackend</code> interfaces are already implemented allowing inclusion of their data directly into R-based analysis workflows. Access to MassBank data is for example possible with the <a href="https://github.com/michaelwitting/MsBackendMassbank">MsBackendMassbank</a> package. This package provides the <code>MsBackendMassbank</code> for import/export of <a href="https://github.com/MassBank/MassBank-data">MassBank files</a> as well as the <code>MsBackendMassbankSql</code> backend that directly interfaces the MassBank MySQL database.</p>
-<p>Below we load the <code>MsBackendMassbank</code> package and connect to a local installation of the MassBank MySQL database (release <em>2020.10</em> which is provided within the docker image of this tutorial).</p>
+<p>Below we load the <code>MsBackendMassbank</code> package and connect to a local installation of the MassBank MySQL database (release <em>2020.11</em> which is provided within the docker image of this tutorial).</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rmariadb.r-dbi.org">RMariaDB</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/michaelwitting/MsBackendMassbank">MsBackendMassbank</a></span><span class="op">)</span>
