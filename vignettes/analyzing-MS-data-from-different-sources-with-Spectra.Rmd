@@ -110,7 +110,7 @@ downloaded *.sql.gz* needs to be unzipped and can then be installed with `mysql
 MassBank < *.sql`.
 
 
-# Basic concept of LC-MS/MS
+# LC-MS/MS in a nutshell
 
 
 - Mass spectrometry (MS) instruments measure mass-to-charge ratios (m/z) of
@@ -131,6 +131,8 @@ MassBank < *.sql`.
   fragments is recorded.
 - Matching fragment spectra from an ion against a *reference* helps idenfifying
   the compound.
+
+![CID-based fragmentation](MSMS.png)
 
 
 # Analysing MS data with `Spectra`
