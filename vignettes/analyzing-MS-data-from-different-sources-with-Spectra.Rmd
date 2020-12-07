@@ -110,6 +110,29 @@ downloaded *.sql.gz* needs to be unzipped and can then be installed with `mysql
 MassBank < *.sql`.
 
 
+# Basic concept of LC-MS/MS
+
+
+- Mass spectrometry (MS) instruments measure mass-to-charge ratios (m/z) of
+  ions.
+- Most compounds are not charged, they need to be ionized first (with
+  e.g. electro spray ionization (ESI).
+- MS is usually combined with another separation technique, such as liquid
+  chromatography (LC). This adds another dimension: retention time (rt).
+- With LC-MS we measure *features* characterized by m/z and retention time - we
+  still don't know what molecule was actually measured.
+
+![LC-MS setup](LC-MS-drawing.gif)
+
+- Create in addition fragment (MS/MS) spectra from the ions to get some
+  information about their structure.
+- Commonly used method: collision induced dissociation (CID). In a collision
+  chamber filled with e.g. N2, ions get fragmented, a spectrum of these
+  fragments is recorded.
+- Matching fragment spectra from an ion against a *reference* helps idenfifying
+  the compound.
+
+
 # Analysing MS data with `Spectra`
 
 The `Spectra` package implements a clear separation of user functionality from
@@ -127,7 +150,8 @@ spectra for one ion against MS2 spectra from public databases
 [HMDB](https://hmdb.ca)) and export the data as a MGF file. A different backend
 is used for each data import and export operation.
 
-![Spectra](Spectra.png)
+![Spectra: separation into user functionality and data
+representation](Spectra.png)
 
 Below we import the MS data from the mzML files provided within this
 package. These files contain MSn data of a mix of 8 standard compounds (solved
