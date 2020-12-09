@@ -25,7 +25,9 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE)
 **Compiled**: `r date()`
 
 
-# Abstract
+# Overview
+
+## Description
 
 Mass spectrometry (MS) data is a key technology in modern proteomics and
 metabolomics experiments. Due to continuous improvements in MS instrumentation,
@@ -44,21 +46,20 @@ sets. Data manipulations are by default not directly applied to the data but
 cached in a *lazy processing queue* which allows analyses also of *read-only*
 data representations.
 
-This workshop shows the expandability of the new infrastructure to enable a
-seamless integration and analysis of MS data from a variety of input formats
-illustrated by a simple matching of experimental MS2 spectra against public
-spectral databases and export of the data in a format commonly used for exchange
-of MS2 data.
+This (instructor-led live demo) workshop shows the expandability of the new
+infrastructure to enable a seamless integration and analysis of MS data from a
+variety of input formats illustrated by a simple matching of experimental MS2
+spectra against public spectral databases and export of the data in a format
+commonly used for exchange of MS2 data.
 
 
-# Installation
+## Pre-requisites
 
-The source code of this tutorial is available at
-[https://github.com/jorainer/SpectraTutorials](https://github.com/jorainer/SpectraTutorials).
-A [docker](https://www.docker.com/) image with all data and necessary packages
-is available [here](https://hub.docker.com/r/jorainer/spectra_tutorials).
+- Basic familiarity with R and Bioconductor.
+- Basic understanding of Mass Spectrometry (MS) data.
 
-To run this tutorial locally:
+
+## Participation
 
 - Get the [docker image](https://hub.docker.com/r/jorainer/spectra_tutorials) of
   this tutorial with `docker pull jorainer/spectra_tutorials:latest`.
@@ -83,11 +84,12 @@ https://github.com/jorainer/SpectraTutorials`.
   (*vignettes/analyzing-MS-data-from-different-sources-with-Spectra.Rmd*) in the
   RStudio server version in the web browser and evaluate the R code blocks.
 
-Alternatively to the docker-based usage, it is also possible to install all
-required R packages with the code below (using an [R](https://r-project.org)
-version 4.0 or higher).
 
-```{r installation, eval = FALSE}
+## R/Bioconductor packages used
+
+All packages used in this workshop can be installed with the code below:
+
+```{r eval = FALSE}
 Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS="true")
 install.packages(c("devtools", "rmarkdown", "BiocManager"))
 BiocManager::install(c("BiocStyle",
@@ -100,17 +102,26 @@ devtools::install_github("michaelwitting/MsBackendMassbank")
 devtools::install_github("jorainer/SpectraTutorials")
 ```
 
-For the examples with the `MsBackendMassbank` package either access to a local
-*MassBank* instance, or the possibility to create and install new databases in a
-local MySQL or MariaDB database server is required. A dump of the `MassBank`
-MySQL database can be downloaded from [the official github
-page](https://github.com/MassBank/MassBank-data/releases). A database named
-`MassBank` should then be created in the local MySQL/MariaDB server. The
-downloaded *.sql.gz* needs to be unzipped and can then be installed with `mysql
-MassBank < *.sql`.
+## Time outline
+
+## Workshop goals and objectives
+
+### Learning goals
+
+- Understand how to import MS data into R.
+- Understand the basic concept how different *backends* can be used in `Spectra`
+  to work with MS data from various sources.
+
+### Learning objectives
+
+- Use `Spectra` to perform spectra matching in R.
+- Integrate MS data from different resources into an MS data analysis workflow.
+- Import and export MS data using `Spectra`.
+
+# Workshop
 
 
-# LC-MS/MS in a nutshell
+## LC-MS/MS in a nutshell
 
 
 - Mass spectrometry (MS) instruments measure mass-to-charge ratios (m/z) of
@@ -122,20 +133,23 @@ MassBank < *.sql`.
 - With LC-MS we measure *features* characterized by m/z and retention time - we
   still don't know what molecule was actually measured.
 
-![LC-MS setup](LC-MS-drawing.gif)
+![*LC-MS setup*](LC-MS-drawing.gif)
+
 
 - Create in addition fragment (MS/MS) spectra from the ions to get some
   information about their structure.
+
+![*CID-based fragmentation*](MSMS.png)
+
 - Commonly used method: collision induced dissociation (CID). In a collision
   chamber filled with e.g. N2, ions get fragmented, a spectrum of these
   fragments is recorded.
 - Matching fragment spectra from an ion against a *reference* helps identifying
   the compound.
 
-![CID-based fragmentation](MSMS.png)
 
 
-# Analysing MS data with `Spectra`
+## Analysing MS data with `Spectra`
 
 The `Spectra` package implements a clear separation of user functionality from
 code to provide, store and read mass spectrometry data. Thus, different data or
@@ -146,14 +160,14 @@ available in the `r Biocpkg("MSnbase")` package that enabled either a fast data
 processing or an analysis of very large data sets by keeping only a limited
 amount of data in the computer's memory [@gattoMSnbaseEfficientElegant2020a].
 
+![Spectra: separation into user functionality and data
+representation](Spectra.png)
+
 In this workshop we will import MS data from mzML files, match the MS2 fragment
 spectra for one ion against MS2 spectra from public databases
 (i.e. [MassBank](https://massbank.eu/MassBank/) and the Human Metabolom Database
 [HMDB](https://hmdb.ca)) and export the data as a MGF file. A different backend
 is used for each data import and export operation.
-
-![Spectra: separation into user functionality and data
-representation](Spectra.png)
 
 Below we import the MS data from the mzML files provided within this
 package. These files contain MSn data of a mix of 8 standard compounds (solved
@@ -175,10 +189,15 @@ The MS data is now represented by a `Spectra` object, which can be thought of as
 a `data.frame` with columns being the spectra variables (such as `"rtime"`,
 i.e. the retention time) and rows the individual spectra. Each spectra variable
 can be accessed either *via* `$` and its name or by using its dedicated access
-function (which is the preferred way). Below we access the retention times of
-the first spectra using either `$rtime` or the function `rtime`. The
-`spectraVariables` function can be used to list all available variables
-within such a `Spectra` object.
+function (which is the preferred way). The `spectraVariables` function can be
+used to list all available variables within such a `Spectra` object.
+
+```{r spectraVariables0}
+spectraVariables(sps_all)
+```
+
+Below we access the retention times of the first spectra using either `$rtime`
+or the function `rtime`.
 
 ```{r rtime}
 head(sps_all$rtime)
@@ -246,6 +265,12 @@ low_int <- function(x, ...) {
     x > max(x, na.rm = TRUE) * 0.05
 }
 sps <- filterIntensity(sps, intensity = low_int)
+```
+
+After filtering, the spectra are *cleaner*:
+
+```{r raw-ms2-filtered, fig.width = 7, fig.height = 7}
+plotSpectra(sps[1])
 ```
 
 In addition we *normalize* each spectrum replacing the absolute intensity values
@@ -321,23 +346,29 @@ split(basename(dataOrigin(sps)), cutree(hm$tree_row, 3))
 sps_ce20 <- split(sps, cutree(hm$tree_row, 3))[[1L]]
 ```
 
+
+## Comparing spectra against MassBank
+
 Although the precursor m/z of our spectra matches the m/z of Cystine, we can
 still not exclude that they might represent fragmentations of ions from
 a different compound (i.e. that would have the same precursor m/z).
 
 Matching experimental spectra against a public spectral library can be used as a
 first step in the identification process. Several (public) spectral libraries
-for small molecules are available, such as
-[MassBank](https://massbank.eu/MassBank/),
-[MoNa](https://mona.fiehnlab.ucdavis.edu/) (MassBank of North America), the
-Human Metabolom Database [HMDB](https://hmdb.ca/) or
-[GNPS](https://gnps.ucsd.edu/ProteoSAFe/static/gnps-splash.jsp). For some of
-these databases `MsBackend` interfaces are already implemented allowing
-inclusion of their data directly into R-based analysis workflows. Access to
-MassBank data is for example possible with the
+for small molecules are available, such as:
+
+- [MassBank](https://massbank.eu/MassBank/)
+- MassBank of North America [MoNa](https://mona.fiehnlab.ucdavis.edu/)
+- Human Metabolom Database [HMDB](https://hmdb.ca/)
+- [GNPS](https://gnps.ucsd.edu/ProteoSAFe/static/gnps-splash.jsp)
+- ...
+
+For some of these databases `MsBackend` interfaces are already implemented
+allowing inclusion of their data directly into R-based analysis
+workflows. Access to MassBank data is for example possible with the
 [MsBackendMassbank](https://github.com/michaelwitting/MsBackendMassbank)
-package. This package provides the `MsBackendMassbank` for import/export
-of [MassBank files](https://github.com/MassBank/MassBank-data) as well as the
+package. This package provides the `MsBackendMassbank` for import/export of
+[MassBank files](https://github.com/MassBank/MassBank-data) as well as the
 `MsBackendMassbankSql` backend that directly interfaces the MassBank MySQL
 database.
 
@@ -495,7 +526,7 @@ export(sps_ce20, backend = MsBackendMgf(), file = "Cystine_ce20.mgf")
 ```
 
 
-## Matching against HMDB
+## Comparing spectra against HMDB
 
 In addition to the `MsBackendMassbank`, which provides access to MassBank data,
 there is also the

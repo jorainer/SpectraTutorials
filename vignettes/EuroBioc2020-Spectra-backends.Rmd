@@ -38,38 +38,8 @@ descriptive text is available
     - import MS data from *mzML* files
     - perform some data manipulations on this data
     - match spectra against the [MassBank](https://massbank.eu/MassBank/)
-    - match spectra against the [Human Metabolome Database](https://hmdb.ca)
     - export spectra in *MGF* format.
 
-
-# Installation
-
-The source code of this tutorial is available at
-[https://github.com/jorainer/SpectraTutorials](https://github.com/jorainer/SpectraTutorials).
-A [docker](https://www.docker.com/) image with all data and necessary packages
-is available [here](https://hub.docker.com/r/jorainer/spectra_tutorials).
-
-To run this tutorial locally:
-
-- Get the [docker image](https://hub.docker.com/r/jorainer/spectra_tutorials) of
-  this tutorial with `docker pull jorainer/spectra_tutorials:latest`.
-- Start docker using
-  ```
-  docker run \
-      -e PASSWORD=bioc \
-      -p 8787:8787 \
-      jorainer/spectra_tutorials:latest
-  ```
-- Enter `http://localhost:8787` in a web browser and log in with username
-  `rstudio` and password `bioc`.
-- Open the R-markdown file
-  (*vignettes/analyzing-MS-data-from-different-sources-with-Spectra.Rmd*) in the
-  RStudio server version in the web browser and evaluate the R code blocks.
-- Optionally, to run also the code to import the MS2 spectra from HMDB the *All
-  Spectra Files (XML)* archive from the [hmdb downloads
-  page](https://hmdb.ca/downloads) has to be downloaded. The contents of the
-  *hmdb_all_spectra.zip* archive should then be unzipped into the folder
-  *data/hmdb_all_spectra*.
 
 
 # LC-MS/MS in a nutshell
