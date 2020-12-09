@@ -56,12 +56,12 @@ of MS2 data.
 The source code of this tutorial is available at
 [https://github.com/jorainer/SpectraTutorials](https://github.com/jorainer/SpectraTutorials).
 A [docker](https://www.docker.com/) image with all data and necessary packages
-is available [here](https://hub.docker.com/r/jorainer/spectra_tutorials). This
-docker image (given that docker is installed on the computer) can be installed
-with `docker pull jorainer/spectra_tutorials:latest`.
+is available [here](https://hub.docker.com/r/jorainer/spectra_tutorials).
 
 To run this tutorial locally:
 
+- Get the [docker image](https://hub.docker.com/r/jorainer/spectra_tutorials) of
+  this tutorial with `docker pull jorainer/spectra_tutorials:latest`.
 - Clone [this github
 repository](https://github.com/jorainer/SpectraTutorials), e.g. with `git clone
 https://github.com/jorainer/SpectraTutorials`.
@@ -75,7 +75,7 @@ https://github.com/jorainer/SpectraTutorials`.
   docker run \
       -e PASSWORD=bioc \
       -p 8787:8787 \
-      jorainer/spectra_tutorials:devel
+      jorainer/spectra_tutorials:latest
   ```
 - Enter `http://localhost:8787` in a web browser and log in with username
   `rstudio` and password `bioc`.
@@ -129,7 +129,7 @@ MassBank < *.sql`.
 - Commonly used method: collision induced dissociation (CID). In a collision
   chamber filled with e.g. N2, ions get fragmented, a spectrum of these
   fragments is recorded.
-- Matching fragment spectra from an ion against a *reference* helps idenfifying
+- Matching fragment spectra from an ion against a *reference* helps identifying
   the compound.
 
 ![CID-based fragmentation](MSMS.png)
