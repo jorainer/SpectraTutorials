@@ -8,7 +8,7 @@ output:
     toc_depth: 3
     fig_width: 5
 vignette: >
-  %\VignetteIndexEntry{Seamless Integration of Mass Spectrometry Data from Different Sources}
+  %\VignetteIndexEntry{Seamless Integration of Mass Spectrometry Data from Different Sources; bullet points}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding[utf8]{inputenc}
   %\VignettePackage{SpectraTutorials}
@@ -174,36 +174,35 @@ sps
 
 ## Data processing and manipulation
 
-The `plotSpectra` function can be used to visualize spectra. Below we plot the
-first of the spectra we selected above.
+
+- The `plotSpectra` function can be used to visualize spectra.
 
 ```{r raw-ms2, fig.width = 7, fig.height = 7}
 plotSpectra(sps[1])
 ```
 
-This raw MS2 spectrum contains many very low abundance peaks, most likely
-representing noise. Thus we next filter the spectra removing all peaks with an
-intensity smaller than 5% of the maximum intensity of each spectrum (i.e. the
-base peak intensity). To this end we define a function that takes intensity
-values from each spectrum and returns a logical value whether the peak should be
-kept (`TRUE`) or not (`FALSE`). This function is then passed to the
-`filterIntensity` function.
+- Many very low abundance peaks present (noise?).
+- Filter the spectra removing all peaks with intensity below 5% of maximum peak.
+- Filter function: takes intensity values from each spectrum and returns
+  `logical` whether a peak should be kept or not.
+- Use `filterIntensity` to apply this function to the data.
 
 ```{r filter-intensity}
 low_int <- function(x, ...) {
     x > max(x, na.rm = TRUE) * 0.05
 }
 sps <- filterIntensity(sps, intensity = low_int)
+
+plotSpectra(sps[1])
 ```
 
-In addition we *normalize* each spectrum replacing the absolute intensity values
-with values relative to the spectrum's maximum intensity (which is set to
-100). For this operation we also define a function which takes a *peak matrix*
-as input and returns a matrix with the same dimensions. The peak matrix is the
-two-column matrix with m/z (first column) and intensity values (second column)
-of each peak of a spectrum. This function is then passed with parameter `FUN` to
-the `addProcessing` function which allows to apply any user-defined function to
-the peak matrix of each spectrum in a `Spectra` object.
+- Low intensity peaks removed.
+- Next: *normalize* each spectrum to get intensities relative to the maximum
+  peak intensity (set to a value of `100`).
+- Define a function that takes the peak matrix, normalizes the intensities and
+  returns the modifier peak matrix.
+- Use `addProcessing` to apply the normalization. `addProcessing` can be used to
+  apply any user provided function to the peak matrices.
 
 ```{r normalize}
 norm_int <- function(x, ...) {
@@ -214,24 +213,19 @@ norm_int <- function(x, ...) {
 sps <- addProcessing(sps, norm_int)
 ```
 
-To show the effect of the normalization we extract the intensities of the first
-spectrum:
+- Get the normalized intensities of the first spectrum:
 
 ```{r}
 intensity(sps)[[1]]
 ```
 
-The intensity values are now all between 0 and 100. Note that all these data
-manipulations (intensity filtering and normalization) did **not** change the
-original m/z and intensity values. Data manipulation operations are cached by
-default in the *lazy processing queue* of the `Spectra` object and applied
-to the data *on-the-fly* each time m/z or intensity values are accessed. This
-ensures that the same data manipulations can be used for any type of backend,
-even if the data resource is *read-only* (e.g. if the data is retrieved on the
-fly from mzML files).
-
-This mechanism enables us also to *undo* cached data manipulations with the
-`reset` function:
+- **Note**: data manipulation operations are **not** applied to the actual MS
+  data, but cached in the *lazy processing queue* of the `Spectra` object.
+- Data manipulation are applied *on-the-fly* each time m/z or intensity values
+  are accessed. This enables the use of *read-only* data representations
+  (e.g. raw data files, databases, ...).
+- This mechanism enables us also to *undo* cached data manipulations with the
+  `reset` function:
 
 ```{r reset}
 sps_orig <- reset(sps)
@@ -241,57 +235,60 @@ head(intensity(sps_orig)[[1]])
 
 ## Spectrum data comparison
 
-We next perform a pairwise comparison of the spectra using the dot product as
-similarity measure. Prior to the actual similarity calculation, the peaks of the
-individual spectra have to be matched against each other (i.e. it has to be
-determined which peak from one spectrum correspond to which from the other
-spectrum based on their mass-to-charge ratios). We specify `ppm = 20` so that
-peaks with a difference in m/z smaller than 20ppm will be considered matching.
+
+- Next we perform a pairwise comparison of the spectra.
+- Spectra comparison involves:
+  - matching of peaks from the compared spectra
+  - similarity calculation based on intensities of the matched peaks.
+- With `ppm = 20` peaks with a difference in m/z smaller than 20ppm are
+  considered matching.
 
 ```{r compare-spectra-self}
 cormat <- compareSpectra(sps, ppm = 20)
 ```
 
-The pairwise spectra similarities are represented with the heatmap below.
+- `compareSpectra` allows to specify a mapping function with `MAPFUN` (defaults
+  to `joinPeaks` and a similarity calculation function with `FUN` (defaults to
+  `ndotproduct`).
+- The pairwise spectra similarities are represented with the heatmap below.
 
 ```{r ms2-heatmap, fig.width = 7, fig.height = 7}
 library(pheatmap)
 hm <- pheatmap(cormat, cutree_rows = 3)
 ```
 
-The 11 spectra group into 3 clusters, which are in fact related to the collision
-energy used for the fragmentation (see below; the collision energy is encoded in
-the file name as CE20 and CE30). We subsequently reduce our dataset to the
-cluster with the spectra generated with a collision energy of 20eV.
+- The 11 spectra group into 3 clusters related to the collision energy used for
+  the fragmentation.
+- We reduce our dataset to the cluster with the spectra generated with a
+  collision energy of 20eV.
 
 ```{r}
 split(basename(dataOrigin(sps)), cutree(hm$tree_row, 3))
 sps_ce20 <- split(sps, cutree(hm$tree_row, 3))[[1L]]
 ```
 
-Although the precursor m/z of our spectra matches the m/z of Cystine, we can
-still not exclude that they might represent fragmentations of ions from
-a different compound (i.e. that would have the same precursor m/z).
 
-Matching experimental spectra against a public spectral library can be used as a
-first step in the identification process. Several (public) spectral libraries
-for small molecules are available, such as
-[MassBank](https://massbank.eu/MassBank/),
-[MoNa](https://mona.fiehnlab.ucdavis.edu/) (MassBank of North America), the
-Human Metabolom Database [HMDB](https://hmdb.ca/) or
-[GNPS](https://gnps.ucsd.edu/ProteoSAFe/static/gnps-splash.jsp). For some of
-these databases `MsBackend` interfaces are already implemented allowing
-inclusion of their data directly into R-based analysis workflows. Access to
-MassBank data is for example possible with the
-[MsBackendMassbank](https://github.com/michaelwitting/MsBackendMassbank)
-package. This package provides the `MsBackendMassbank` for import/export
-of [MassBank files](https://github.com/MassBank/MassBank-data) as well as the
-`MsBackendMassbankSql` backend that directly interfaces the MassBank MySQL
-database.
+### Matching against MassBank
 
-Below we load the `MsBackendMassbank` package and connect to a local
-installation of the MassBank MySQL database (release *2020.11* which is provided
-within the docker image of this tutorial).
+- Although the precursor m/z matches the m/z of Cystine, we can not exclude that
+  they might not be from another ion/compound.
+- First step of annotation process: matching experimental spectra against public
+  (or in-house) spectral library.
+- Many public spectral libraries for small molecules exist:
+  - [MassBank](https://massbank.eu/MassBank/)
+  - MassBank of North America [MoNa](https://mona.fiehnlab.ucdavis.edu/)
+  - Human Metabolom Database [HMDB](https://hmdb.ca/)
+  - [GNPS](https://gnps.ucsd.edu/ProteoSAFe/static/gnps-splash.jsp)
+  - ...
+- Data access to these resources is not standardized.
+- [`MsBackendMassbank`](https://github.com/michaelwitting/MsBackendMassbank)
+  package: `Spectra` backends for MassBank data:
+  - `MsBackendMassbank`: data import/export from/to files in MassBank format.
+  - `MsBackendMassbankSql`: direct access to MassBank database.
+
+- Below we load the `MsBackendMassbank` package and connect to a local
+  installation of the MassBank MySQL database (release *2020.11*, provided
+  within the docker image).
 
 ```{r massbank-library}
 library(RMariaDB)
