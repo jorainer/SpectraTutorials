@@ -15,62 +15,45 @@ analyze mass spectrometry (MS) data.
 
 ## Seamless Integration of Mass Spectrometry Data from Different Sources
 
-This
-[tutorial](https://jorainer.github.io/SpectraTutorials/articles/analyzing-MS-data-from-different-sources-with-Spectra.html)
-(source: [here](https://github.com/jorainer/SpectraTutorials/blob/main/vignettes/analyzing-MS-data-from-different-sources-with-Spectra.Rmd))
-shows the use of different backends (extending the `MsBackend` class) to import
-and export mass spectrometry data from and to different file formats (and
-resources). As a simple use case, experimental MS/MS spectra are processed and
-cleaned, compared against *reference* spectra from a public database and finally
-exported.
+### Description
 
-See *Installation* section below for the description how to run this workshop
-interactively.
-
-### Workshop goals and objectives
-
-- Learn to handle and analyze mass spectrometry data with `Spectra`.
-- Understand the principles of different `Spectra` data *backends*.
+This (instructor-led live demo)
+[workshop](https://jorainer.github.io/SpectraTutorials/articles/analyzing-MS-data-from-different-sources-with-Spectra.html)
+explains the `Spectra` package and shows how this new infrastructure can be used
+to represent and analyze Mass Spectrometry (MS) data. In a simple use case in
+which experimental MS2 spectra are matched against public spectral database the
+seamless integration and analysis of MS data from a variety of input formats is
+illustrated.
 
 ### Pre-requisites
 
-- Basic knowledge of mass spectrometry data.
-- Basic knowledge of R.
+- Basic familiarity with R and Bioconductor.
+- Basic understanding of Mass Spectrometry (MS) data.
 
-### Installation
+### Participation
 
-#### Using the docker image of this tutorial
-
-A pre-build [docker](https://www.docker.com/) image with all data and necessary
-packages is available
-[here](https://hub.docker.com/r/jorainer/spectra_tutorials). This docker image
-can be installed (given docker is installed on the system) with
-`docker pull jorainer/spectra_tutorials:latest`.
-
-The source code of this repository, which contains the R-markdown files of the
-tutorial(s) can then be downloaded with
-
-```
-git clone https://github.com/jorainer/SpectraTutorials
-```
-
-The docker image can be run by typing the following command into a terminal
-(ideally by first changing the directory to the *SpectraTutorials* folder):
-
-```
-docker run \
- 	-e PASSWORD=bioc \
- 	-p 8787:8787 \
- 	jorainer/spectra_tutorials:latest
-```
-
-Interaction with R within the running docker container is then possible by
-entering the address `http://localhost:8787/` in a web browser and logging into
-the server version of RStudio with user `rstudio` and password `bioc`. By
-opening the Rmd file
-*vignettes/analyzing-MS-data-from-different-sources-with-Spectra.Rmd* (in the
-RStudio within the browser) it is then possible to run the tutorial
-interactively.
+- Get the [docker image](https://hub.docker.com/r/jorainer/spectra_tutorials) of
+  this tutorial with `docker pull jorainer/spectra_tutorials:latest`.
+- Clone [this github
+repository](https://github.com/jorainer/SpectraTutorials), e.g. with `git clone
+https://github.com/jorainer/SpectraTutorials`.
+- Start docker using
+  ```
+  docker run \
+      -e PASSWORD=bioc \
+      -p 8787:8787 \
+      jorainer/spectra_tutorials:latest
+  ```
+- Enter `http://localhost:8787` in a web browser and log in with username
+  `rstudio` and password `bioc`.
+- Open this R-markdown file
+  (*vignettes/analyzing-MS-data-from-different-sources-with-Spectra.Rmd*) in the
+  RStudio server version in the web browser and evaluate the R code blocks.
+- Optionally, to run also the code to import the MS2 spectra from HMDB the *All
+  Spectra Files (XML)* archive from the [hmdb download
+  page](https://hmdb.ca/downloads) has to be downloaded. The contents of the
+  *hmdb_all_spectra.zip* archive should then be unzipped into the folder
+  *data/hmdb_all_spectra*.
 
 
 #### Manual setup
@@ -97,12 +80,10 @@ devtools::install_github("jorainer/SpectraTutorials")
 ```
 
 A MySQL database dump of the `MassBank` database can be downloaded from [the
-official github
-page](https://github.com/MassBank/MassBank-data/releases). A database named
-`MassBank` should then be created in the local MySQL/MariaDB server. The downloaded
-*.sql.gz* needs to be unzipped and can then be installed with `mysql MassBank <
-*.sql`.
-
+official github page](https://github.com/MassBank/MassBank-data/releases). A
+database named `MassBank` should then be created in the local MySQL/MariaDB
+server. The downloaded *.sql.gz* needs to be unzipped and can then be installed
+with `mysql MassBank < *.sql`.
 
 The source code for all tutorials in this package can be downloaded with:
 
@@ -113,3 +94,40 @@ git clone https://github.com/jorainer/SpectraTutorials
 Then open the R-markdown (*Rmd*) files of one of the tutorials (which are
 located within the *vignettes* folder with the editor of choice (e.g. RStudio,
 emacs, vim, ...) and evaluate the R-code in the tutorial interactively.
+
+### R/Bioconductor packages used
+
+- `Spectra`
+- `MsCoreUtils`
+
+Other R packages not (yet) in Bioconductor:
+
+- [`MsBackendHmdb`](https://github.com/RforMassSpectrometry/MsBackendHmdb)
+- [`MsBackendMgf`](https://github.com/RforMassSpectrometry/MsBackendMgf)
+- [`MsBackendMassbank`](https://github.com/michaelwitting/MsBackendMassbank)
+
+### Time outline
+
+| Activity                                     | Time |
+------------------------------------------------------
+| Introduction (LC-MS/MS, `Spectra` package) | 5min |
+| MS data import and representation          | 5min |
+| Data processing and manipulation           | 5min |
+| Spectrum data comparison                   | 5min |
+| Comparing spectra against MassBank         | 5min |
+| Data export                                | 5min |
+| Comparing spectra against HMDB             | 5min |
+
+### Workshop goals and objectives
+
+#### Learning goals
+
+- Understand how to import MS data into R.
+- Understand the basic concept how different *backends* can be used in `Spectra`
+  to work with MS data from various sources.
+
+#### Learning objectives
+
+- Use `Spectra` to perform spectra matching in R.
+- Integrate MS data from different resources into an MS data analysis workflow.
+- Import and export MS data using `Spectra`.
