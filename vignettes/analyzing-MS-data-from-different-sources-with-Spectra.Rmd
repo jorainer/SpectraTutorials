@@ -180,8 +180,12 @@ export) of data from the most common *raw* mass spectrometry file formats
 
 ```{r data-import}
 library(Spectra)
+
+#' Define the input files
 fls <- dir(system.file("mzML", package = "SpectraTutorials"),
            full.names = TRUE)
+
+#' Import the data
 sps_all <- Spectra(fls, backend = MsBackendMzR())
 ```
 
@@ -193,6 +197,7 @@ function (which is the preferred way). The `spectraVariables` function can be
 used to list all available variables within such a `Spectra` object.
 
 ```{r spectraVariables0}
+#' List all available spectra variables (attributes)
 spectraVariables(sps_all)
 ```
 
@@ -200,6 +205,7 @@ Below we access the retention times of the first spectra using either `$rtime`
 or the function `rtime`.
 
 ```{r rtime}
+#' Access the spectras' retention time
 head(sps_all$rtime)
 head(rtime(sps_all))
 ```
@@ -219,6 +225,7 @@ We can also load the full data into memory by changing the backend from
 independently of the way the data is stored (i.e. which backend is used).
 
 ```{r change-backend}
+#' Change backend to a MsBackendDataFrame: load data into memory
 sps_all <- setBackend(sps_all, MsBackendDataFrame())
 ```
 
@@ -234,8 +241,10 @@ of the [M+H]+ ion of the metabolite Cystine (accepting a difference in m/z of 10
 parts-per-million (ppm)).
 
 ```{r filter-precursor-mz}
+#' Define the m/z ratio for the [M+H]+ ion of Cystine
 mz <- 241.0311
 
+#' Subset the dataset to MS2 spectra matching the m/z
 sps <- filterPrecursorMz(sps_all, mz = mz + ppm(c(-mz, mz), 10))
 sps
 ```
@@ -249,6 +258,7 @@ The `plotSpectra` function can be used to visualize spectra. Below we plot the
 first of the spectra we selected above.
 
 ```{r raw-ms2, fig.width = 7, fig.height = 7}
+#' Plot the first spectrum
 plotSpectra(sps[1])
 ```
 
@@ -261,15 +271,18 @@ kept (`TRUE`) or not (`FALSE`). This function is then passed to the
 `filterIntensity` function.
 
 ```{r filter-intensity}
+#' Define a filtering function
 low_int <- function(x, ...) {
     x > max(x, na.rm = TRUE) * 0.05
 }
+#' Apply the function to filter the spectra
 sps <- filterIntensity(sps, intensity = low_int)
 ```
 
 After filtering, the spectra are *cleaner*:
 
 ```{r raw-ms2-filtered, fig.width = 7, fig.height = 7}
+#' Plot the first spectrum after filtering
 plotSpectra(sps[1])
 ```
 
@@ -283,11 +296,13 @@ the `addProcessing` function which allows to apply any user-defined function to
 the peak matrix of each spectrum in a `Spectra` object.
 
 ```{r normalize}
+#' Define a function to *normalize* the intensities
 norm_int <- function(x, ...) {
     maxint <- max(x[, "intensity"], na.rm = TRUE)
     x[, "intensity"] <- 100 * x[, "intensity"] / maxint
     x
 }
+#' *Apply* the function to the data
 sps <- addProcessing(sps, norm_int)
 ```
 
@@ -295,6 +310,7 @@ To show the effect of the normalization we extract the intensities of the first
 spectrum:
 
 ```{r}
+#' Get the intensities after normalization
 intensity(sps)[[1]]
 ```
 
@@ -311,6 +327,7 @@ This mechanism enables us also to *undo* cached data manipulations with the
 `reset` function:
 
 ```{r reset}
+#' Remove any processing steps
 sps_orig <- reset(sps)
 head(intensity(sps_orig)[[1]])
 ```
@@ -326,6 +343,7 @@ spectrum based on their mass-to-charge ratios). We specify `ppm = 20` so that
 peaks with a difference in m/z smaller than 20ppm will be considered matching.
 
 ```{r compare-spectra-self}
+#' Pairwise comparison of all spectra
 cormat <- compareSpectra(sps, ppm = 20)
 ```
 
@@ -342,6 +360,7 @@ the file name as CE20 and CE30). We subsequently reduce our dataset to the
 cluster with the spectra generated with a collision energy of 20eV.
 
 ```{r}
+#' Reduce to spectra from one collision energy
 split(basename(dataOrigin(sps)), cutree(hm$tree_row, 3))
 sps_ce20 <- split(sps, cutree(hm$tree_row, 3))[[1L]]
 ```
@@ -380,6 +399,7 @@ within the docker image of this tutorial).
 library(RMariaDB)
 library(MsBackendMassbank)
 
+#' Connect to the MassBank MySQL database
 con <- dbConnect(MariaDB(), user = "massbank", dbname = "MassBank",
                  host = "localhost")
 ```
@@ -388,6 +408,7 @@ We can now initialize a `Spectra` object with a `MsBackendMassbankSql` backend
 to access all the data in MassBank.
 
 ```{r massbank}
+#' Access the spectra data in MassBank
 mbank <- Spectra(con, source = MsBackendMassbankSql())
 mbank
 ```
@@ -410,6 +431,7 @@ screen for spectra that have a peak matching the precursor m/z (even this
 operation takes ~ 30 seconds to finish).
 
 ```{r massbank-contains-mz}
+#' Identify spectra that contain a peak matching the m/z of Cystine
 has_mz <- containsMz(mbank, mz = mz, ppm = 20)
 ```
 
@@ -422,7 +444,10 @@ proceed to calculate spectral similarities between our experimental spectra and
 this subset from MassBank.
 
 ```{r massbank-compare-subset}
+#' Subset the MassBank Spectra
 mbank_with_mz <- mbank[has_mz]
+
+#' Compare experimental spectra against MassBank
 res <- compareSpectra(sps_ce20, mbank_with_mz, ppm = 20)
 ```
 
@@ -431,6 +456,7 @@ The highest similarity between our spectra and the spectra from MassBank is
 intensity values.
 
 ```{r massbank-intensity}
+#' Identify the best-matching pair
 idx <- which(res == max(res), arr.ind = TRUE)
 intensity(mbank_with_mz[idx[2]])
 ```
@@ -448,6 +474,7 @@ original data. We thus normalize the MassBank spectra with the same function we
 used for the experimental spectra.
 
 ```{r massbank-normalize}
+#' *Normalize* the MassBank data
 mbank_with_mz <- addProcessing(mbank_with_mz, norm_int)
 ```
 
@@ -456,7 +483,7 @@ the upper panel showing our experimental spectrum and in the lower panel the
 best matching MS2 spectrum from MassBank.
 
 ```{r massbank-mirror-plot, fig.width = 7, fig.height = 7}
-## Specifying a function to draw peak labels
+#' Specifying a function to draw peak labels
 label_fun <- function(x) {
     format(unlist(mz(x)), digits = 4)
 }
@@ -473,6 +500,7 @@ objects can have arbitrarily many additional annotation fields (so called
 of them which are available in a specific `Spectra` object.
 
 ```{r massbank-spectra-variables}
+#' What variables are available in MassBank
 spectraVariables(mbank_with_mz)
 ```
 
@@ -490,6 +518,8 @@ from the database.
 
 ```{r massbank-one-spectrum}
 mbank_best_match <- mbank_with_mz[idx[2]]
+
+#' Retrieve compound annotation for the spectrum from the database
 mbank_cmpd <- compounds(mbank_best_match)
 mbank_cmpd
 ```
@@ -501,6 +531,7 @@ and assign the ion/adduct of Cystine from which the reference spectrum was
 created.
 
 ```{r}
+#' Add annotations to the experimental spectra
 sps_ce20$hmdb_id <- mbank_cmpd$name
 sps_ce20$formula <- mbank_cmpd$formula
 sps_ce20$adduct <- mbank_best_match$adduct
@@ -522,6 +553,8 @@ data to a file in MGF format.
 
 ```{r export}
 library(MsBackendMgf)
+
+#' Export the spectra to a MGF file
 export(sps_ce20, backend = MsBackendMgf(), file = "Cystine_ce20.mgf")
 ```
 
@@ -546,17 +579,19 @@ individual xml files takes up to ~ 2 hours to finish.
 
 ```{r hmdb-import, eval = FALSE}
 library(MsBackendHmdb)
+
+#' Get all MS2 spectra xml files and import data
 fls <- dir("data/hmdb_all_spectra/", full.names = TRUE, pattern = "ms_ms")
 hmdb <- Spectra(fls, source = MsBackendHmdbXml(), nonStop = TRUE)
 ```
 
 ```{r hmdb-import-save, eval = FALSE, echo = FALSE}
-## Eventually save for faster re-use
+#' Eventually save for faster re-use
 save(hmdb, file = "data/hmdb.RData", compress = "xz")
 ```
 
 ```{r hmdb-load, echo = FALSE}
-## Load the pre-generated Spectra object with spectra from HMDB.
+#' Load the pre-generated Spectra object with spectra from HMDB.
 library(MsBackendHmdb)
 data("hmdb", package = "SpectraTutorials")
 ```
@@ -576,6 +611,7 @@ absolute difference in m/z values) since some of the experimental spectra in
 HMDB seem to be recorded by not well calibrated instruments.
 
 ```{r has-mz}
+#' Identify spectra containing a peak matching Cystine m/z
 has_mz <- containsMz(hmdb, mz = mz, tolerance = 0.2)
 ```
 
@@ -584,7 +620,10 @@ Dalton) and we can proceed to calculate spectral similarities between our
 experimental spectra and this subset from HMDB.
 
 ```{r compare-subset}
+#' Subset HMDB
 hmdb_with_mz <- hmdb[has_mz]
+
+#' Compare experimental spectra against HMDB
 res <- compareSpectra(sps_ce20, hmdb_with_mz, tolerance = 0.2)
 ```
 
