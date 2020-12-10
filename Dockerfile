@@ -14,6 +14,7 @@ COPY --chown=rstudio:rstudio . /home/rstudio/
 RUN groupadd -r mysql && useradd -r -g mysql mysql
 
 RUN apt-get update; \
+    apt-get install -y libgit2-dev; \
     apt-get install -y mariadb-server; \
     chown -R mysql:mysql /var/lib/mysql /var/run/mysqld; \
     chmod 777 /var/run/mysqld; \
