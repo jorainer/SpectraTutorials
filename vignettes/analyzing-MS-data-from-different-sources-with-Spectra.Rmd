@@ -43,7 +43,7 @@ a clear separation of user functionality from code to provide, store and import
 MS data. Different *backends* can hence be used that enable access to data from
 various resources or that are designed specifically for very large MS data
 sets. Data manipulations are by default not directly applied to the data but
-cached in a *lazy processing queue* which allows analyses also of *read-only*
+cached in a *lazy evaluation queue* which allows analyses also of *read-only*
 data representations.
 
 This (instructor-led live demo) workshop shows the expandability of the new
@@ -232,6 +232,12 @@ memory resulting in a low memory footprint.
 print(object.size(sps_all), units = "MB")
 ```
 
+Intensity or m/z values are retrieved on-the-fly from the original data files.
+
+```{r mz}
+mz(sps_all)
+```
+
 We can also load the full data into memory by changing the backend from
 `MsBackendMzR` to `MsBackendDataFrame`. This does not affect the way we use the
 `Spectra` object itself: the same operations and functions are available,
@@ -330,7 +336,7 @@ intensity(sps)[[1]]
 The intensity values are now all between 0 and 100. Note that all these data
 manipulations (intensity filtering and normalization) did **not** change the
 original m/z and intensity values. Data manipulation operations are cached by
-default in the *lazy processing queue* of the `Spectra` object and applied
+default in the *lazy evaluation queue* of the `Spectra` object and applied
 to the data *on-the-fly* each time m/z or intensity values are accessed. This
 ensures that the same data manipulations can be used for any type of backend,
 even if the data resource is *read-only* (e.g. if the data is retrieved on the
@@ -481,7 +487,7 @@ dot product function for spectra similarity is independent of absolute intensity
 values, thus, it did not matter if we performed the spectra comparisons on
 absolute or relative intensities.
 
-The above described *lazy processing queue* of `Spectra` objects allows us to
+The above described *lazy evaluation queue* of `Spectra` objects allows us to
 perform data manipulations on the MassBank data without actually modifying the
 original data. We thus normalize the MassBank spectra with the same function we
 used for the experimental spectra.
@@ -545,7 +551,7 @@ created.
 
 ```{r}
 #' Add annotations to the experimental spectra
-sps_ce20$hmdb_id <- mbank_cmpd$name
+sps_ce20$name <- mbank_cmpd$name
 sps_ce20$formula <- mbank_cmpd$formula
 sps_ce20$adduct <- mbank_best_match$adduct
 sps_ce20$collisionEnergy <- 20
