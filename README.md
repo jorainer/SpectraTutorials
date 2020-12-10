@@ -108,8 +108,8 @@ Other R packages not (yet) in Bioconductor:
 
 ### Time outline
 
-| Activity                                     | Time |
-------------------------------------------------------
+| Activity                                   | Time |
+|--------------------------------------------|------|
 | Introduction (LC-MS/MS, `Spectra` package) | 5min |
 | MS data import and representation          | 5min |
 | Data processing and manipulation           | 5min |
