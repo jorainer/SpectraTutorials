@@ -63,14 +63,6 @@ commonly used for exchange of MS2 data.
 
 - Get the [docker image](https://hub.docker.com/r/jorainer/spectra_tutorials) of
   this tutorial with `docker pull jorainer/spectra_tutorials:latest`.
-- Clone [this github
-repository](https://github.com/jorainer/SpectraTutorials), e.g. with `git clone
-https://github.com/jorainer/SpectraTutorials`.
-- Optionally, to run also the code to import the MS2 spectra from HMDB the *All
-  Spectra Files (XML)* archive from the [hmdb downloads
-  page](https://hmdb.ca/downloads) has to be downloaded. The contents of the
-  *hmdb_all_spectra.zip* archive should then be unzipped into the folder
-  *data/hmdb_all_spectra*.
 - Start docker using
   ```
   docker run \
@@ -83,24 +75,26 @@ https://github.com/jorainer/SpectraTutorials`.
 - Open this R-markdown file
   (*vignettes/analyzing-MS-data-from-different-sources-with-Spectra.Rmd*) in the
   RStudio server version in the web browser and evaluate the R code blocks.
+- To get the source code: clone [this github
+repository](https://github.com/jorainer/SpectraTutorials), e.g. with `git clone
+https://github.com/jorainer/SpectraTutorials`.
+- Optionally, to run also the code to import the MS2 spectra from HMDB the *All
+  Spectra Files (XML)* archive from the [hmdb downloads
+  page](https://hmdb.ca/downloads) has to be downloaded. The contents of the
+  *hmdb_all_spectra.zip* archive should then be unzipped into the folder
+  *data/hmdb_all_spectra*.
 
 
 ## R/Bioconductor packages used
 
-All packages used in this workshop can be installed with the code below:
+- `Spectra`
+- `MsCoreUtils`
 
-```{r eval = FALSE}
-Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS="true")
-install.packages(c("devtools", "rmarkdown", "BiocManager"))
-BiocManager::install(c("BiocStyle",
-                       "MsCoreUtils",
-                       "Spectra",
-                       "pheatmap"))
-devtools::install_github("RforMassSpectrometry/MsBackendHmdb")
-devtools::install_github("RforMassSpectrometry/MsBackendMgf")
-devtools::install_github("michaelwitting/MsBackendMassbank")
-devtools::install_github("jorainer/SpectraTutorials")
-```
+Other R packages not (yet) in Bioconductor:
+
+- [`MsBackendHmdb`](https://github.com/RforMassSpectrometry/MsBackendHmdb)
+- [`MsBackendMgf`](https://github.com/RforMassSpectrometry/MsBackendMgf)
+- [`MsBackendMassbank`](https://github.com/michaelwitting/MsBackendMassbank)
 
 ## Time outline
 
@@ -124,24 +118,27 @@ devtools::install_github("jorainer/SpectraTutorials")
 ## LC-MS/MS in a nutshell
 
 
-- Mass spectrometry (MS) instruments measure mass-to-charge ratios (m/z) of
+- Mass spectrometry (**MS**) instruments measure mass-to-charge ratios (m/z) of
   ions.
 - Most compounds are not charged, they need to be ionized first (with
-  e.g. electro spray ionization (ESI).
+  e.g. electro spray ionization (**ESI**).
 - MS is usually combined with another separation technique, such as liquid
-  chromatography (LC). This adds another dimension: retention time (rt).
-- With LC-MS we measure *features* characterized by m/z and retention time - we
-  still don't know what molecule was actually measured.
+  chromatography (**LC**). This adds another dimension: retention time (rt).
+
 
 ![*LC-MS setup*](LC-MS-drawing.gif)
 
 
+- With LC-MS we measure *features* characterized by m/z and retention time - we
+  still don't know what molecule was actually measured.
 - Create in addition fragment (MS/MS) spectra from the ions to get some
   information about their structure.
 
+
 ![*CID-based fragmentation*](MSMS.png)
 
-- Commonly used method: collision induced dissociation (CID). In a collision
+
+- Commonly used method: collision induced dissociation (**CID**). In a collision
   chamber filled with e.g. N2, ions get fragmented, a spectrum of these
   fragments is recorded.
 - Matching fragment spectra from an ion against a *reference* helps identifying
@@ -160,8 +157,10 @@ available in the `r Biocpkg("MSnbase")` package that enabled either a fast data
 processing or an analysis of very large data sets by keeping only a limited
 amount of data in the computer's memory [@gattoMSnbaseEfficientElegant2020a].
 
+
 ![Spectra: separation into user functionality and data
 representation](Spectra.png)
+
 
 In this workshop we will import MS data from mzML files, match the MS2 fragment
 spectra for one ion against MS2 spectra from public databases
