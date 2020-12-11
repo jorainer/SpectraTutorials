@@ -116,7 +116,7 @@ Other R packages not (yet) in Bioconductor:
 | Spectrum data comparison                   | 5min  |
 | Comparing spectra against MassBank         | 10min |
 | Data export                                | 5min  |
-| Comparing spectra against HMDB             | 5min  |
+| (Comparing spectra against HMDB)           | (5min)  |
 
 ### Workshop goals and objectives
 

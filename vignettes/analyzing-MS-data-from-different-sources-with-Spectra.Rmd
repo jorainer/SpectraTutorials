@@ -108,7 +108,7 @@ Other R packages not (yet) in Bioconductor:
 | Spectrum data comparison                   | 5min  |
 | Comparing spectra against MassBank         | 10min |
 | Data export                                | 5min  |
-| Comparing spectra against HMDB             | 5min  |
+| (Comparing spectra against HMDB)           | (5min)|
 
 ## Workshop goals and objectives
 
@@ -232,7 +232,8 @@ memory resulting in a low memory footprint.
 print(object.size(sps_all), units = "MB")
 ```
 
-Intensity or m/z values are retrieved on-the-fly from the original data files.
+With a `MsBackendMzR` backend, intensity or m/z values are retrieved on demand
+from the original data files.
 
 ```{r mz}
 mz(sps_all)
@@ -248,16 +249,16 @@ independently of the way the data is stored (i.e. which backend is used).
 sps_all <- setBackend(sps_all, MsBackendDataFrame())
 ```
 
-The size of our `Spectra` object however is now larger, since the full data has
-been loaded into memory.
+The size of our `Spectra` object is now larger, since the full data has been
+loaded into memory.
 
 ```{r in-mem-size}
 print(object.size(sps_all), units = "MB")
 ```
 
-Next we subset our data to MS2 spectra with a precursor ion that matches the m/z
-of the [M+H]+ ion of the metabolite Cystine (accepting a difference in m/z of 10
-parts-per-million (ppm)).
+At last we subset our data to MS2 spectra with a precursor ion that matches the
+m/z of the [M+H]+ ion of the metabolite Cystine (accepting a difference in m/z
+of 10 parts-per-million (ppm)).
 
 ```{r filter-precursor-mz}
 #' Define the m/z ratio for the [M+H]+ ion of Cystine
@@ -274,7 +275,7 @@ In total `r length(sps)` spectra matched our target precursor m/z.
 ## Data processing and manipulation
 
 The `plotSpectra` function can be used to visualize spectra. Below we plot the
-first of the spectra we selected above.
+first spectrum from our data subset.
 
 ```{r raw-ms2, fig.width = 7, fig.height = 7}
 #' Plot the first spectrum
