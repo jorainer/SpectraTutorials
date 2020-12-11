@@ -85,7 +85,7 @@
 
     
     
-<p><strong>Last modified:</strong> 2020-12-10 13:26:50<br><strong>Compiled</strong>: Thu Dec 10 13:32:38 2020</p>
+<p><strong>Last modified:</strong> 2020-12-11 08:33:09<br><strong>Compiled</strong>: Fri Dec 11 08:39:18 2020</p>
 <div id="overview" class="section level1">
 <h1 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h1>
@@ -331,8 +331,8 @@
 ## 11         2   224.662       801
 ##  ... 33 more variables/columns.
 ## Processing:
-##  Switch backend from MsBackendMzR to MsBackendDataFrame [Thu Dec 10 13:32:45 2020]
-##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Thu Dec 10 13:32:45 2020]</code></pre>
+##  Switch backend from MsBackendMzR to MsBackendDataFrame [Fri Dec 11 08:39:25 2020]
+##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Fri Dec 11 08:39:25 2020]</code></pre>
 <p>In total 11 spectra matched our target precursor m/z.</p>
 </div>
 <div id="data-processing-and-manipulation" class="section level2">
@@ -350,7 +350,7 @@
     <span class="va">x</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">x</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">*</span> <span class="fl">0.05</span>
 <span class="op">}</span>
 <span class="co">#' Apply the function to filter the spectra</span>
-<span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html">filterIntensity</a></span><span class="op">(</span><span class="va">sps</span>, intensity <span class="op">=</span> <span class="va">low_int</span><span class="op">)</span></code></pre></div>
+<span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu">filterIntensity</span><span class="op">(</span><span class="va">sps</span>, intensity <span class="op">=</span> <span class="va">low_int</span><span class="op">)</span></code></pre></div>
 <p>After filtering, the spectra are <em>cleaner</em>:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Plot the first spectrum after filtering</span>
