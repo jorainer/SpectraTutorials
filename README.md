@@ -34,9 +34,6 @@ illustrated.
 
 - Get the [docker image](https://hub.docker.com/r/jorainer/spectra_tutorials) of
   this tutorial with `docker pull jorainer/spectra_tutorials:latest`.
-- Clone [this github
-repository](https://github.com/jorainer/SpectraTutorials), e.g. with `git clone
-https://github.com/jorainer/SpectraTutorials`.
 - Start docker using
   ```
   docker run \
@@ -49,8 +46,11 @@ https://github.com/jorainer/SpectraTutorials`.
 - Open this R-markdown file
   (*vignettes/analyzing-MS-data-from-different-sources-with-Spectra.Rmd*) in the
   RStudio server version in the web browser and evaluate the R code blocks.
+- To get the source code: clone [this github
+repository](https://github.com/jorainer/SpectraTutorials), e.g. with `git clone
+https://github.com/jorainer/SpectraTutorials`.
 - Optionally, to run also the code to import the MS2 spectra from HMDB the *All
-  Spectra Files (XML)* archive from the [hmdb download
+  Spectra Files (XML)* archive from the [hmdb downloads
   page](https://hmdb.ca/downloads) has to be downloaded. The contents of the
   *hmdb_all_spectra.zip* archive should then be unzipped into the folder
   *data/hmdb_all_spectra*.
