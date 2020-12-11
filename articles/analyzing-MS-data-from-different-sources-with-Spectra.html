@@ -85,7 +85,7 @@
 
     
     
-<p><strong>Last modified:</strong> 2020-12-11 08:33:09<br><strong>Compiled</strong>: Fri Dec 11 08:39:18 2020</p>
+<p><strong>Last modified:</strong> 2020-12-11 14:35:11<br><strong>Compiled</strong>: Fri Dec 11 14:40:37 2020</p>
 <div id="overview" class="section level1">
 <h1 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h1>
@@ -173,8 +173,8 @@
 <td>5min</td>
 </tr>
 <tr class="odd">
-<td>Comparing spectra against HMDB</td>
-<td>5min</td>
+<td>(Comparing spectra against HMDB)</td>
+<td>(5min)</td>
 </tr>
 </tbody>
 </table>
@@ -283,7 +283,7 @@
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span><span class="op">(</span><span class="va">sps_all</span><span class="op">)</span>, units <span class="op">=</span> <span class="st">"MB"</span><span class="op">)</span></code></pre></div>
 <pre><code>## 0.8 Mb</code></pre>
-<p>Intensity or m/z values are retrieved on-the-fly from the original data files.</p>
+<p>With a <code>MsBackendMzR</code> backend, intensity or m/z values are retrieved on demand from the original data files.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">mz</span><span class="op">(</span><span class="va">sps_all</span><span class="op">)</span></code></pre></div>
 <pre><code>## NumericList of length 3203
@@ -303,11 +303,11 @@
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Change backend to a MsBackendDataFrame: load data into memory</span>
 <span class="va">sps_all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html">setBackend</a></span><span class="op">(</span><span class="va">sps_all</span>, <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/MsBackend.html">MsBackendDataFrame</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>The size of our <code>Spectra</code> object however is now larger, since the full data has been loaded into memory.</p>
+<p>The size of our <code>Spectra</code> object is now larger, since the full data has been loaded into memory.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span><span class="op">(</span><span class="va">sps_all</span><span class="op">)</span>, units <span class="op">=</span> <span class="st">"MB"</span><span class="op">)</span></code></pre></div>
 <pre><code>## 35.9 Mb</code></pre>
-<p>Next we subset our data to MS2 spectra with a precursor ion that matches the m/z of the [M+H]+ ion of the metabolite Cystine (accepting a difference in m/z of 10 parts-per-million (ppm)).</p>
+<p>At last we subset our data to MS2 spectra with a precursor ion that matches the m/z of the [M+H]+ ion of the metabolite Cystine (accepting a difference in m/z of 10 parts-per-million (ppm)).</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Define the m/z ratio for the [M+H]+ ion of Cystine</span>
 <span class="va">mz</span> <span class="op">&lt;-</span> <span class="fl">241.0311</span>
@@ -331,14 +331,14 @@
 ## 11         2   224.662       801
 ##  ... 33 more variables/columns.
 ## Processing:
-##  Switch backend from MsBackendMzR to MsBackendDataFrame [Fri Dec 11 08:39:25 2020]
-##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Fri Dec 11 08:39:25 2020]</code></pre>
+##  Switch backend from MsBackendMzR to MsBackendDataFrame [Fri Dec 11 14:40:43 2020]
+##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Fri Dec 11 14:40:43 2020]</code></pre>
 <p>In total 11 spectra matched our target precursor m/z.</p>
 </div>
 <div id="data-processing-and-manipulation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data-processing-and-manipulation" class="anchor"></a>Data processing and manipulation</h2>
-<p>The <code>plotSpectra</code> function can be used to visualize spectra. Below we plot the first of the spectra we selected above.</p>
+<p>The <code>plotSpectra</code> function can be used to visualize spectra. Below we plot the first spectrum from our data subset.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Plot the first spectrum</span>
 <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectra</a></span><span class="op">(</span><span class="va">sps</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></code></pre></div>
