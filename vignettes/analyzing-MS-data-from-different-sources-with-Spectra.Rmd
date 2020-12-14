@@ -96,6 +96,7 @@ Other R packages not (yet) in Bioconductor:
 - [`MsBackendMgf`](https://github.com/RforMassSpectrometry/MsBackendMgf)
 - [`MsBackendMassbank`](https://github.com/michaelwitting/MsBackendMassbank)
 
+
 ## Time outline
 
 ### Time outline
@@ -115,14 +116,16 @@ Other R packages not (yet) in Bioconductor:
 ### Learning goals
 
 - Understand how to import MS data into R.
-- Understand the basic concept how different *backends* can be used in `Spectra`
-  to work with MS data from various sources.
+- Understand the basic concept of *backends* in `Spectra` and how they can be
+  used to work with MS data from various sources.
 
 ### Learning objectives
 
-- Use `Spectra` to perform spectra matching in R.
+- Import and export MS data with `Spectra`.
 - Integrate MS data from different resources into an MS data analysis workflow.
-- Import and export MS data using `Spectra`.
+- Apply different data manipulations on MS data represented as a `Spectra`
+  object.
+- Use `Spectra` to perform spectra matching in R.
 
 # Workshop
 
@@ -179,6 +182,7 @@ spectra for one ion against MS2 spectra from public databases
 (i.e. [MassBank](https://massbank.eu/MassBank/) and the Human Metabolom Database
 [HMDB](https://hmdb.ca)) and export the data as a MGF file. A different backend
 is used for each data import and export operation.
+
 
 ## MS data import and handling
 

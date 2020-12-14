@@ -32,6 +32,10 @@ illustrated.
 
 ### Participation
 
+- During the [EuroBioc2020](https://eurobioc2020.bioconductor.org/) conference
+  it is possible to run the workshop [in the
+  cloud](http://app.orchestra.cancerdatasci.org).
+
 - Get the [docker image](https://hub.docker.com/r/jorainer/spectra_tutorials) of
   this tutorial with `docker pull jorainer/spectra_tutorials:latest`.
 - Start docker using
@@ -128,6 +132,8 @@ Other R packages not (yet) in Bioconductor:
 
 #### Learning objectives
 
-- Use `Spectra` to perform spectra matching in R.
+- Import and export MS data with `Spectra`.
 - Integrate MS data from different resources into an MS data analysis workflow.
-- Import and export MS data using `Spectra`.
+- Apply different data manipulations on MS data represented as a `Spectra`
+  object.
+- Use `Spectra` to perform spectra matching in R.
