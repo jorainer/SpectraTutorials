@@ -1,6 +1,6 @@
 Package: SpectraTutorials
 Title: Mass Spectrometry Data Analysis with Spectra
-Version: 0.2.8
+Version: 0.2.9
 Authors@R: c(
 	     person(given = "Johannes", family = "Rainer",
 		    email = "Johannes.Rainer@eurac.edu",
