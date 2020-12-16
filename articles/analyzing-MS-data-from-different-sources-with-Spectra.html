@@ -85,7 +85,7 @@
 
     
     
-<p><strong>Last modified:</strong> 2020-12-16 12:40:34<br><strong>Compiled</strong>: Wed Dec 16 12:45:35 2020</p>
+<p><strong>Last modified:</strong> 2020-12-16 14:20:55<br><strong>Compiled</strong>: Wed Dec 16 14:26:27 2020</p>
 <div id="overview" class="section level1">
 <h1 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h1>
@@ -332,8 +332,8 @@
 ## 11         2   224.662       801
 ##  ... 33 more variables/columns.
 ## Processing:
-##  Switch backend from MsBackendMzR to MsBackendDataFrame [Wed Dec 16 12:45:40 2020]
-##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Wed Dec 16 12:45:40 2020]</code></pre>
+##  Switch backend from MsBackendMzR to MsBackendDataFrame [Wed Dec 16 14:26:33 2020]
+##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Wed Dec 16 14:26:33 2020]</code></pre>
 <p>In total 11 spectra matched our target precursor m/z.</p>
 </div>
 <div id="data-processing-and-manipulation" class="section level2">
@@ -388,10 +388,11 @@
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Pairwise comparison of all spectra</span>
 <span class="va">cormat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html">compareSpectra</a></span><span class="op">(</span><span class="va">sps</span>, ppm <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></code></pre></div>
-<p>The pairwise spectra similarities are represented with the heatmap below. We directly export the heatmap to a pdf file as R (or RStudio) in the docker occasionally crashes displaying the interactive graphic.</p>
+<p>The pairwise spectra similarities are represented with the heatmap below (note that RStudio in the docker might crash by the <code>pheatmap</code> call - to avoid this add <code>filename = "hm.pdf"</code> to the <code>heatmap</code> call).</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">pheatmap</span><span class="op">)</span>
-<span class="va">hm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html">pheatmap</a></span><span class="op">(</span><span class="va">cormat</span>, cutree_rows <span class="op">=</span> <span class="fl">3</span>, file <span class="op">=</span> <span class="st">"ms2-heatmap.pdf"</span><span class="op">)</span></code></pre></div>
+<span class="va">hm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html">pheatmap</a></span><span class="op">(</span><span class="va">cormat</span>, cutree_rows <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></code></pre></div>
+<p><img src="analyzing-MS-data-from-different-sources-with-Spectra_files/figure-html/ms2-heatmap-1.png" width="672"></p>
 <p>The 11 spectra group into 3 clusters, which are in fact related to the collision energy used for the fragmentation (see below; the collision energy is encoded in the file name as CE20 and CE30). We subsequently reduce our dataset to the cluster with the spectra generated with a collision energy of 20eV.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Get the cluster-assignment of the spectra</span>
