@@ -371,13 +371,13 @@ peaks with a difference in m/z smaller than 20ppm will be considered matching.
 cormat <- compareSpectra(sps, ppm = 20)
 ```
 
-The pairwise spectra similarities are represented with the heatmap below. We
-directly export the heatmap to a pdf file as R (or RStudio) in the docker
-occasionally crashes displaying the interactive graphic.
+The pairwise spectra similarities are represented with the heatmap below (note
+that RStudio in the docker might crash by the `pheatmap` call - to avoid this
+add `filename = "hm.pdf"` to the `heatmap` call).
 
 ```{r ms2-heatmap, fig.width = 7, fig.height = 7}
 library(pheatmap)
-hm <- pheatmap(cormat, cutree_rows = 3, file = "ms2-heatmap.pdf")
+hm <- pheatmap(cormat, cutree_rows = 3)
 ```
 
 The 11 spectra group into 3 clusters, which are in fact related to the collision
