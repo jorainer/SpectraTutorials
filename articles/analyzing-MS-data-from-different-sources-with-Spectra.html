@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SpectraTutorials</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -70,7 +70,7 @@
 
       
 
-      </header><script src="analyzing-MS-data-from-different-sources-with-Spectra_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="analyzing-MS-data-from-different-sources-with-Spectra_files/header-attrs-2.6/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Seamless Integration of Mass Spectrometry Data from Different Sources with the <code>Spectra</code> Package</h1>
@@ -85,7 +85,7 @@
 
     
     
-<p><strong>Last modified:</strong> 2020-12-16 14:20:55<br><strong>Compiled</strong>: Wed Dec 16 14:26:27 2020</p>
+<p><strong>Last modified:</strong> 2021-01-18 16:19:26<br><strong>Compiled</strong>: Mon Jan 18 16:23:51 2021</p>
 <div id="overview" class="section level1">
 <h1 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h1>
@@ -332,8 +332,8 @@
 ## 11         2   224.662       801
 ##  ... 33 more variables/columns.
 ## Processing:
-##  Switch backend from MsBackendMzR to MsBackendDataFrame [Wed Dec 16 14:26:33 2020]
-##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Wed Dec 16 14:26:33 2020]</code></pre>
+##  Switch backend from MsBackendMzR to MsBackendDataFrame [Mon Jan 18 16:23:57 2021]
+##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Mon Jan 18 16:23:57 2021]</code></pre>
 <p>In total 11 spectra matched our target precursor m/z.</p>
 </div>
 <div id="data-processing-and-manipulation" class="section level2">
@@ -448,17 +448,17 @@
 <pre><code>## MSn data (Spectra) with 88168 spectra in a MsBackendMassbankSql backend:
 ##      msLevel precursorMz  polarity
 ##    &lt;integer&gt;   &lt;numeric&gt; &lt;integer&gt;
-## 1          2      269.11         1
-## 2          2      242.08         0
-## 3          2      119.09         1
-## 4          2      330.06         1
-## 5         NA          NA         1
-## 6         NA          NA         1
-## 7          2      584.42         1
-## 8          2      380.24         1
-## 9          2      584.42         1
-## 10         2      568.00         1
-##  ... 33 more variables/columns.
+## 1          2     506.000         0
+## 2         NA          NA         1
+## 3         NA          NA         0
+## 4         NA          NA         1
+## 5         NA          NA         0
+## 6          2     449.380         1
+## 7          2     426.022         0
+## 8          2     131.060         0
+## 9          2     183.170         1
+## 10         2     358.270         0
+##  ... 42 more variables/columns.
 ##  Use  'spectraVariables' to list all of them.</code></pre>
 <p>The <code>Spectra</code> object <code>mbank</code> <em>represents</em> now the MS data from the MassBank database with in total <code><a href="https://rdrr.io/r/base/length.html">length(mbank)</a></code> spectra. In fact, the <code>mbank</code> object does only contain the primary keys of the spectra but no MS data. Hence, it’s size in memory is only relatively small:</p>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
@@ -520,7 +520,12 @@
 ## [27] "adduct"                  "ionization"             
 ## [29] "ionization_voltage"      "fragmentation_mode"     
 ## [31] "collision_energy_text"   "instrument"             
-## [33] "instrument_type"         "precursor_mz_text"</code></pre>
+## [33] "instrument_type"         "formula"                
+## [35] "exactmass"               "smiles"                 
+## [37] "inchi"                   "inchikey"               
+## [39] "cas"                     "pubchem"                
+## [41] "synonym"                 "precursor_mz_text"      
+## [43] "compound_name"</code></pre>
 <p>While we can get a large number of information for each spectrum, there is only limited information on the actual compound available (i.e. only a <em>compound_id</em> field available, but for example no compound name).</p>
 <p>The <code>MsBackendMassbank</code> package defines however an additional function <code>compounds</code> which takes a <code>Spectra</code> object (that uses a <code>MsBackendMassbankSql</code> backend) and retrieves the compound information for the spectra from the MassBank database. Thus, below we first subset our <code>Spectra</code> object to the MassBank spectrum that best matches our experimental spectrum and call the <code>compounds</code> function on this spectrum to get all of its compound annotations from the database.</p>
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
@@ -532,7 +537,7 @@
 <pre><code>## DataFrame with 1 row and 10 columns
 ##   compound_id     formula exactmass                 smiles
 ##     &lt;integer&gt; &lt;character&gt; &lt;numeric&gt;            &lt;character&gt;
-## 1       48048 C6H12N2O4S2   240.024 C(C(C(=O)O)N)SSCC(C(..
+## 1        1279 C6H12N2O4S2   240.024 C(C(C(=O)O)N)SSCC(C(..
 ##                    inchi               inchikey         cas     pubchem
 ##              &lt;character&gt;            &lt;character&gt; &lt;character&gt; &lt;character&gt;
 ## 1 InChI=1S/C6H12N2O4S2.. LEVWYRKDKASIDU-UHFFF..          NA     CID:595
@@ -625,9 +630,9 @@
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h1>
-<div id="refs" class="references">
-<div id="ref-gattoMSnbaseEfficientElegant2020a">
-<p>Gatto, Laurent, Sebastian Gibb, and Johannes Rainer. 2020. “MSnbase, Efficient and Elegant R-Based Processing and Visualization of Raw Mass Spectrometry Data.” <em>Journal of Proteome Research</em>, September. <a href="https://doi.org/10.1021/acs.jproteome.0c00313">https://doi.org/10.1021/acs.jproteome.0c00313</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-gattoMSnbaseEfficientElegant2020a" class="csl-entry">
+Gatto, Laurent, Sebastian Gibb, and Johannes Rainer. 2020. <span>“<span>MSnbase</span>, <span>Efficient</span> and <span>Elegant R</span>-<span>Based Processing</span> and <span>Visualization</span> of <span>Raw Mass Spectrometry Data</span>.”</span> <em>Journal of Proteome Research</em>, September. <a href="https://doi.org/10.1021/acs.jproteome.0c00313">https://doi.org/10.1021/acs.jproteome.0c00313</a>.
 </div>
 </div>
 </div>
