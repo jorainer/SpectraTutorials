@@ -4,9 +4,9 @@
 \alias{hmdb}
 \title{MS/MS Spectra from the Human Metabolome Database}
 \description{
-\code{hmdb} is a \code{\link[=Spectra]{Spectra()}} object with MS/MS spectra from the Human Metabolome
+\code{hmdb} is a \code{Spectra} object with MS/MS spectra from the Human Metabolome
 Database \href{https://hmdb.ca}{HMDB}. The object was built from xml files
-downloaded from the HMDB web site on August 3 2020.
+downloaded from the HMDB web site on January 1 2021.
 
 Please read the licensing information on the
 \href{https://hmdb.ca/downloads}{HMDB download page} for usage of these data.
