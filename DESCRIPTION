@@ -26,10 +26,10 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 Depends:
-    R (>= 4.0.0),
-    Spectra,
-    Biobase
+    R (>= 4.0.0)
 Suggests:
+    Spectra,
+    Biobase,
     BiocStyle,
     knitr,
     rmarkdown,
