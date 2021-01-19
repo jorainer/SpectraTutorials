@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SpectraTutorials</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -85,7 +85,7 @@
 
     
     
-<p><strong>Last modified:</strong> 2021-01-18 16:19:26<br><strong>Compiled</strong>: Mon Jan 18 16:23:51 2021</p>
+<p><strong>Last modified:</strong> 2021-01-19 07:32:13<br><strong>Compiled</strong>: Tue Jan 19 07:37:20 2021</p>
 <div id="overview" class="section level1">
 <h1 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h1>
@@ -332,8 +332,8 @@
 ## 11         2   224.662       801
 ##  ... 33 more variables/columns.
 ## Processing:
-##  Switch backend from MsBackendMzR to MsBackendDataFrame [Mon Jan 18 16:23:57 2021]
-##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Mon Jan 18 16:23:57 2021]</code></pre>
+##  Switch backend from MsBackendMzR to MsBackendDataFrame [Tue Jan 19 07:37:27 2021]
+##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Tue Jan 19 07:37:27 2021]</code></pre>
 <p>In total 11 spectra matched our target precursor m/z.</p>
 </div>
 <div id="data-processing-and-manipulation" class="section level2">
@@ -526,29 +526,16 @@
 ## [39] "cas"                     "pubchem"                
 ## [41] "synonym"                 "precursor_mz_text"      
 ## [43] "compound_name"</code></pre>
-<p>While we can get a large number of information for each spectrum, there is only limited information on the actual compound available (i.e. only a <em>compound_id</em> field available, but for example no compound name).</p>
-<p>The <code>MsBackendMassbank</code> package defines however an additional function <code>compounds</code> which takes a <code>Spectra</code> object (that uses a <code>MsBackendMassbankSql</code> backend) and retrieves the compound information for the spectra from the MassBank database. Thus, below we first subset our <code>Spectra</code> object to the MassBank spectrum that best matches our experimental spectrum and call the <code>compounds</code> function on this spectrum to get all of its compound annotations from the database.</p>
+<p>In fact we get, in addition to spectra specific information like the instrument on which it was measured or the ionization voltage used, we get also information on the compound such as its name (<code>"compound_name"</code>), its chemical formula (<code>"formula"</code>) or its INChI key (<code>"inchikey"</code>). Thus, we have all relevant information already in the <code>Spectra</code> object. Below we select the best matching spectrum from MassBank and display its associated compound name.</p>
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mbank_best_match</span> <span class="op">&lt;-</span> <span class="va">mbank_with_mz</span><span class="op">[</span><span class="va">idx</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>
-
-<span class="co">#' Retrieve compound annotation for the spectrum from the database</span>
-<span class="va">mbank_cmpd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MsBackendMassbank/man/MsBackendMassbankSql.html">compounds</a></span><span class="op">(</span><span class="va">mbank_best_match</span><span class="op">)</span>
-<span class="va">mbank_cmpd</span></code></pre></div>
-<pre><code>## DataFrame with 1 row and 10 columns
-##   compound_id     formula exactmass                 smiles
-##     &lt;integer&gt; &lt;character&gt; &lt;numeric&gt;            &lt;character&gt;
-## 1        1279 C6H12N2O4S2   240.024 C(C(C(=O)O)N)SSCC(C(..
-##                    inchi               inchikey         cas     pubchem
-##              &lt;character&gt;            &lt;character&gt; &lt;character&gt; &lt;character&gt;
-## 1 InChI=1S/C6H12N2O4S2.. LEVWYRKDKASIDU-UHFFF..          NA     CID:595
-##                          synonym        name
-##                  &lt;CharacterList&gt; &lt;character&gt;
-## 1 Cystine,2-amino-3-(2-amino-3..     Cystine</code></pre>
+<span class="va">mbank_best_match</span><span class="op">$</span><span class="va">compound_name</span></code></pre></div>
+<pre><code>## [1] "Cystine"</code></pre>
 <p>Thus, the best matching spectrum is in fact a MS2 spectrum of Cystine. Below we add the name and the chemical formula for the best matching spectrum to our experimental spectra. We also set the collision energy for these spectra to 20eV and assign the ion/adduct of Cystine from which the reference spectrum was created.</p>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Add annotations to the experimental spectra</span>
-<span class="va">sps_ce20</span><span class="op">$</span><span class="va">name</span> <span class="op">&lt;-</span> <span class="va">mbank_cmpd</span><span class="op">$</span><span class="va">name</span>
-<span class="va">sps_ce20</span><span class="op">$</span><span class="va">formula</span> <span class="op">&lt;-</span> <span class="va">mbank_cmpd</span><span class="op">$</span><span class="va">formula</span>
+<span class="va">sps_ce20</span><span class="op">$</span><span class="va">name</span> <span class="op">&lt;-</span> <span class="va">mbank_best_match</span><span class="op">$</span><span class="va">compound_name</span>
+<span class="va">sps_ce20</span><span class="op">$</span><span class="va">formula</span> <span class="op">&lt;-</span> <span class="va">mbank_best_match</span><span class="op">$</span><span class="va">formula</span>
 <span class="va">sps_ce20</span><span class="op">$</span><span class="va">adduct</span> <span class="op">&lt;-</span> <span class="va">mbank_best_match</span><span class="op">$</span><span class="va">adduct</span>
 <span class="va">sps_ce20</span><span class="op">$</span><span class="va">collisionEnergy</span> <span class="op">&lt;-</span> <span class="fl">20</span></code></pre></div>
 </div>
