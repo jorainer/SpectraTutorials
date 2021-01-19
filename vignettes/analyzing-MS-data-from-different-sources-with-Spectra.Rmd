@@ -536,24 +536,16 @@ of them which are available in a specific `Spectra` object.
 spectraVariables(mbank_with_mz)
 ```
 
-While we can get a large number of information for each spectrum, there is only
-limited information on the actual compound available (i.e. only a *compound_id*
-field available, but for example no compound name).
-
-The `MsBackendMassbank` package defines however an additional function
-`compounds` which takes a `Spectra` object (that uses a `MsBackendMassbankSql`
-backend) and retrieves the compound information for the spectra from the
-MassBank database. Thus, below we first subset our `Spectra` object to the
-MassBank spectrum that best matches our experimental spectrum and call the
-`compounds` function on this spectrum to get all of its compound annotations
-from the database.
+In fact we get, in addition to spectra specific information like the instrument
+on which it was measured or the ionization voltage used, we get also information
+on the compound such as its name (`"compound_name"`), its chemical formula
+(`"formula"`) or its INChI key (`"inchikey"`). Thus, we have all relevant
+information already in the `Spectra` object. Below we select the best matching
+spectrum from MassBank and display its associated compound name.
 
 ```{r massbank-one-spectrum}
 mbank_best_match <- mbank_with_mz[idx[2]]
-
-#' Retrieve compound annotation for the spectrum from the database
-mbank_cmpd <- compounds(mbank_best_match)
-mbank_cmpd
+mbank_best_match$compound_name
 ```
 
 Thus, the best matching spectrum is in fact a MS2 spectrum of Cystine. Below we
@@ -564,8 +556,8 @@ created.
 
 ```{r}
 #' Add annotations to the experimental spectra
-sps_ce20$name <- mbank_cmpd$name
-sps_ce20$formula <- mbank_cmpd$formula
+sps_ce20$name <- mbank_best_match$compound_name
+sps_ce20$formula <- mbank_best_match$formula
 sps_ce20$adduct <- mbank_best_match$adduct
 sps_ce20$collisionEnergy <- 20
 ```
