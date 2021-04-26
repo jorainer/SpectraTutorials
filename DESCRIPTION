@@ -23,7 +23,7 @@ Description: These workshops and tutorials provide use cases and examples for
     package.
 License: Artistic-2.0
 Encoding: UTF-8
-LazyData: true
+LazyData: false
 Roxygen: list(markdown = TRUE)
 Depends:
     R (>= 4.0.0)
@@ -43,7 +43,7 @@ Suggests:
 Remotes:
     RforMassSpectrometry/MsBackendMgf,
     RforMassSpectrometry/MsBackendHmdb,
-    michaelwitting/MsBackendMassbank
+    RforMassSpectrometry/MsBackendMassbank
 URL: https://jorainer.github.io/SpectraTutorials/
 BugReports: https://github.com/jorainer/SpectraTutorials/issues/new
 VignetteBuilder: knitr
