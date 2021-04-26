@@ -1,9 +1,9 @@
-pandoc: 2.11.2
-pkgdown: 1.6.1.9000
-pkgdown_sha: 1c43945798aa2f1000ad3aa16235f78720fa2247
+pandoc: 2.11.4
+pkgdown: 1.6.1.9001
+pkgdown_sha: efdd68c73260e37ee89978a6eb2c1650ceb5ab77
 articles:
   analyzing-MS-data-from-different-sources-with-Spectra: analyzing-MS-data-from-different-sources-with-Spectra.html
-last_built: 2021-02-26T08:30Z
+last_built: 2021-04-26T08:12Z
 urls:
   reference: https://jorainer.github.io/SpectraTutorials/reference
   article: https://jorainer.github.io/SpectraTutorials/articles

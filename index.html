@@ -82,7 +82,7 @@
 
 <div id="mass-spectrometry-data-analysis-with-spectra" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#mass-spectrometry-data-analysis-with-spectra" class="anchor"></a>Mass Spectrometry Data Analysis with <code>Spectra</code>
+<a href="#mass-spectrometry-data-analysis-with-spectra" class="anchor" aria-hidden="true"></a>Mass Spectrometry Data Analysis with <code>Spectra</code>
 </h1></div>
 
 <p><img src="https://raw.githubusercontent.com/rformassspectrometry/stickers/master/Spectra/Spectra.png" height="150"></p>
@@ -90,18 +90,19 @@
 </div>
 <div id="workshopstutorials" class="section level1">
 <h1 class="hasAnchor">
-<a href="#workshopstutorials" class="anchor"></a>Workshops/Tutorials</h1>
+<a href="#workshopstutorials" class="anchor" aria-hidden="true"></a>Workshops/Tutorials</h1>
 <div id="seamless-integration-of-mass-spectrometry-data-from-different-sources" class="section level2">
 <h2 class="hasAnchor">
-<a href="#seamless-integration-of-mass-spectrometry-data-from-different-sources" class="anchor"></a>Seamless Integration of Mass Spectrometry Data from Different Sources</h2>
+<a href="#seamless-integration-of-mass-spectrometry-data-from-different-sources" class="anchor" aria-hidden="true"></a>Seamless Integration of Mass Spectrometry Data from Different Sources</h2>
 <div id="description" class="section level3">
 <h3 class="hasAnchor">
-<a href="#description" class="anchor"></a>Description</h3>
+<a href="#description" class="anchor" aria-hidden="true"></a>Description</h3>
 <p>This (instructor-led live demo) <a href="https://jorainer.github.io/SpectraTutorials/articles/analyzing-MS-data-from-different-sources-with-Spectra.html">workshop</a> explains the <code>Spectra</code> package and shows how this new infrastructure can be used to represent and analyze Mass Spectrometry (MS) data. In a simple use case in which experimental MS2 spectra are matched against public spectral database the seamless integration and analysis of MS data from a variety of input formats is illustrated.</p>
+<p>A video recorded during the <a href="https://eurobioc2020.bioconductor.org/" class="external-link">EuroBioc2020</a> conference is available <a href="https://www.youtube.com/watch?v=W6JISCrAtk0" class="external-link">here</a>.</p>
 </div>
 <div id="pre-requisites" class="section level3">
 <h3 class="hasAnchor">
-<a href="#pre-requisites" class="anchor"></a>Pre-requisites</h3>
+<a href="#pre-requisites" class="anchor" aria-hidden="true"></a>Pre-requisites</h3>
 <ul>
 <li>Basic familiarity with R and Bioconductor.</li>
 <li>Basic understanding of Mass Spectrometry (MS) data.</li>
@@ -109,9 +110,8 @@
 </div>
 <div id="participation" class="section level3">
 <h3 class="hasAnchor">
-<a href="#participation" class="anchor"></a>Participation</h3>
+<a href="#participation" class="anchor" aria-hidden="true"></a>Participation</h3>
 <ul>
-<li><p>During the <a href="https://eurobioc2020.bioconductor.org/" class="external-link">EuroBioc2020</a> conference it is possible to run the workshop <a href="http://app.orchestra.cancerdatasci.org" class="external-link">in the cloud</a>.</p></li>
 <li><p>Get the <a href="https://hub.docker.com/r/jorainer/spectra_tutorials" class="external-link">docker image</a> of this tutorial with <code>docker pull jorainer/spectra_tutorials:latest</code>.</p></li>
 <li>
 <p>Start docker using</p>
@@ -127,7 +127,7 @@
 </ul>
 <div id="manual-setup" class="section level4">
 <h4 class="hasAnchor">
-<a href="#manual-setup" class="anchor"></a>Manual setup</h4>
+<a href="#manual-setup" class="anchor" aria-hidden="true"></a>Manual setup</h4>
 <p>For more advanced users it is also possible to <em>manually</em> install all the resources required for this tutorial. In addition to R version &gt;= 4, specifically for the examples involving the <a href="https://massbank.eu/MassBank/" class="external-link">MassBank</a> database, a running MySQL/MariaDB server is also required.</p>
 <p>The required R packages can be installed with the code below:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -149,7 +149,7 @@
 </div>
 <div id="rbioconductor-packages-used" class="section level3">
 <h3 class="hasAnchor">
-<a href="#rbioconductor-packages-used" class="anchor"></a>R/Bioconductor packages used</h3>
+<a href="#rbioconductor-packages-used" class="anchor" aria-hidden="true"></a>R/Bioconductor packages used</h3>
 <ul>
 <li><code>Spectra</code></li>
 <li><code>MsCoreUtils</code></li>
@@ -163,7 +163,7 @@
 </div>
 <div id="time-outline" class="section level3">
 <h3 class="hasAnchor">
-<a href="#time-outline" class="anchor"></a>Time outline</h3>
+<a href="#time-outline" class="anchor" aria-hidden="true"></a>Time outline</h3>
 <table class="table">
 <thead><tr class="header">
 <th>Activity</th>
@@ -203,10 +203,10 @@
 </div>
 <div id="workshop-goals-and-objectives" class="section level3">
 <h3 class="hasAnchor">
-<a href="#workshop-goals-and-objectives" class="anchor"></a>Workshop goals and objectives</h3>
+<a href="#workshop-goals-and-objectives" class="anchor" aria-hidden="true"></a>Workshop goals and objectives</h3>
 <div id="learning-goals" class="section level4">
 <h4 class="hasAnchor">
-<a href="#learning-goals" class="anchor"></a>Learning goals</h4>
+<a href="#learning-goals" class="anchor" aria-hidden="true"></a>Learning goals</h4>
 <ul>
 <li>Understand how to import MS data into R.</li>
 <li>Understand the basic concept how different <em>backends</em> can be used in <code>Spectra</code> to work with MS data from various sources.</li>
@@ -214,7 +214,7 @@
 </div>
 <div id="learning-objectives" class="section level4">
 <h4 class="hasAnchor">
-<a href="#learning-objectives" class="anchor"></a>Learning objectives</h4>
+<a href="#learning-objectives" class="anchor" aria-hidden="true"></a>Learning objectives</h4>
 <ul>
 <li>Import and export MS data with <code>Spectra</code>.</li>
 <li>Integrate MS data from different resources into an MS data analysis workflow.</li>
@@ -276,7 +276,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p>
 </div>
 
       </footer>
