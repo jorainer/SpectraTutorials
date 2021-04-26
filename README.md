@@ -25,16 +25,16 @@ which experimental MS2 spectra are matched against public spectral database the
 seamless integration and analysis of MS data from a variety of input formats is
 illustrated.
 
+A video recorded during the
+[EuroBioc2020](https://eurobioc2020.bioconductor.org/) conference is available
+[here](https://www.youtube.com/watch?v=W6JISCrAtk0).
+
 ### Pre-requisites
 
 - Basic familiarity with R and Bioconductor.
 - Basic understanding of Mass Spectrometry (MS) data.
 
 ### Participation
-
-- During the [EuroBioc2020](https://eurobioc2020.bioconductor.org/) conference
-  it is possible to run the workshop [in the
-  cloud](http://app.orchestra.cancerdatasci.org).
 
 - Get the [docker image](https://hub.docker.com/r/jorainer/spectra_tutorials) of
   this tutorial with `docker pull jorainer/spectra_tutorials:latest`.
