@@ -1,6 +1,6 @@
 Package: SpectraTutorials
 Title: Mass Spectrometry Data Analysis with Spectra
-Version: 0.3.2
+Version: 0.3.3
 Authors@R: c(
 	     person(given = "Johannes", family = "Rainer",
 		    email = "Johannes.Rainer@eurac.edu",
@@ -26,7 +26,7 @@ Encoding: UTF-8
 LazyData: false
 Roxygen: list(markdown = TRUE)
 Depends:
-    R (>= 4.0.0)
+    R (>= 4.1)
 Suggests:
     Spectra,
     Biobase,
@@ -41,9 +41,7 @@ Suggests:
     MsBackendHmdb,
     MsBackendMassbank (>= 0.3.3)
 Remotes:
-    RforMassSpectrometry/MsBackendMgf,
     RforMassSpectrometry/MsBackendHmdb,
-    RforMassSpectrometry/MsBackendMassbank
 URL: https://jorainer.github.io/SpectraTutorials/
 BugReports: https://github.com/jorainer/SpectraTutorials/issues/new
 VignetteBuilder: knitr

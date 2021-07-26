@@ -1,4 +1,4 @@
-RELEASE="2020.11"
+RELEASE="2021.03"
 FILE="MassBank.sql"
 
 wget -nv "https://github.com/MassBank/MassBank-data/releases/download/$RELEASE/$FILE"
