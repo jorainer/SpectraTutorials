@@ -20,10 +20,12 @@ analyze mass spectrometry (MS) data.
 This (instructor-led live demo)
 [workshop](https://jorainer.github.io/SpectraTutorials/articles/analyzing-MS-data-from-different-sources-with-Spectra.html)
 explains the `Spectra` package and shows how this new infrastructure can be used
-to represent and analyze Mass Spectrometry (MS) data. In a simple use case in
-which experimental MS2 spectra are matched against public spectral database the
-seamless integration and analysis of MS data from a variety of input formats is
-illustrated.
+to represent and analyze Mass Spectrometry (MS) data. The use of different data
+type and format specific *backends* guarantees an easy expandability of the
+infrastructure. This is illustrated in this tutorial on a simple use case, in
+which MS/MS (a.k.a. MS2) spectra, measured by an MS instrument, are compared and
+*matched* against a public spectral database containing public domain reference
+MS2 spectra.
 
 A video recorded during the
 [EuroBioc2020](https://eurobioc2020.bioconductor.org/) conference is available
@@ -101,14 +103,14 @@ emacs, vim, ...) and evaluate the R-code in the tutorial interactively.
 
 ### R/Bioconductor packages used
 
-- `Spectra`
-- `MsCoreUtils`
+- [`Spectra`](https://bioconductor.org/packages/Spectra)
+- [`MsCoreUtils`](https://bioconductor.org/packages/MsCoreUtils)
+- [`MsBackendMgf`](https://bioconductor.org/packages/MsBackendMgf)
+- [`MsBackendMassbank`](https://bioconductor.org/packages/MsBackendMassbank)
 
 Other R packages not (yet) in Bioconductor:
 
-- [`MsBackendHmdb`](https://github.com/RforMassSpectrometry/MsBackendHmdb)
-- [`MsBackendMgf`](https://github.com/RforMassSpectrometry/MsBackendMgf)
-- [`MsBackendMassbank`](https://github.com/michaelwitting/MsBackendMassbank)
+- [`MsBackendHmdb`](https://rformassspectrometry.github.io/MsBackendHmdb)
 
 ### Time outline
 
@@ -136,4 +138,4 @@ Other R packages not (yet) in Bioconductor:
 - Integrate MS data from different resources into an MS data analysis workflow.
 - Apply different data manipulations on MS data represented as a `Spectra`
   object.
-- Use `Spectra` to perform spectra matching in R.
+- Use `Spectra` to perform spectra comparisons in R.

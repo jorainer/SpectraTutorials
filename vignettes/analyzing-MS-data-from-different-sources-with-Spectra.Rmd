@@ -39,18 +39,23 @@ manipulations of the original data.
 Learning from experiences with the `r Biocpkg("MSnbase")` Bioconductor package,
 the `r Biocpkg("Spectra")` package was developed to provide an even more
 flexible and expandable infrastructure for MS data in R. This package implements
-a clear separation of user functionality from code to provide, store and import
-MS data. Different *backends* can hence be used that enable access to data from
-various resources or that are designed specifically for very large MS data
-sets. Data manipulations are by default not directly applied to the data but
-cached in a *lazy evaluation queue* which allows analyses also of *read-only*
-data representations.
+a clear separation between the user interface and the code to provide, store and
+import MS data. The latter is defined by the `MsBackend` interface which thus
+allows implementation of data type, format or storage-dependent
+*backends*. Backends can thus be implemented for specific file types and data
+resources or different ways to represent MS data (e.g. in memory or *on-disk*
+data representations as described in [@gattoMSnbaseEfficientElegant2020a]). They
+are also supposed to be interchangeable hence allowing the user to switch
+backends without affecting the analysis. To enable processing of also very large
+MS data sets, data manipulations are by default not directly applied to the data
+but cached in a *lazy evaluation queue* which allows analyses also of
+*read-only* data representations.
 
 This (instructor-led live demo) workshop shows the expandability of the new
 infrastructure to enable a seamless integration and analysis of MS data from a
-variety of input formats illustrated by a simple matching of experimental MS2
-spectra against public spectral databases and export of the data in a format
-commonly used for exchange of MS2 data.
+variety of input formats illustrated by a simple comparison and matching of
+experimental MS2 spectra against public spectral databases and export of the
+data in a format commonly used for exchange of MS2 data.
 
 
 ## Pre-requisites
@@ -87,14 +92,14 @@ https://github.com/jorainer/SpectraTutorials`.
 
 ## R/Bioconductor packages used
 
-- `Spectra`
-- `MsCoreUtils`
+- [`Spectra`](https://bioconductor.org/packages/Spectra)
+- [`MsCoreUtils`](https://bioconductor.org/packages/MsCoreUtils)
+- [`MsBackendMgf`](https://bioconductor.org/packages/MsBackendMgf)
+- [`MsBackendMassbank`](https://bioconductor.org/packages/MsBackendMassbank)
 
 Other R packages not (yet) in Bioconductor:
 
-- [`MsBackendHmdb`](https://github.com/RforMassSpectrometry/MsBackendHmdb)
-- [`MsBackendMgf`](https://github.com/RforMassSpectrometry/MsBackendMgf)
-- [`MsBackendMassbank`](https://github.com/michaelwitting/MsBackendMassbank)
+- [`MsBackendHmdb`](https://rformassspectrometry.github.io/MsBackendHmdb)
 
 
 ## Time outline
@@ -125,7 +130,7 @@ Other R packages not (yet) in Bioconductor:
 - Integrate MS data from different resources into an MS data analysis workflow.
 - Apply different data manipulations on MS data represented as a `Spectra`
   object.
-- Use `Spectra` to perform spectra matching in R.
+- Use `Spectra` to perform spectra comparisons in R.
 
 # Workshop
 
@@ -133,12 +138,15 @@ Other R packages not (yet) in Bioconductor:
 ## LC-MS/MS in a nutshell
 
 
-- Mass spectrometry (**MS**) instruments measure mass-to-charge ratios (m/z) of
-  ions.
+- Mass spectrometry (**MS**) instruments measure mass-to-charge ratios (m/z) and
+  abundances of ions. The resulting m/z and intensity values are
+  stored/represented as a *spectrum*.
 - Most compounds are not charged, they need to be ionized first (with
-  e.g. electro spray ionization (**ESI**).
+  e.g. electro spray ionization (**ESI**)).
 - MS is usually combined with another separation technique, such as liquid
-  chromatography (**LC**). This adds another dimension: retention time (rt).
+  chromatography (**LC**). This adds another dimension to the data: retention
+  time (rt). For LC-MS data is represented by multiple spectra, each spectrum
+  with its own retention time.
 
 
 ![*LC-MS setup*](LC-MS-drawing.gif)
@@ -154,48 +162,49 @@ Other R packages not (yet) in Bioconductor:
 
 
 - Commonly used method: collision induced dissociation (**CID**). In a collision
-  chamber filled with e.g. N2, ions get fragmented, a spectrum of these
+  chamber filled with e.g. N2, ions get fragmented and a spectrum of these
   fragments is recorded.
-- Matching fragment spectra from an ion against a *reference* helps identifying
-  the compound.
+- Comparing and matching such fragment spectra against a *reference* helps
+  identifying the compound.
 
 
 
 ## The  `Spectra` package
 
-The `Spectra` package implements a clear separation of user functionality from
-code to provide, store and read mass spectrometry data. Thus, different data or
-file format-specific *backends* can be implemented and directly *plugged-in*
-without affecting the way the user would access or analyze the data. This
-represents an extension to the *in-memory* and *on-disk* data modes already
-available in the `r Biocpkg("MSnbase")` package that enabled either a fast data
-processing or an analysis of very large data sets by keeping only a limited
-amount of data in the computer's memory [@gattoMSnbaseEfficientElegant2020a].
+The `Spectra` package implements a clear separation between the user interface
+and the code to provide, store and read mass spectrometry data. Thus, different
+data or file format-specific *backends* can be implemented and directly
+*plugged-in* without affecting the way the user would access or analyze the
+data. This represents an extension to the *in-memory* and *on-disk* data modes
+already available in the `r Biocpkg("MSnbase")` package that enabled either a
+fast data processing or an analysis of very large data sets by keeping only a
+limited amount of data in the computer's memory
+[@gattoMSnbaseEfficientElegant2020a].
 
 
 ![Spectra: separation into user functionality and data
 representation](Spectra.png)
 
 
-In this workshop we will import MS data from mzML files, match the MS2 fragment
-spectra for one ion against MS2 spectra from public databases
-(i.e. [MassBank](https://massbank.eu/MassBank/) and the Human Metabolom Database
-[HMDB](https://hmdb.ca)) and export the data as a MGF file. A different backend
-is used for each data import and export operation.
+In this workshop we will import MS data from mzML files, compare and match the
+MS2 fragment spectra for one ion (with pre-defined m/z) against MS2 spectra from
+public databases (i.e. [MassBank](https://massbank.eu/MassBank/) and the Human
+Metabolom Database [HMDB](https://hmdb.ca)) and export the data as an MGF
+file. A different backend is used for each data import and export operation.
 
 
 ## MS data import and handling
 
 Below we import the MS data from the mzML files provided within this
-package. These files contain MSn data of a mix of 8 standard compounds (solved
-either in water or a pool of human serum samples) measured with a HILIC-based
-LC-MS/MS setup. MS2 data was generated by data dependent acquisition using two
-different collision energies. For data import and representation of these
+package. These files contain MSn data of a mix of 8 standard compounds (added
+either to water or a pool of human serum samples) measured with a HILIC-based
+LC-MS/MS setup. MS2 data was generated by data dependent acquisition using a
+collision energy of 20eV. For data import and representation of these
 experimantal data we use the `MsBackendMzR` backend which supports import (and
 export) of data from the most common *raw* mass spectrometry file formats
 (i.e. mzML, mzXML and CDF).
 
-```{r data-import}
+```{r data-import, warning = FALSE}
 library(Spectra)
 
 #' Define the input files
@@ -207,19 +216,19 @@ sps_all <- Spectra(fls, backend = MsBackendMzR())
 ```
 
 The MS data is now represented by a `Spectra` object, which can be thought of as
-a `data.frame` with columns being the spectra variables (such as `"rtime"`,
-i.e. the retention time) and rows the individual spectra. Each spectra variable
-can be accessed either *via* `$` and its name or by using its dedicated access
-function (which is the preferred way). The `spectraVariables` function can be
-used to list all available variables within such a `Spectra` object.
+a `data.frame` with rows being the individual spectra and columns the spectra
+*variables* (such as `"rtime"`, i.e. the retention time). The `spectraVariables`
+function lists all available variables within such a `Spectra` object.
 
 ```{r spectraVariables0}
 #' List all available spectra variables (attributes)
 spectraVariables(sps_all)
 ```
 
-Below we access the retention times of the first spectra using either `$rtime`
-or the function `rtime`.
+Each spectra variable can be accessed either *via* `$` and its name or by using
+its dedicated access function (which is the preferred way). Below we access the
+retention times of the first spectra using either `$rtime` or the function
+`rtime`.
 
 ```{r rtime}
 #' Access the spectras' retention time
@@ -229,15 +238,16 @@ head(rtime(sps_all))
 
 Our `Spectra` object contains information from in total `r length(sps_all)`
 spectra from `length(unique(dataOrigin(sps_all)))` mzML files. By using the
-`MsBackendMzR` backend only general information about each spectrum is kept in
+`MsBackendMzR` backend, only general information about each spectrum is kept in
 memory resulting in a low memory footprint.
 
 ```{r on-disk-size}
 print(object.size(sps_all), units = "MB")
 ```
 
-With a `MsBackendMzR` backend, intensity or m/z values are retrieved on demand
-from the original data files.
+The spectra's m/z and intensity values can be accessed with the `mz` or
+`intensity` functions. By using an `MsBackendMzR` backend, these are retrieved
+on demand from the original data files each time the functions are called.
 
 ```{r mz}
 mz(sps_all)
@@ -261,11 +271,12 @@ print(object.size(sps_all), units = "MB")
 ```
 
 At last we subset our data to MS2 spectra with a precursor ion that matches the
-m/z of the [M+H]+ ion of the metabolite Cystine (accepting a difference in m/z
-of 10 parts-per-million (ppm)).
+m/z of the *[M+H]+* ion of the metabolite cystine (one of the standards added to
+the sample mix measured in the present experimental data) accepting a difference
+in m/z of 10 parts-per-million (ppm).
 
 ```{r filter-precursor-mz}
-#' Define the m/z ratio for the [M+H]+ ion of Cystine
+#' Define the m/z ratio for the [M+H]+ ion of cystine
 mz <- 241.0311
 
 #' Subset the dataset to MS2 spectra matching the m/z
@@ -286,13 +297,13 @@ first spectrum from our data subset.
 plotSpectra(sps[1])
 ```
 
-This raw MS2 spectrum contains many very low abundance peaks, most likely
+This raw MS2 spectrum contains many very low intensity peaks, most likely
 representing noise. Thus we next filter the spectra removing all peaks with an
 intensity smaller than 5% of the maximum intensity of each spectrum (i.e. the
 base peak intensity). To this end we define a function that takes intensity
-values from each spectrum and returns a logical value whether the peak should be
-kept (`TRUE`) or not (`FALSE`). This function is then passed to the
-`filterIntensity` function.
+values from each spectrum as input and returns a logical value whether the peak
+should be retained (`TRUE`) or not (`FALSE`). This function is then passed to
+the `filterIntensity` function to perform the actual filtering of the spectra.
 
 ```{r filter-intensity}
 #' Define a filtering function
@@ -312,12 +323,14 @@ plotSpectra(sps[1])
 
 In addition we *normalize* each spectrum replacing the absolute intensity values
 with values relative to the spectrum's maximum intensity (which is set to
-100). For this operation we also define a function which takes a *peak matrix*
+100). Also for this operation we define a function which takes a *peak matrix*
 as input and returns a matrix with the same dimensions. The peak matrix is the
 two-column matrix with m/z (first column) and intensity values (second column)
-of each peak of a spectrum. This function is then passed with parameter `FUN` to
-the `addProcessing` function which allows to apply any user-defined function to
-the peak matrix of each spectrum in a `Spectra` object.
+representing the MS data of a spectrum. This function is then passed with
+parameter `FUN` to the `addProcessing` function which allows to apply any
+user-defined function to the peak matrix of each spectrum in a `Spectra`
+object. With this function `Spectra` thus provides a powerful framework to apply
+any user-defined data manipulation operation to MS data.
 
 ```{r normalize}
 #' Define a function to *normalize* the intensities
@@ -338,17 +351,17 @@ spectrum:
 intensity(sps)[[1]]
 ```
 
-The intensity values are now all between 0 and 100. Note that all these data
-manipulations (intensity filtering and normalization) did **not** change the
-original m/z and intensity values. Data manipulation operations are cached by
-default in the *lazy evaluation queue* of the `Spectra` object and applied
-to the data *on-the-fly* each time m/z or intensity values are accessed. This
-ensures that the same data manipulations can be used for any type of backend,
-even if the data resource is *read-only* (e.g. if the data is retrieved on the
-fly from mzML files).
+The intensity values are now all between 0 and 100. Note however that all these
+data manipulations (intensity filtering and normalization) did **not** change
+the original m/z and intensity values in the `Spectra`. Data manipulation
+operations are by default cached in the *lazy evaluation queue* of the `Spectra`
+object and applied to the MS data *on-the-fly* each time m/z or intensity values
+are accessed. This ensures that the same data manipulations can be applied to MS
+data regardless of the used backend and hence the way the data is stored
+(e.g. in *read-only* data resources such as raw MS data files or databases).
 
-This mechanism enables us also to *undo* cached data manipulations with the
-`reset` function:
+In addition, this mechanism enables to *undo* certain cached data manipulations
+using the `reset` function:
 
 ```{r reset}
 #' Remove any processing steps
@@ -359,16 +372,18 @@ head(intensity(sps_orig)[[1]])
 
 ## Spectrum data comparison
 
-We next perform a pairwise comparison of the spectra using the dot product as
-similarity measure. Prior to the actual similarity calculation, the peaks of the
-individual spectra have to be matched against each other (i.e. it has to be
-determined which peak from one spectrum correspond to which from the other
-spectrum based on their mass-to-charge ratios). We specify `ppm = 20` so that
-peaks with a difference in m/z smaller than 20ppm will be considered matching.
+We next perform a pairwise comparison of the subsetted spectra using the dot
+product as similarity measure. Prior to the actual similarity calculation, the
+peaks of the individual spectra have to be matched against each other (i.e. it
+has to be determined which peak from one spectrum correspond to which from the
+other spectrum based on their mass-to-charge ratios). We specify `ppm = 20` so
+that peaks with a difference in m/z smaller than 20ppm will be considered
+matching.
 
 ```{r compare-spectra-self}
 #' Pairwise comparison of all spectra
 cormat <- compareSpectra(sps, ppm = 20)
+cormat
 ```
 
 The pairwise spectra similarities are represented with the heatmap below (note
@@ -377,34 +392,19 @@ add `filename = "hm.pdf"` to the `heatmap` call).
 
 ```{r ms2-heatmap, fig.width = 7, fig.height = 7}
 library(pheatmap)
-hm <- pheatmap(cormat)
+hm <- pheatmap(cormat, breaks = seq(0, 1, length.out = 101))
 ```
 
-The 11 spectra appear to be grouping into 3 clusters, which are in fact related
-to the collision energy used for the fragmentation (see below; the collision
-energy is encoded in the file name as CE20 and CE30). We thus use the `cutree`
-function to *cut* the tree (dendrogram) into 3 clusters. Subsequently we reduce
-our dataset to the cluster with the spectra generated with a collision energy of
-20eV.
-
-```{r}
-#' Get the cluster-assignment of the spectra
-cl <- cutree(hm$tree_row, 3)
-cl
-
-#' From which file are they?
-split(basename(dataOrigin(sps)), cl)
-
-#' Select spectra from one collision energy
-sps_ce20 <- split(sps, cutree(hm$tree_row, 3))[[1L]]
-```
+The similarity between all the selected experimental MS2 spectra is very high
+(in fact above 0.88) suggesting all of them representing fragment spectra of the
+same original compound.
 
 
 ## Comparing spectra against MassBank
 
-Although the precursor m/z of our spectra matches the m/z of Cystine, we can
-still not exclude that they might represent fragmentations of ions from
-a different compound (i.e. that would have the same precursor m/z).
+Although the precursor m/z of our spectra matches the m/z of cystine, we can
+still not exclude that they represent fragmentations of ions from different
+compounds (that would have the same precursor m/z than cystine).
 
 Matching experimental spectra against a public spectral library can be used as a
 first step in the identification process. Several (public) spectral libraries
@@ -418,15 +418,15 @@ for small molecules are available, such as:
 
 For some of these databases `MsBackend` interfaces are already implemented
 allowing inclusion of their data directly into R-based analysis
-workflows. Access to MassBank data is for example possible with the
-[MsBackendMassbank](https://github.com/michaelwitting/MsBackendMassbank)
-package. This package provides the `MsBackendMassbank` for import/export of
+workflows. Access to MassBank data is for example possible with the `r
+BiocStyle::Biocpkg("MsBackendMassbank")` package. This package provides the
+`MsBackendMassbank` for import/export of
 [MassBank files](https://github.com/MassBank/MassBank-data) as well as the
 `MsBackendMassbankSql` backend that directly interfaces the MassBank MySQL
 database.
 
 Below we load the `MsBackendMassbank` package and connect to a local
-installation of the MassBank MySQL database (release *2021.02* which is provided
+installation of the MassBank MySQL database (release *2021.03* which is provided
 within the docker image of this tutorial).
 
 ```{r massbank-library}
@@ -449,82 +449,83 @@ mbank
 
 The `Spectra` object `mbank` *represents* now the MS data from the
 MassBank database with in total `length(mbank)` spectra. In fact, the `mbank`
-object does only contain the primary keys of the spectra but no MS data. Hence,
-it's size in memory is only relatively small:
+object itself does not contain any MS data, but only the primary keys of the
+spectra in the MassBank database. Hence, it has also a relatively low memory
+footprint.
 
 ```{r massbank-size}
 print(object.size(mbank), units = "MB")
 ```
 
-Any operation on this `Spectra` object will load the requested data from the
-database on-the-fly.
-
-We can now compare our experimental spectra against the *reference* spectra from
-MassBank. Because loading data from the database takes some time, we first
-screen for spectra that have a peak matching the precursor m/z (even this
-operation takes ~ 30 seconds to finish).
-
-```{r massbank-contains-mz}
-#' Identify spectra that contain a peak matching the m/z of Cystine
-has_mz <- containsMz(mbank, mz = mz, ppm = 20)
-```
-
-Note that, to improve performance, we could also load all the spectra data into
-memory by simply changing the backend with `setBackend` to a
-`MsBackendDataFrame` (as we did with the experimental spectra data above).
-
-In total `r sum(has_mz)` spectra contain a peak with the required m/z and we can
-proceed to calculate spectral similarities between our experimental spectra and
-this subset from MassBank. `compareSpectra` will calculate the similarity
-between each spectrum from `sps_ce20` and each spectrum from `mbank_with_mz` and
-returns this as a numeric `matrix` with the similarity scores (number of rows
-equal to the number of spectra in `sps_ce20` and number of columns equal to the
-number of spectra in `mbank_with_mz` - element `res[3, 15]` would thus represent
-the similarity between experimental spectrum 3 to MassBank spectrum 15).
-
-```{r massbank-compare-subset}
-#' Subset the MassBank Spectra
-mbank_with_mz <- mbank[has_mz]
-
-#' Compare experimental spectra against MassBank
-res <- compareSpectra(sps_ce20, mbank_with_mz, ppm = 20)
-```
-
-The highest similarity between our spectra and the spectra from MassBank is
-`r max(res)`. Below we indentify the best matching spectrum and access its
-intensity values. With parameter `arr.ind = TRUE` `which` returns an integer of
-length 2, the first element representing the row in `res`, the second the
-column.
+Any operation on a `Spectra` object with this backend will load the requested
+data from the database on-the-fly. Calling `intensity` on such a `Spectra`
+object would for example retrieve the intensity values for all spectra from the
+database.
 
 ```{r massbank-intensity}
-#' Identify the best-matching pair
-idx <- which(res == max(res), arr.ind = TRUE)
-idx
-intensity(mbank_with_mz[idx[2]])
+#' Get intensity values for the first spectrum
+intensity(mbank[1])
 ```
 
-Absolute intensities are reported for the MassBank spectrum, but for better
-visualizations we would like to *normalize* them the same way we did with our
-experimental spectra. As a side note it should also be mentioned that the used
-dot product function for spectra similarity is independent of absolute intensity
-values, thus, it did not matter if we performed the spectra comparisons on
-absolute or relative intensities.
-
-The above described *lazy evaluation queue* of `Spectra` objects allows us to
-perform data manipulations on the MassBank data without actually modifying the
-original data. We thus normalize the MassBank spectra with the same function we
-used for the experimental spectra.
+As we can see, MassBank provides absolute intensities for each spectrum. We can
+however *normalize* these with the same approach used above for the `Spectra`
+object with the experimental data to result in intensity values between 0 and
+100.
 
 ```{r massbank-normalize}
-#' *Normalize* the MassBank data
-mbank_with_mz <- addProcessing(mbank_with_mz, norm_int)
+#' *Normalize* intensities for all MassBank spectra
+mbank <- addProcessing(mbank, norm_int)
+intensity(mbank[1])
 ```
 
-Below we can then compare the two best matching spectra with a *mirror plot*, in
-the upper panel showing our experimental spectrum and in the lower panel the
-best matching MS2 spectrum from MassBank. Plotting functions in `Spectra` are
-highly customizable and in the example below we add the m/z for each individual
-peak as an *annotation* to it if the intensity of the peak is higher than 5.
+This clearly illustrates the power of the `Spectra`'s *lazy evaluation queue*:
+we can apply any data operation or manipulation without modifying the original
+data.
+
+We next aim at comparing our experimental spectra against the spectra from
+MassBank. But instead of comparing against all `r length(mbank)` available
+spectra, we first filter the MassBank database to spectra with a precursor m/z
+matching the one of the *[M+H]+* ion of cystine. Note that, as an alternative to
+the `filterPrecursorMz` used below, we could also use the `containsMz` function
+to screen for spectra containing an actual peak matching the precursor m/z.
+
+```{r massbank-precursor}
+#' Filter MassBank for spectra of precursor ion
+mbank_sub <- filterPrecursorMz(mbank, mz = mz + ppm(c(-mz, mz), 10))
+mbank_sub
+```
+
+This left us with `r length(12)` spectra for which we calculate the similarity
+against each of our experimental spectra using the `compareSpectra` function.
+
+```{r massbank-compare-subset}
+#' Compare MassBank subset to experimental spectra
+res <- compareSpectra(mbank_sub, sps, ppm = 20)
+res
+```
+
+As a result we got the (normalized dot product) similarity score between each
+tested MassBank spectrum (rows) against each experimental spectrum (columns).
+
+```{r}
+pheatmap(res)
+```
+
+We get some very high similarity scores, but also some lower ones. We next
+determine the best matching pair from all the comparisons.
+
+```{r}
+best_match <- which(res == max(res), arr.ind = TRUE)
+best_match
+```
+
+The `best_match` variable contains now the index of the best matching MassBank
+and experimental spectrum. Below we visualize these two using a *mirror plot*
+showing in the upper panel the MS2 spectrum from MassBank and in the lower panel
+the best matching experimental spectrum. Matching peaks are highlighted with a
+blue color. Plotting functions in `Spectra` are highly customizable and in the
+example below we add the m/z for each individual peak as an *annotation* to it
+but only if the intensity of the peak is higher than 5.
 
 ```{r massbank-mirror-plot, fig.width = 7, fig.height = 7}
 #' Specifying a function to draw peak labels
@@ -534,68 +535,88 @@ label_fun <- function(x) {
     mzs[ints < 5] <- ""
     mzs
 }
-plotSpectraMirror(sps_ce20[idx[1]], mbank_with_mz[idx[2]], tolerance = 0.2,
-                  labels = label_fun, labelPos = 2, labelOffset = 0.2,
-                  labelSrt = -30)
+plotSpectraMirror(mbank_sub[best_match[1]], sps[best_match[2]],
+                  tolerance = 0.2, labels = label_fun, labelPos = 2,
+                  labelOffset = 0.2, labelSrt = -30)
 grid()
 ```
 
-Our experimental spectrum nicely matches the *reference* MS2 in MassBank. We
-next want to know which compound this spectrum actually represents. `Spectra`
-objects can have arbitrarily many additional annotation fields (so called
-*spectra variables*) and we can use the `spectraVariables` function to list all
-of them which are available in a specific `Spectra` object.
+As a comparison we plot also two spectra with a low similarity score.
+
+```{r massbank-mirror-plot-low, fig.width = 7, fig.height = 7}
+plotSpectraMirror(mbank_sub[1], sps[3],
+                  tolerance = 0.2, labels = label_fun, labelPos = 2,
+                  labelOffset = 0.2, labelSrt = -30)
+grid()
+```
+
+Since we could identify a MassBank spectrum with a high similarity to our
+experimental spectra we would also like to know which compound this spectrum
+actually represents. `Spectra` objects are generally very flexible and can have
+arbitrarily many additional annotation fields (i.e.  *spectra variables*) for
+each spectrum. Thus, we below use the `spectraVariables` function to list all of
+the variables that are available in our MassBank `Spectra` object.
 
 ```{r massbank-spectra-variables}
 #' What variables are available in MassBank
-spectraVariables(mbank_with_mz)
+spectraVariables(mbank_sub)
 ```
 
-In fact we get, in addition to spectra specific information like the instrument
-on which it was measured or the ionization voltage used, we get also information
-on the compound such as its name (`"compound_name"`), its chemical formula
-(`"formula"`) or its INChI key (`"inchikey"`). Thus, we have all relevant
-information already in the `Spectra` object. Below we select the best matching
-spectrum from MassBank and display its associated compound name.
+In fact, in addition to spectra specific information like the instrument on
+which it was measured or the ionization voltage used, we get also information on
+the originating compound such as its name (`"compound_name"`), its chemical
+formula (`"formula"`) or its INChI key (`"inchikey"`). We thus next subset
+`mbank_sub` to the best matching spectrum and display its associated compound
+name.
 
 ```{r massbank-one-spectrum}
-mbank_best_match <- mbank_with_mz[idx[2]]
+mbank_best_match <- mbank_sub[best_match[1]]
 mbank_best_match$compound_name
 ```
 
-Thus, the best matching spectrum is in fact a MS2 spectrum of Cystine. Below we
-add the name and the chemical formula for the best matching spectrum to our
-experimental spectra. We also set the collision energy for these spectra to 20eV
-and assign the ion/adduct of Cystine from which the reference spectrum was
-created.
+Indeed, our experimental cystine spectrum matches (one) cystine spectrum in
+MassBank. Below we next add the name and the chemical formula of this spectrum
+to our experimental spectra. We also set the collision energy for to 20eV and
+assign the ion/adduct of cystine from which the reference spectrum was created.
 
 ```{r}
 #' Add annotations to the experimental spectra
-sps_ce20$name <- mbank_best_match$compound_name
-sps_ce20$formula <- mbank_best_match$formula
-sps_ce20$adduct <- mbank_best_match$adduct
-sps_ce20$collisionEnergy <- 20
+sps$name <- mbank_best_match$compound_name
+sps$formula <- mbank_best_match$formula
+sps$adduct <- mbank_best_match$adduct
+sps$collisionEnergy <- 20
 ```
 
 
 ## Data export
 
 At last we want to export our spectra to a file in MGF format. For this we use
-the [MsBackendMgf](https://github.com/RforMassSpectrometry/MsBackendMgf) R
-package which provides the `MsBackendMgf` backend that adds support for MGF file
-import/export to `Spectra` objects.
+the `r BiocStyle::Biocpkg("MsBackendMgf")` package which provides the
+`MsBackendMgf` backend that adds support for MGF file import/export to `Spectra`
+objects.
 
 Data from `Spectra` objects can generally be exported with the `export`
 function. The format in which the data is exported depends on the specified
-`MsBackend` class. By using an instance of `MsBackendMgf` we can write below the
-data to a file in MGF format.
+`MsBackend` class. By using an instance of `MsBackendMgf` we define to export
+the data to a file in MGF format.
 
 ```{r export}
 library(MsBackendMgf)
 
 #' Export the spectra to a MGF file
-export(sps_ce20, backend = MsBackendMgf(), file = "Cystine_ce20.mgf")
+export(sps, backend = MsBackendMgf(), file = "Cystine_ce20.mgf")
 ```
+
+
+## Convenient spectra matching with `MetaboAnnotation`
+
+The `Spectra` package provides all the functionality required for annotation and
+identification workflows for untargeted LC-MS/MS data, but, while being very
+flexible and customizable, it might be too cumbersome for beginners or analysts
+not accustomed with R. To fill this gap we developed the [`MetaboAnnotation`](https://rformassspectrometry.github.io/MetaboAnnotation)
+package that builds upon `Spectra` and provides functions for annotation of
+LC-MS and LC-MS/MS data sets tailored towards the less experienced R user.
+
 
 
 ## Comparing spectra against HMDB
@@ -642,28 +663,29 @@ HMDB. Note that with the `MsBackendHmdbXml` all spectra data is kept in memory.
 hmdb
 ```
 
-Also here, to avoid comparing our experimental spectra against all these
-~500,000 spectra, we first determine with the `containsMz` function which of the
-HMDB spectra contain a peak matching the m/z of our ion of interest. We have to
-use a rather large `tolerance` value (which defines the maximal acceptable
+Also here, we want to filter the data resource first for spectra with a matching
+precursor m/z. Unfortunately, HMDB does not provided the spectra's precursor m/z
+and we hence need to used the `containsMz` function to find spectra containing a
+peak with an m/z matching the m/z of our ion of interest. In addition, We need
+to use a rather large `tolerance` value (which defines the maximal acceptable
 absolute difference in m/z values) since some of the experimental spectra in
-HMDB seem to be recorded by not well calibrated instruments.
+HMDB seem to be recorded by not well calibrated instrument.
 
 ```{r has-mz}
-#' Identify spectra containing a peak matching Cystine m/z
+#' Identify spectra containing a peak matching cystine m/z
 has_mz <- containsMz(hmdb, mz = mz, tolerance = 0.2)
 ```
 
 In total `r sum(has_mz)` spectra contain a peak with the required m/z (+/- 0.2
-Dalton) and we can proceed to calculate spectral similarities between our
-experimental spectra and this subset from HMDB.
+Dalton) and we can proceed to calculate spectral similarities between these and
+our experimental spectra.
 
 ```{r compare-subset}
 #' Subset HMDB
-hmdb_with_mz <- hmdb[has_mz]
+hmdb_sub <- hmdb[has_mz]
 
-#' Compare experimental spectra against HMDB
-res <- compareSpectra(sps_ce20, hmdb_with_mz, tolerance = 0.2)
+#' Compare HMDB against experimental spectra
+res <- compareSpectra(hmdb_sub, sps, tolerance = 0.2)
 ```
 
 The highest similarity between our spectra and the spectra from HMDB is `r
@@ -672,12 +694,12 @@ in the upper panel showing our experimental spectrum and in the lower panel the
 best matching MS2 spectrum from HMDB.
 
 ```{r mirror-plot, fig.width = 7, fig.height = 7}
-idx <- which(res == max(res), arr.ind = TRUE)
+best_match <- which(res == max(res), arr.ind = TRUE)
 ## Specifying a function to draw peak labels
 label_fun <- function(x) {
     format(unlist(mz(x)), digits = 4)
 }
-plotSpectraMirror(sps_ce20[idx[1]], hmdb_with_mz[idx[2]], tolerance = 0.2,
+plotSpectraMirror(hmdb_sub[best_match[1]], sps[best_match[2]], tolerance = 0.2,
                   labels = label_fun, labelPos = 2, labelOffset = 0.2,
                   labelSrt = -30)
 grid()
@@ -688,7 +710,7 @@ HMDB. Below we extract the compound identifier from the best matching HMDB
 spectrum (stored in a spectra variable called `"compound_id"`)
 
 ```{r}
-hmdb_with_mz[idx[2]]$compound_id
+hmdb_sub[best_match[1]]$compound_id
 ```
 
 In fact, the matching spectrum from HMDB is an experimental spectrum for
@@ -706,11 +728,10 @@ of the data (`MsBackend` object). Backends such as the
 [`MsBackendMgf`](https://github.com/RforMassSpectrometry/MsBackendMgf), the
 [`MsBackendMassbank`](https://github.com/michealwitting/MsBackendMassbank) or
 the [`MsBackendHmdbXml`](https://github.com/RforMassSpectrometry/MsBackendHmdb)
-can provide support for additional data formats or data sources, while others,
+provide support for additional data formats or data sources, while others,
 due to their much lower memory footprint (`MsBackendMzR`, `MsBackendHdf5Peaks`),
 enable the analysis of also very large data sets. Most importantly however,
 these backends are interchangeable and do not affect the way users can handle
 and analyze MS data with the `Spectra` package.
-
 
 # References
