@@ -31,12 +31,31 @@ A video recorded during the
 [EuroBioc2020](https://eurobioc2020.bioconductor.org/) conference is available
 [here](https://www.youtube.com/watch?v=W6JISCrAtk0).
 
+
+### Workshop goals and objectives
+
+#### Learning goals
+
+- Understand how to import MS data into R.
+- Understand the basic concept how different *backends* can be used in `Spectra`
+  to work with MS data from various sources.
+
+#### Learning objectives
+
+- Import and export MS data with `Spectra`.
+- Integrate MS data from different resources into an MS data analysis workflow.
+- Apply different data manipulations on MS data represented as a `Spectra`
+  object.
+- Use `Spectra` to perform spectra comparisons in R.
+
+
 ### Pre-requisites
 
 - Basic familiarity with R and Bioconductor.
 - Basic understanding of Mass Spectrometry (MS) data.
 
-### Participation
+
+### Installation and participation
 
 - Get the [docker image](https://hub.docker.com/r/jorainer/spectra_tutorials) of
   this tutorial with `docker pull jorainer/spectra_tutorials:latest`.
@@ -122,20 +141,4 @@ Other R packages not (yet) in Bioconductor:
 | Spectrum data comparison                   | 5min  |
 | Comparing spectra against MassBank         | 10min |
 | Data export                                | 5min  |
-| (Comparing spectra against HMDB)           | (5min)  |
-
-### Workshop goals and objectives
-
-#### Learning goals
-
-- Understand how to import MS data into R.
-- Understand the basic concept how different *backends* can be used in `Spectra`
-  to work with MS data from various sources.
-
-#### Learning objectives
-
-- Import and export MS data with `Spectra`.
-- Integrate MS data from different resources into an MS data analysis workflow.
-- Apply different data manipulations on MS data represented as a `Spectra`
-  object.
-- Use `Spectra` to perform spectra comparisons in R.
+| (Comparing spectra against HMDB)           | (5min)|
