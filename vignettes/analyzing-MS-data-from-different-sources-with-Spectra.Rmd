@@ -363,23 +363,7 @@ spectrum:
 intensity(sps)[[1]]
 ```
 
-The intensity values are now all between 0 and 100. Note however that all these
-data manipulations (intensity filtering and normalization) did **not** change
-the original m/z and intensity values in the `Spectra`. Data manipulation
-operations are by default cached in the *lazy evaluation queue* of the `Spectra`
-object and applied to the MS data *on-the-fly* each time m/z or intensity values
-are accessed. This ensures that the same data manipulations can be applied to MS
-data regardless of the used backend and hence the way the data is stored
-(e.g. in *read-only* data resources such as raw MS data files or databases).
-
-In addition, this mechanism enables to *undo* certain cached data manipulations
-using the `reset` function:
-
-```{r reset}
-#' Remove any processing steps
-sps_orig <- reset(sps)
-head(intensity(sps_orig)[[1]])
-```
+The intensity values are now all between 0 and 100.
 
 
 ## Spectrum data comparison
@@ -470,7 +454,7 @@ print(object.size(mbank), units = "MB")
 ```
 
 Any operation on a `Spectra` object with this backend will load the requested
-data from the database on-the-fly. Calling `intensity` on such a `Spectra`
+data from the database on demand. Calling `intensity` on such a `Spectra`
 object would for example retrieve the intensity values for all spectra from the
 database.
 
@@ -479,10 +463,11 @@ database.
 intensity(mbank[1])
 ```
 
-As we can see, MassBank provides absolute intensities for each spectrum. We can
-however *normalize* these with the same approach used above for the `Spectra`
-object with the experimental data to result in intensity values between 0 and
-100.
+As we can see, also MassBank provides absolute intensities for each spectrum. To
+have all the data on the same scale, we would however like to scale them to
+values between 0 and 100, just like we did for our experimental data. Below we
+thus apply the same data processing operation also to the MassBank `Spectra`
+object.
 
 ```{r massbank-normalize}
 #' *Normalize* intensities for all MassBank spectra
@@ -490,16 +475,21 @@ mbank <- addProcessing(mbank, norm_int)
 intensity(mbank[1])
 ```
 
-This clearly illustrates the power of the `Spectra`'s *lazy evaluation queue*:
-we can apply any data operation or manipulation without modifying the original
-data.
+This worked, although we are (for obvious reasons) **not** allowed to change the
+m/z and intensity values within the MassBank database. How is this then
+possible? It works, because any data manipulation operation on a `Spectra`
+object is cached within the object's *lazy evaluation queue* and any such
+operation is applied to the m/z and intensity values *on-the-fly* whenever the
+data is requested (i.e. whenever `mz` or `intensity` is called on it). As a side
+effect, this also allows to *undo* certain data operations by simply calling
+`reset` on the `Spectra` object.
 
-We next aim at comparing our experimental spectra against the spectra from
-MassBank. But instead of comparing against all `r length(mbank)` available
-spectra, we first filter the MassBank database to spectra with a precursor m/z
-matching the one of the *[M+H]+* ion of cystine. Note that, as an alternative to
-the `filterPrecursorMz` used below, we could also use the `containsMz` function
-to screen for spectra containing an actual peak matching the precursor m/z.
+We next want to compare our experimental spectra against the spectra from
+MassBank. Instead of comparing against all `r length(mbank)` available spectra,
+we first filter the MassBank database to spectra with a precursor m/z matching
+the one of the *[M+H]+* ion of cystine. Note that, as an alternative to the
+`filterPrecursorMz` used below, we could also use the `containsMz` function to
+screen for spectra containing an actual peak matching the precursor m/z.
 
 ```{r massbank-precursor}
 #' Filter MassBank for spectra of precursor ion
