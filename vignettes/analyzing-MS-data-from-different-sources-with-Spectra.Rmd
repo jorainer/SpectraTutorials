@@ -186,11 +186,13 @@ limited amount of data in the computer's memory
 representation](Spectra.png)
 
 
-In this workshop we will import MS data from mzML files, compare and match the
-MS2 fragment spectra for one ion (with pre-defined m/z) against MS2 spectra from
-public databases (i.e. [MassBank](https://massbank.eu/MassBank/) and the Human
-Metabolom Database [HMDB](https://hmdb.ca)) and export the data as an MGF
-file. A different backend is used for each data import and export operation.
+In this workshop we will:
+
+- import MS data from *mzML* files,
+- select MS2 spectra for a certain compound,
+- compare and match the MS2 spectra against *reference* MS2 spectra from a
+  public database,
+- annotate the spectra and export them to a file in *MGF* format.
 
 
 ## MS data import and handling
@@ -268,6 +270,14 @@ loaded into memory.
 
 ```{r in-mem-size}
 print(object.size(sps_all), units = "MB")
+```
+
+For subsetting `Spectra` object we can use either `[` or one of the many
+available `filter*` functions (that are usually more efficient than `[`
+subsetting). Below we subset the spectra to some arbitrary spectra.
+
+```{r subset}
+sps_all[c(4, 2, 5)]
 ```
 
 At last we subset our data to MS2 spectra with a precursor ion that matches the
@@ -536,7 +546,7 @@ label_fun <- function(x) {
     mzs
 }
 plotSpectraMirror(mbank_sub[best_match[1]], sps[best_match[2]],
-                  tolerance = 0.2, labels = label_fun, labelPos = 2,
+                  ppm = 20, labels = label_fun, labelPos = 2,
                   labelOffset = 0.2, labelSrt = -30)
 grid()
 ```
@@ -545,7 +555,7 @@ As a comparison we plot also two spectra with a low similarity score.
 
 ```{r massbank-mirror-plot-low, fig.width = 7, fig.height = 7}
 plotSpectraMirror(mbank_sub[1], sps[3],
-                  tolerance = 0.2, labels = label_fun, labelPos = 2,
+                  ppm = 20, labels = label_fun, labelPos = 2,
                   labelOffset = 0.2, labelSrt = -30)
 grid()
 ```
@@ -727,5 +737,24 @@ due to their much lower memory footprint (`MsBackendMzR`, `MsBackendHdf5Peaks`),
 enable the analysis of also very large data sets. Most importantly however,
 these backends are interchangeable and do not affect the way users can handle
 and analyze MS data with the `Spectra` package.
+
+
+# What else?
+
+- [`MetaboAnnotation`](https://github.com/rformassspectrometry/MetaboAnnotation)
+  (Andrea Vicini, Michael Witting) to provide simple functions for matching of
+  spectra or m/z and retention time data.
+- [`CompoundDb`](https://github.com/EuracBiomedicalResearch/CompoundDb) to
+  create and use small compound annotation databases (including `Spectra`).
+- [`MsExperiment`](https://github.com/rformassspectrometry/MsExperiment) to
+  represent whole MS experiments (incl. `Spectra`, sample annotation, data
+  quantitation, annotation files etc).
+- [`msQC`](https://github.com/tnaake/msQC) (Thomas Naake): QC measures for MS
+  data.
+- [`MsBackendMsp`](https://github.com/rformassspectrometry/MsBackendMsp)
+  (Steffen Neumann): backend for files in MSP format.
+- [`MsBackendSql`](https://github.com/RforMassSpectrometry/MsBackendSql) (Chong
+  Tang): SQL-based backend for very large data sets.
+- `...`
 
 # References
