@@ -15,6 +15,18 @@ analyze mass spectrometry (MS) data.
 
 ## Seamless Integration of Mass Spectrometry Data from Different Sources
 
+
+### Short description
+
+In this workshop we will use `Spectra` to:
+
+- import MS data from *mzML* files,
+- select MS2 spectra for a certain compound,
+- compare and match the MS2 spectra against *reference* MS2 spectra from a
+  public database,
+- annotate the spectra and export them to a file in *MGF* format.
+
+
 ### Description
 
 This (instructor-led live demo)
