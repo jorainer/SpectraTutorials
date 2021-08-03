@@ -288,7 +288,7 @@ to subset the data to MS2 spectra matching that m/z (accepting a difference in
 m/z of 10 parts-per-million (ppm)).
 
 ```{r filter-precursor-mz}
-#' Define the m/z ratio for the [M+H]+ ion of cystine
+#' Define the m/z ratio for an ion of cystine
 mz <- 241.0311
 
 #' Subset the dataset to MS2 spectra matching the m/z
