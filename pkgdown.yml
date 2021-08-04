@@ -3,7 +3,7 @@ pkgdown: 1.6.1.9001
 pkgdown_sha: ce9781a15c7ea07df9fb17a11295ba4abec0b54b
 articles:
   analyzing-MS-data-from-different-sources-with-Spectra: analyzing-MS-data-from-different-sources-with-Spectra.html
-last_built: 2021-08-04T12:44Z
+last_built: 2021-08-04T15:34Z
 urls:
   reference: https://jorainer.github.io/SpectraTutorials/reference
   article: https://jorainer.github.io/SpectraTutorials/articles
