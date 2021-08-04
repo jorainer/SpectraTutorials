@@ -17,7 +17,7 @@ height="150">
 </a>
 <a href="https://rformassspectrometry.github.io/MsBackendMgf">
 <img
-src="https://raw.githubusercontent.com/rformassspectrometry/stickers/master/MsBackendMgf/MsBackedMgf.png"
+src="https://raw.githubusercontent.com/rformassspectrometry/stickers/master/MsBackendMgf/MsBackendMgf.png"
 height="150">
 </a>
 </div>
