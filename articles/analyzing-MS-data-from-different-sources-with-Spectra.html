@@ -90,7 +90,7 @@
 
     
     
-<p><strong>Last modified:</strong> 2021-08-03 14:11:29<br><strong>Compiled</strong>: Tue Aug 3 14:15:08 2021</p>
+<p><strong>Last modified:</strong> 2021-08-04 09:29:06<br><strong>Compiled</strong>: Wed Aug 4 09:32:49 2021</p>
 <div id="overview" class="section level1">
 <h1 class="hasAnchor">
 <a href="#overview" class="anchor" aria-hidden="true"></a>Overview</h1>
@@ -330,7 +330,7 @@
 ## 3         1     1.491         5
 ##  ... 33 more variables/columns.
 ## Processing:
-##  Switch backend from MsBackendMzR to MsBackendDataFrame [Tue Aug  3 14:15:13 2021]</code></pre>
+##  Switch backend from MsBackendMzR to MsBackendDataFrame [Wed Aug  4 09:32:54 2021]</code></pre>
 <p>In our workshop, we next want to identify in our experimental data MS2 spectra that were generated from an ion that matches the m/z of the <code>[M+H]+</code> ion of the metabolite cystine (one of the standards added to the sample mix measured in the present experimental data). We thus use below the <code>filterPrecursorMz</code> function to subset the data to MS2 spectra matching that m/z (accepting a difference in m/z of 10 parts-per-million (ppm)).</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Define the m/z ratio for an ion of cystine</span>
@@ -350,8 +350,8 @@
 ## 6         2   240.020       804
 ##  ... 33 more variables/columns.
 ## Processing:
-##  Switch backend from MsBackendMzR to MsBackendDataFrame [Tue Aug  3 14:15:13 2021]
-##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Tue Aug  3 14:15:13 2021]</code></pre>
+##  Switch backend from MsBackendMzR to MsBackendDataFrame [Wed Aug  4 09:32:54 2021]
+##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Wed Aug  4 09:32:54 2021]</code></pre>
 <p>In total 6 spectra matched our target precursor m/z.</p>
 </div>
 <div id="data-processing-and-manipulation" class="section level2">
@@ -500,8 +500,8 @@
 ##  Use  'spectraVariables' to list all of them.
 ## Lazy evaluation queue: 1 processing step(s)
 ## Processing:
-##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Tue Aug  3 14:15:16 2021]</code></pre>
-<p>This left us with 1 spectra for which we calculate the similarity against each of our experimental spectra using the <code>compareSpectra</code> function.</p>
+##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Wed Aug  4 09:32:58 2021]</code></pre>
+<p>This left us with 12 spectra for which we calculate the similarity against each of our experimental spectra using the <code>compareSpectra</code> function.</p>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Compare MassBank subset to experimental spectra</span>
 <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compareSpectra</a></span><span class="op">(</span><span class="va">mbank_sub</span>, <span class="va">sps</span>, ppm <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>
@@ -660,10 +660,18 @@
 <p>In fact, the matching spectrum from HMDB is an experimental spectrum for <a href="https://hmdb.ca/metabolites/HMDB0000192" class="external-link">L-Cystine</a>.</p>
 </div>
 </div>
+<div id="short-summary" class="section level1">
+<h1 class="hasAnchor">
+<a href="#short-summary" class="anchor" aria-hidden="true"></a>Short summary</h1>
+<ul>
+<li><p>Independence between data analysis and data storage functionality allows to easily add support for additional data types or data handling/storage modes.</p></li>
+<li><p>Caching data operations and applying them on-the-fly allow data manipulations regardless of how and where data is stored.</p></li>
+</ul>
+</div>
 <div id="summary" class="section level1">
 <h1 class="hasAnchor">
 <a href="#summary" class="anchor" aria-hidden="true"></a>Summary</h1>
-<p>With the simple use case of matching experimental MS2 spectra against a public database we illustrated in this short tutorial the flexibility and expandability of the <code>Spectra</code> package that enables the seamless integration of mass spectrometry data from different sources. This was only possible with a clear separation of the user functionality (<code>Spectra</code> object) from the representation of the data (<code>MsBackend</code> object). Backends such as the <a href="https://github.com/RforMassSpectrometry/MsBackendMgf" class="external-link"><code>MsBackendMgf</code></a>, the <a href="https://github.com/michealwitting/MsBackendMassbank" class="external-link"><code>MsBackendMassbank</code></a> or the <a href="https://github.com/RforMassSpectrometry/MsBackendHmdb" class="external-link"><code>MsBackendHmdbXml</code></a> provide support for additional data formats or data sources, while others, due to their much lower memory footprint (<code>MsBackendMzR</code>, <code>MsBackendHdf5Peaks</code>), enable the analysis of also very large data sets. Most importantly however, these backends are interchangeable and do not affect the way users can handle and analyze MS data with the <code>Spectra</code> package.</p>
+<p>With the simple use case of matching experimental MS2 spectra against a public database we illustrated in this short tutorial the flexibility and expandability of the <code>Spectra</code> package that enables the seamless integration of mass spectrometry data from different sources. This was only possible with a clear separation of the user functionality (<code>Spectra</code> object) from the representation of the data (<code>MsBackend</code> object). Backends such as the <a href="https://github.com/RforMassSpectrometry/MsBackendMgf" class="external-link"><code>MsBackendMgf</code></a>, the <a href="https://github.com/michealwitting/MsBackendMassbank" class="external-link"><code>MsBackendMassbank</code></a> or the <a href="https://github.com/RforMassSpectrometry/MsBackendHmdb" class="external-link"><code>MsBackendHmdbXml</code></a> provide support for additional data formats or data sources, while others, due to their much lower memory footprint (<code>MsBackendMzR</code>, <code>MsBackendHdf5Peaks</code>), enable the analysis of also very large data sets. Most importantly however, these backends are interchangeable and do not affect the way users can handle and analyze MS data with the <code>Spectra</code> package. Also, by caching data operations within the <code>Spectra</code> object and applying them only upon data requests, the same data operations can be applied to any data resource regardless of how and where the data is stored, even if the data itself is <em>read-only</em>.</p>
 </div>
 <div id="what-else" class="section level1">
 <h1 class="hasAnchor">
