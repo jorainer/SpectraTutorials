@@ -4,9 +4,23 @@
 ![docker pulls](https://img.shields.io/docker/pulls/jorainer/spectra_tutorials)
 [![Docker Image Version (latest by date)](https://img.shields.io/docker/v/jorainer/spectra_tutorials?label=docker%20image)](https://hub.docker.com/repository/docker/jorainer/spectra_tutorials)
 
+<div style="float: left;">
+<a href="https://rformassspectrometry.github.io/Spectra">
 <img
 src="https://raw.githubusercontent.com/rformassspectrometry/stickers/master/Spectra/Spectra.png"
 height="150">
+</a>
+<a href="https://rformassspectrometry.github.io/MsBackendMassbank">
+<img
+src="https://raw.githubusercontent.com/rformassspectrometry/stickers/master/MsBackendMassbank/MsBackendMassbank.png"
+height="150">
+</a>
+<a href="https://rformassspectrometry.github.io/MsBackendMgf">
+<img
+src="https://raw.githubusercontent.com/rformassspectrometry/stickers/master/MsBackendMgf/MsBackendMgf.png"
+height="150">
+</a>
+</div>
 
 Tutorials and workshops for the use of the `Spectra` Bioconductor package to
 analyze mass spectrometry (MS) data.

@@ -497,8 +497,9 @@ mbank_sub <- filterPrecursorMz(mbank, mz = mz + ppm(c(-mz, mz), 10))
 mbank_sub
 ```
 
-This left us with `r length(12)` spectra for which we calculate the similarity
-against each of our experimental spectra using the `compareSpectra` function.
+This left us with `r length(mbank_sub)` spectra for which we calculate the
+similarity against each of our experimental spectra using the `compareSpectra`
+function.
 
 ```{r massbank-compare-subset}
 #' Compare MassBank subset to experimental spectra
@@ -713,6 +714,15 @@ In fact, the matching spectrum from HMDB is an experimental spectrum for
 [L-Cystine](https://hmdb.ca/metabolites/HMDB0000192).
 
 
+# Short summary
+
+- Independence between data analysis and data storage functionality allows to
+  easily add support for additional data types or data handling/storage modes.
+
+- Caching data operations and applying them on-the-fly allow data manipulations
+  regardless of how and where data is stored.
+
+
 # Summary
 
 With the simple use case of matching experimental MS2 spectra against a public
@@ -728,7 +738,10 @@ provide support for additional data formats or data sources, while others,
 due to their much lower memory footprint (`MsBackendMzR`, `MsBackendHdf5Peaks`),
 enable the analysis of also very large data sets. Most importantly however,
 these backends are interchangeable and do not affect the way users can handle
-and analyze MS data with the `Spectra` package.
+and analyze MS data with the `Spectra` package. Also, by caching data operations
+within the `Spectra` object and applying them only upon data requests, the same
+data operations can be applied to any data resource regardless of how and where
+the data is stored, even if the data itself is *read-only*.
 
 
 # What else?
