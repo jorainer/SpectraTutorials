@@ -214,7 +214,7 @@ fls <- dir(system.file("mzML", package = "SpectraTutorials"),
            full.names = TRUE)
 
 #' Import the data
-sps_all <- Spectra(fls, backend = MsBackendMzR())
+sps_all <- Spectra(fls, source = MsBackendMzR())
 ```
 
 The MS data is now represented by a `Spectra` object, which can be thought of as
