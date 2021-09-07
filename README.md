@@ -64,7 +64,11 @@ which MS/MS (a.k.a. MS2) spectra, measured by an MS instrument, are compared and
 *matched* against a public spectral database containing public domain reference
 MS2 spectra.
 
-A video recorded during the
+The video recording of this workshop at the
+[BioC2021](https://bioc2021.bioconductor.org/) conference is available
+[here](https://youtu.be/CNvqlK3Wgx4).
+
+The video recording of this workshop at the
 [EuroBioc2020](https://eurobioc2020.bioconductor.org/) conference is available
 [here](https://www.youtube.com/watch?v=W6JISCrAtk0).
 
@@ -116,6 +120,12 @@ https://github.com/jorainer/SpectraTutorials`.
   page](https://hmdb.ca/downloads) has to be downloaded. The contents of the
   *hmdb_all_spectra.zip* archive should then be unzipped into the folder
   *data/hmdb_all_spectra*.
+
+Alternatively, a SQLite database containing all required data from MassBank is
+available
+[here](https://github.com/jorainer/SpectraTutorials/releases/tag/2021.03). This
+can be used if no local MySQL database server or docker are available (the
+respective code is also shown in the tutorial).
 
 
 #### Manual setup

@@ -443,6 +443,20 @@ mbank <- Spectra(con, source = MsBackendMassbankSql())
 mbank
 ```
 
+Alternatively, if no MySQL database system is available or if this tutorial can
+not be run within *docker*, an SQLite database version of the MassBank data (in
+the format required for `MsBackendMassbankSql` is available
+[here](https://github.com/jorainer/SpectraTutorials/releases/tag/2021.03). This
+database can be loaded instead using:
+
+```{r massbank-sqlite, eval = FALSE}
+## Alternative to the MySQL server - assuming the SQLite database was
+## stored to the R working directory.
+library(RSQLite)
+con <- dbConnect(SQLite(), "MassbankSql-2021-03.db")
+mbank <- Spectra(con, source = MsBackendMassbankSql())
+```
+
 The `Spectra` object `mbank` *represents* now the MS data from the
 MassBank database with in total `length(mbank)` spectra. In fact, the `mbank`
 object itself does not contain any MS data, but only the primary keys of the
