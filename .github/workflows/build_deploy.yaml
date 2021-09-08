@@ -20,9 +20,9 @@ jobs:
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
         shell: Rscript {0}
 
-      - name: Install deps
+      - name: Install rcmdcheck
         run: |
-          remotes::install_cran("rcmdcheck")
+          install.packages('rcmdcheck')
         shell: Rscript {0}
 
       - name: Check
