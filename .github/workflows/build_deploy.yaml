@@ -41,7 +41,7 @@ jobs:
       - name: Install pkgdown
         if: github.ref == 'refs/heads/main'
         run: |
-          remotes::install_github("r-lib/pkgdown")
+          install.packages('pkgdown')
         shell: Rscript {0}
 
       - name: Install package
