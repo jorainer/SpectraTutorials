@@ -1,6 +1,6 @@
 Package: SpectraTutorials
 Title: Mass Spectrometry Data Analysis with Spectra
-Version: 0.4.0
+Version: 0.5.0
 Authors@R: c(
 	     person(given = "Johannes", family = "Rainer",
 		    email = "Johannes.Rainer@eurac.edu",
@@ -20,7 +20,7 @@ Authors@R: c(
 		    comment = c(ORCID = "0000-0001-7406-4443")))
 Description: These workshops and tutorials provide use cases and examples for
     mass spectrometry data handling and analysis using the Spectra Bioconductor
-    package.
+    package and how these can be included into other R-based analyis workflows.
 License: Artistic-2.0
 Encoding: UTF-8
 LazyData: false
@@ -39,9 +39,14 @@ Suggests:
     pheatmap,
     MsBackendMgf,
     MsBackendHmdb,
-    MsBackendMassbank (>= 0.3.3)
+    MsBackendMassbank (>= 0.3.3),
+    pander,
+    xcms,
+    msdata,
+    MetaboAnnotation
 Remotes:
     RforMassSpectrometry/MsBackendHmdb,
+    RforMassSpectrometry/MetaboAnnotation
 URL: https://jorainer.github.io/SpectraTutorials/
 BugReports: https://github.com/jorainer/SpectraTutorials/issues/new
 VignetteBuilder: knitr

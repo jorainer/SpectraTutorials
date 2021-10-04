@@ -1,0 +1,335 @@
+---
+title: "MS/MS Spectra Matching with the `MetaboAnnotation` Package"
+author: "Johannes Rainer^[Institute for Biomedicine, Eurac Research, Bolzano,
+Italy; johannes.rainer@eurac.edu], Michael Witting^[Research Unit Analytical
+BioGeoChemistry, Helmholtz Zentrum München and Chair of Analytical Food Chemistry, TUM School or Life Sciences, Technical University of Munich, Germany]"
+output:
+  rmarkdown::html_document:
+    highlight: pygments
+    toc: true
+    toc_depth: 3
+    fig_width: 5
+vignette: >
+  %\VignetteIndexEntry{MS/MS Spectra Matching with the `MetaboAnnotation` Package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding[utf8]{inputenc}
+  %\VignettePackage{SpectraTutorials}
+  %\VignetteDepends{Spectra,mzR,RMariaDB,BiocStyle,MetaboAnnotation,pander,msdata,MsBackendMassbank}
+bibliography: references.bib
+---
+
+```{r style, echo = FALSE, results = 'asis', message = FALSE}
+library(BiocStyle)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE)
+```
+
+**Last modified:** `r file.info("Spectra-matching-with-MetaboAnnotation.Rmd")$mtime`<br />
+**Compiled**: `r date()`
+
+# Overview
+
+## Introduction
+
+
+The `Spectra` package provides all the functionality required for annotation and
+identification workflows for untargeted LC-MS/MS data, but, while being very
+flexible and customizable, it might be too cumbersome for beginners or analysts
+not accustomed with R. To fill this gap we developed the [`MetaboAnnotation`](https://rformassspectrometry.github.io/MetaboAnnotation)
+package that builds upon `Spectra` and provides functions for annotation of
+LC-MS and LC-MS/MS data sets tailored towards the less experienced R user.
+
+
+## Convenient spectra matching using `MetaboAnnotation`
+
+In this example use case we match experimental MS2 spectra from a DDA experiment
+on a pesticide mix against reference spectra from MassBank. Below we load the
+experimental data file which is distributed *via* the `msdata` R package.
+
+```{r}
+library(Spectra)
+library(pander)
+
+#' Load the pesticide mix data
+fl <- system.file("TripleTOF-SWATH", "PestMix1_DDA.mzML", package = "msdata")
+pest <- Spectra(fl)
+```
+
+We next restrict the data set to MS2 spectra only and in addition *clean* these
+spectra by removing all peaks from a spectrum that have an intensity lower than
+5% of the largest peak intensity of that spectrum. Finally, single-peak spectra
+are removed.
+
+```{r}
+#' restrict to MS2 data and remove intensities with intensity lower 5%
+pest <- filterMsLevel(pest, msLevel = 2L)
+
+#' Remove peaks with an intensity below 5% or the spectra's BPC
+low_int <- function(x, ...) {
+    x > max(x, na.rm = TRUE) * 0.05
+}
+pest <- filterIntensity(pest, intensity = low_int)
+
+#' Remove peaks with a single peak
+pest <- pest[lengths(pest) > 1]
+
+```
+
+This leads to a data set consisting of `r length(pest)` spectra. We next connect
+to a MassBank database (running within this docker image) and create a `Spectra`
+object representing that data.
+
+```{r massbank-library}
+library(RMariaDB)
+library(MsBackendMassbank)
+
+#' Connect to the MassBank MySQL database
+con <- dbConnect(MariaDB(), user = "massbank", dbname = "MassBank",
+                 host = "localhost", pass = "massbank")
+mbank <- Spectra(con, source = MsBackendMassbankSql())
+```
+
+We could now directly calculate similarities between the `r length(pest)`
+experimental (query) MS2 spectra and the `r length(mbank)` MassBank reference
+(target) spectra using the `compareSpectra` method, but this would be
+computationally very intense because a similarity score would be calculated
+between each query and each target spectrum. As alternative we use here the
+`matchSpectra` function from the
+[`MetaboAnnotation`](https://github.com/RforMassSpectrometry/MetaboAnnotation)
+package that allows to restrict similarity calculations only between query and
+target spectra that have a similar precursor m/z. We thus create below a
+`CompareSpectraParam` object with parameter `requirePrecursor = TRUE` (to
+restrict similarity calculations only to query and target spectra with a similar
+precursor m/z) and `ppm = 10` (m/z difference between the query and target
+precursor has to be within 10 ppm). Parameter `THRESHFUN` enables to define a
+*threshold function* that defines which spectra are considered matching. With
+the function used below only MS2 spectra with a similarity (calculated with the
+default *dotproduct* function) larger or equal to 0.8 are considered matching.
+
+```{r}
+library(MetaboAnnotation)
+prm <- CompareSpectraParam(ppm = 10, requirePrecursor = TRUE,
+                           THRESHFUN = function(x) which(x >= 0.8))
+```
+
+We next call `matchSpectra` with this parameter object and pass `pest` and
+`mbank` as query and target `Spectra`, respectively. This takes approximately 1
+minute to complete, which is not tremendously fast, but still much faster than a
+pairwise comparison between all query and target spectra would be.
+
+```{r}
+mtch <- matchSpectra(pest, mbank, param = prm)
+mtch
+```
+
+As a result we got a `MatchedSpectra` object that contains the query and target
+spectra as well as the matching result (i.e. the information which query
+spectrum matches with which target spectrum based on what similarity score). We
+can use the `query` and `target` functions to access the query and target
+`Spectra` objects and `matches` to extract the matching information. Below we
+display the first 6 rows of that matrix.
+
+```{r}
+head(matches(mtch))
+```
+
+Functions `whichQuery` and `whichTarget` return the (unique) indices of the
+query and target spectra that could be matched.
+
+```{r}
+whichQuery(mtch)
+```
+
+As we can see only few of the query spectra (`r length(whichQuery(mtch))` of the
+`r length(query(mtch))` spectra) could be matched. In part this is because a big
+proportion of the MassBank spectra have a missing precursor m/z and with
+`requirePrecursor = TRUE` they would not be considered in the similarity
+calculation. Setting `requirePrecursor = FALSE` would calculate a similarity
+between all spectra (even those with missing precursor information) but
+calculations can take up to several hours.
+
+```{r}
+sum(is.na(precursorMz(mbank)))
+```
+
+The `MatchedSpectra` object inherits much of the functionality of a `Spectra`
+object. `spectraVariables` returns for example all the available *spectra
+variables*, from both the query as well as the target `Spectra`. The variable
+names of the latter are prefixed with `target_` to discriminate them from the
+variable names of the query.
+
+```{r}
+spectraVariables(mtch)
+```
+
+We can access spectra variables using `$` and the variable name, or by passing
+the variable name(s) to the `spectraData` function. Below we thus extract the
+retention time the precursor m/z or the query spectrum, the precursor m/z of the
+target spectrum as well as the similarity score from the object.
+
+```{r}
+spectraData(mtch, c("rtime", "precursorMz", "target_precursorMz", "score"))
+```
+
+The returned `DataFrame` contains the matching information for the full data
+set, i.e. of each query spectrum and hence, returns `NA` values for query
+spectra that could not be matched with a target spectrum. If we're only
+interested in query spectra for which a match was found, we could simply subset
+the `MatchedSpectra` like below.
+
+```{r}
+mtch <- mtch[whichQuery(mtch)]
+```
+
+Subsetting of `MatchedSpectra` is always relative to the query, i.e. subsetting
+an object with an index `4` would restrict the object to only the matching
+results for the 4th query spectrum. We now extract now the matching information
+after subsetting
+
+```{r}
+spectraData(mtch, c("rtime", "precursorMz", "target_precursorMz", "score"))
+```
+
+We can also return the compound names for the matching spectra.
+
+```{r, results = "asis"}
+pandoc.table(style = "rmarkdown",
+    as.data.frame(spectraData(mtch, c("rtime", "target_compound_name",
+                                      "score"))))
+```
+
+The `matchSpectra` enables thus to perform convenient spectra matching between
+MS data represented as `Spectra` objects. As a result a `MatchedSpectra` object
+is returned that, in addition to the matching results, contains also the query
+and target spectra. Pre-filtering the spectra prior the actual spectra
+similarity calculation can reduce the running time of a `matchSpectra` call but
+might also miss some potential matches. Note that in addition to the precursor
+m/z-based pre-filter also retention time pre-filtering would be available (see
+`?matchSpectra` for more information). Also, a more advanced matching approach
+would be available with the `MatchForwardReverseParam` that calculates in
+addition to the *forward score* also a *reverse similarity* for each match.
+
+
+## MS2 spectra matching in an `xcms` workflow
+
+In LC-MS/MS-based untargeted metabolomics (or small compound mass spectrometry
+experiments in general) quantification of the compounds is performed in MS1
+while the MS2 data is used for identification of the features. Quantification of
+MS1 data requires a chromatographic peak detection step which is most frequently
+performed using the functionality from the `r BiocStyle::Biocpkg("xcms")`
+package. Below we load thus the `xcms` package and read the data using the
+`readMSData` function.
+
+```{r}
+library(xcms)
+pest_all <- readMSData(fl, mode = "onDisk")
+```
+
+We next perform the chromatographic peak detection using the *centWave*
+algorithm (see the *LC-MS/MS data analysis with xcms* vignette from the `xcms`
+package for details about chromatographic peak detection related settings).
+
+```{r}
+cwp <- CentWaveParam(snthresh = 5, noise = 100, ppm = 10,
+                     peakwidth = c(3, 30))
+pest_all <- findChromPeaks(pest_all, param = cwp)
+```
+
+In total `r nrow(chromPeaks(pest_all))` chromatographic peaks have been
+identified. Below we display the first 6 of them.
+
+```{r}
+head(chromPeaks(pest_all))
+```
+
+We can now extract all MS2 spectra for each chromatographic peak with the
+`chromPeakSpectra` function. By setting `return.type = "Spectra"` we ensure the
+data to be returned in the newer `Spectra` format hence enabling the simplified
+spectra matching with the functionality presented here.
+
+```{r}
+pest_ms2 <- chromPeakSpectra(pest_all, return.type = "Spectra")
+pest_ms2
+```
+
+Spectra variable `peak_id` contains the identified of the chromatographic peak
+(i.e. its row name in `chromPeaks`).
+
+```{r}
+pest_ms2$peak_id
+```
+
+We next, like in the previous section, *clean up* the spectra removing peaks
+with an intensity below 5% of the largest peak intensity per spectrum and
+removing spectra with a single peak.
+
+```{r}
+#' Remove peaks with an intensity below 5%
+pest_ms2 <- filterIntensity(pest_ms2, intensity = low_int)
+
+#' Remove peaks with a single peak
+pest_ms2 <- pest_ms2[lengths(pest_ms2) > 1]
+```
+
+In addition we scale also the intensities within each MS2 spectrum by replacing
+them with intensities relative to the maximum peak intensity (see [here](https://jorainer.github.io/SpectraTutorials/articles/analyzing-MS-data-from-different-sources-with-Spectra.html#data-processing-and-manipulation-1) for
+more information). In addition to the query spectra, we also *normalize* the
+MassBank spectra in the same way.
+
+```{r normalize}
+#' Define a function to *normalize* the intensities
+norm_int <- function(x, ...) {
+    maxint <- max(x[, "intensity"], na.rm = TRUE)
+    x[, "intensity"] <- 100 * x[, "intensity"] / maxint
+    x
+}
+#' *Apply* the function to the data
+pest_ms2 <- addProcessing(pest_ms2, norm_int)
+mbank <- addProcessing(mbank, norm_int)
+```
+
+Next we perform now the spectra matching with the same parameters as in the
+previous section.
+
+```{r}
+pest_match <- matchSpectra(pest_ms2, mbank, param = prm)
+pest_match
+```
+
+Again, we restrict the `MatchedSpectra` to query spectra which could be matched.
+
+```{r}
+pest_match <- pest_match[whichQuery(pest_match)]
+```
+
+The table below lists the compound names of matching spectra for the
+chromatographic peaks.
+
+
+```{r, results = "asis"}
+pandoc.table(
+    style = "rmarkdown",
+    as.data.frame(spectraData(pest_match, c("peak_id", "rtime",
+                                            "target_compound_name"))))
+```
+
+We can also directly plot matching (query and target) spectra against each other
+using the `plotSpectraMirror` function subsetting the `MatchedSpectra` object
+to the query spectrum of interest. Below we plot the third query spectrum
+against all of its matching target spectra.
+
+```{r}
+plotSpectraMirror(pest_match[3])
+```
+
+Summarizing, with the `chromPeakSpectra` and the `featureSpectra` functions,
+`xcms` allows to return MS data as `Spectra` objects which enables, as shown in
+this simple example, to perform MS2 spectra matching using the `Spectra` as well
+as the `MetaboAnnotation` packages hence simplifying MS/MS-based annotation of
+LC-MS features from `xcms`.
+
+
+# Session information
+
+```{r}
+sessionInfo()
+```

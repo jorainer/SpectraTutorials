@@ -1,3 +1,10 @@
+# Version 0.5
+
+## Version 0.5.0
+
+- Add additional vignette describing spectra matching with the
+  `MetaboAnnotation` package and integration into an `xcms` analysis workflow.
+
 # Version 0.4
 
 ## Version 0.4.0
