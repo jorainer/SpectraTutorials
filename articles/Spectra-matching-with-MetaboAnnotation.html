@@ -85,7 +85,9 @@
       </header><script src="Spectra-matching-with-MetaboAnnotation_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip></h1>
+      <h1 data-toc-skip>MS/MS Spectra Matching with the <code>MetaboAnnotation</code> Package</h1>
+                        <h4 class="author">Johannes Rainer<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>, Michael Witting<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>
+</h4>
             
       
       <small class="dont-index">Source: <a href="https://github.com/jorainer/SpectraTutorials/blob/master/vignettes/Spectra-matching-with-MetaboAnnotation.Rmd"><code>vignettes/Spectra-matching-with-MetaboAnnotation.Rmd</code></a></small>
@@ -95,60 +97,7 @@
 
     
     
-<table class="table"><tbody>
-<tr class="odd">
-<td>title: “MS/MS Spectra Matching with the <code>MetaboAnnotation</code> Package”</td>
-</tr>
-<tr class="even">
-<td>author: “Johannes Rainer^[Institute for Biomedicine, Eurac Research, Bolzano,</td>
-</tr>
-<tr class="odd">
-<td>Italy; <a href="mailto:johannes.rainer@eurac.edu" class="email">johannes.rainer@eurac.edu</a>], Michael Witting^[Research Unit Analytical</td>
-</tr>
-<tr class="even">
-<td>BioGeoChemistry, Helmholtz Zentrum München and Chair of Analytical Food Chemistry, TUM School or Life Sciences, Technical University of Munich, Germany]”</td>
-</tr>
-<tr class="odd">
-<td>output:</td>
-</tr>
-<tr class="even">
-<td>rmarkdown::html_document:</td>
-</tr>
-<tr class="odd">
-<td>highlight: pygments</td>
-</tr>
-<tr class="even">
-<td>toc: true</td>
-</tr>
-<tr class="odd">
-<td>toc_depth: 3</td>
-</tr>
-<tr class="even">
-<td>fig_width: 5</td>
-</tr>
-<tr class="odd">
-<td>vignette: &gt;</td>
-</tr>
-<tr class="even">
-<td>%</td>
-</tr>
-<tr class="odd">
-<td>%</td>
-</tr>
-<tr class="even">
-<td>%</td>
-</tr>
-<tr class="odd">
-<td>%</td>
-</tr>
-<tr class="even">
-<td>%</td>
-</tr>
-<tr class="odd">
-<td>bibliography: references.bib</td>
-</tr>
-</tbody></table>
-<p><strong>Last modified:</strong> 2021-10-04 14:50:05<br><strong>Compiled</strong>: Mon Oct 4 14:56:24 2021</p>
+<p><strong>Last modified:</strong> 2021-10-04 16:03:14<br><strong>Compiled</strong>: Mon Oct 4 16:10:22 2021</p>
 <div id="overview" class="section level1">
 <h1 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h1>
@@ -191,7 +140,8 @@
 <span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">dbConnect</span><span class="op">(</span><span class="fu"><a href="https://rmariadb.r-dbi.org/reference/dbConnect-MariaDBDriver-method.html">MariaDB</a></span><span class="op">(</span><span class="op">)</span>, user <span class="op">=</span> <span class="st">"massbank"</span>, dbname <span class="op">=</span> <span class="st">"MassBank"</span>,
                  host <span class="op">=</span> <span class="st">"localhost"</span>, pass <span class="op">=</span> <span class="st">"massbank"</span><span class="op">)</span>
 <span class="va">mbank</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html">Spectra</a></span><span class="op">(</span><span class="va">con</span>, source <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/MsBackendMassbank/man/MsBackendMassbankSql.html">MsBackendMassbankSql</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>We could now directly calculate similarities between the 2451 experimental (query) MS2 spectra and the 86576 MassBank reference (target) spectra using the <code>compareSpectra</code> method, but this would be computationally very intense because a similarity score would be calculated between each query and each target spectrum. As alternative we use here the <code>matchSpectra</code> function from the <a href="https://github.com/RforMassSpectrometry/MetaboAnnotation"><code>MetaboAnnotation</code></a> package that allows to restrict similarity calculations only between query and target spectra that have a similar precursor m/z. We thus create below a <code>CompareSpectraParam</code> object with parameter <code>requirePrecursor = TRUE</code> (to restrict similarity calculations only to query and target spectra with a similar precursor m/z) and <code>ppm = 10</code> (m/z difference between the query and target precursor has to be within 10 ppm). Parameter <code>THRESHFUN</code> enables to define a <em>threshold function</em> that defines which spectra are considered matching. With the function used below only MS2 spectra with a similarity (calculated with the default <em>dotproduct</em> function) larger or equal to 0.8 are considered matching.</p>
+<p>We could now directly calculate similarities between the 2451 experimental (query) MS2 spectra and the 86576 MassBank reference (target) spectra using the <code>compareSpectra</code> method, but this would be computationally very intense because a similarity score would be calculated between each query and each target spectrum. As alternative we use here the <code>matchSpectra</code> function from the <a href="https://github.com/RforMassSpectrometry/MetaboAnnotation"><code>MetaboAnnotation</code></a> package that allows to restrict similarity calculations between query and target spectra with similar m/z of their precursor ion or have a similar retention time.</p>
+<p>Below we create a <code>CompareSpectraParam</code> object setting parameter <code>requirePrecursor = TRUE</code> (to restrict similarity calculations only to query and target spectra with a similar precursor m/z) and <code>ppm = 10</code> (m/z difference between the query and target precursor has to be within 10 ppm). Parameter <code>THRESHFUN</code> enables to define a <em>threshold function</em> that defines which spectra are considered matching. With the function used below only MS2 spectra with a similarity (calculated with the default <em>dotproduct</em> function) larger or equal to 0.8 are considered matching.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/MetaboAnnotation">MetaboAnnotation</a></span><span class="op">)</span>
 <span class="va">prm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MetaboAnnotation/man/CompareSpectraParam.html">CompareSpectraParam</a></span><span class="op">(</span>ppm <span class="op">=</span> <span class="fl">10</span>, requirePrecursor <span class="op">=</span> <span class="cn">TRUE</span>,
@@ -204,7 +154,7 @@
 ## Total number of matches: 78 
 ## Number of query objects: 2451 (29 matched)
 ## Number of target objects: 86576 (47 matched)</code></pre>
-<p>As a result we got a <code>MatchedSpectra</code> object that contains the query and target spectra as well as the matching result (i.e. the information which query spectrum matches with which target spectrum based on what similarity score). We can use the <code>query</code> and <code>target</code> functions to access the query and target <code>Spectra</code> objects and <code>matches</code> to extract the matching information. Below we display the first 6 rows of that matrix.</p>
+<p>As a result we get a <code>MatchedSpectra</code> object that contains the query and target spectra as well as the matching result (i.e. the information which query spectrum matches with which target spectrum based on what similarity score). We can use the <code>query</code> and <code>target</code> functions to access the query and target <code>Spectra</code> objects and <code>matches</code> to extract the matching information. Below we display the first 6 rows of that matrix.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/MetaboAnnotation/man/Matched.html">matches</a></span><span class="op">(</span><span class="va">mtch</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>##   query_idx target_idx     score
@@ -219,7 +169,7 @@
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/MetaboAnnotation/man/Matched.html">whichQuery</a></span><span class="op">(</span><span class="va">mtch</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1]  163  320  420  433  493  496  497  571  682  685  686  805  806  809  810
 ## [16]  819  829  983 1095 1454 1457 1706 1830 1834 1839 1906 2047 2048 2050</code></pre>
-<p>As we can see only few of the query spectra (29 of the 2451 spectra) could be matched. In part this is because a big proportion of the MassBank spectra have a missing precursor m/z and with <code>requirePrecursor = TRUE</code> they would not be considered in the similarity calculation. Setting <code>requirePrecursor = FALSE</code> would calculate a similarity between all spectra (even those with missing precursor information) but calculations can take up to several hours.</p>
+<p>As we can see only few of the query spectra (29 of the 2451 spectra) could be matched. This is in part because for a large proportion spectra in MassBank no precursor m/z is available and with <code>requirePrecursor = TRUE</code> these are not considered in the similarity calculation. Setting <code>requirePrecursor = FALSE</code> would calculate a similarity between all spectra (even those with missing precursor information) but calculations can take up to several hours.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="fu">precursorMz</span><span class="op">(</span><span class="va">mbank</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 24498</code></pre>
@@ -265,7 +215,7 @@
 ## [73] "target_cas"                     "target_pubchem"                
 ## [75] "target_synonym"                 "target_precursor_mz_text"      
 ## [77] "target_compound_name"           "score"</code></pre>
-<p>We can access spectra variables using <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code> and the variable name, or by passing the variable name(s) to the <code>spectraData</code> function. Below we thus extract the retention time the precursor m/z or the query spectrum, the precursor m/z of the target spectrum as well as the similarity score from the object.</p>
+<p>We can access spectra individual variables using <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code> and the variable name, or multiple variables with the <code>spectraData</code> function. Below we extract the retention time, the precursor m/z of the query spectrum, the precursor m/z of the target spectrum as well as the similarity score from the object using the <code>spectraData</code> function.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">spectraData</span><span class="op">(</span><span class="va">mtch</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"rtime"</span>, <span class="st">"precursorMz"</span>, <span class="st">"target_precursorMz"</span>, <span class="st">"score"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## DataFrame with 2500 rows and 4 columns
@@ -282,10 +232,12 @@
 ## 2498   896.252    142.9611                 NA        NA
 ## 2499   896.662     53.0129                 NA        NA
 ## 2500   898.602     91.5022                 NA        NA</code></pre>
-<p>The returned <code>DataFrame</code> contains the matching information for the full data set, i.e. of each query spectrum and hence, returns <code>NA</code> values for query spectra that could not be matched with a target spectrum. If we’re only interested in query spectra for which a match was found, we could simply subset the <code>MatchedSpectra</code> like below.</p>
+<p>The returned <code>DataFrame</code> contains the matching information for the full data set, i.e. of each query spectrum and hence, returns <code>NA</code> values for query spectra that could not be matched with a target spectrum. Note also that query spectra matching multiple target spectra are represented by multiple rows (one for each matching target spectrum).</p>
+<p>Here we’re only interested in query spectra for which a match was found and thus we subset the <code>MatchedSpectra</code> to query spectra with a matching target spectrum.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mtch</span> <span class="op">&lt;-</span> <span class="va">mtch</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/pkg/MetaboAnnotation/man/Matched.html">whichQuery</a></span><span class="op">(</span><span class="va">mtch</span><span class="op">)</span><span class="op">]</span></code></pre></div>
-<p>Subsetting of <code>MatchedSpectra</code> is always relative to the query, i.e. subsetting an object with an index <code>4</code> would restrict the object to only the matching results for the 4th query spectrum. We now extract now the matching information after subsetting</p>
+<p>Subsetting of <code>MatchedSpectra</code> is always relative to the query, i.e. subsetting an object with an index <code>4</code> would restrict the object to only the matching results for the 4th query spectrum.</p>
+<p>We now extract the matching information after subsetting:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">spectraData</span><span class="op">(</span><span class="va">mtch</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"rtime"</span>, <span class="st">"precursorMz"</span>, <span class="st">"target_precursorMz"</span>, <span class="st">"score"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## DataFrame with 78 rows and 4 columns
@@ -706,16 +658,16 @@
 </tr>
 </tbody>
 </table>
-<p>The <code>matchSpectra</code> enables thus to perform convenient spectra matching between MS data represented as <code>Spectra</code> objects. As a result a <code>MatchedSpectra</code> object is returned that, in addition to the matching results, contains also the query and target spectra. Pre-filtering the spectra prior the actual spectra similarity calculation can reduce the running time of a <code>matchSpectra</code> call but might also miss some potential matches. Note that in addition to the precursor m/z-based pre-filter also retention time pre-filtering would be available (see <code><a href="https://rdrr.io/pkg/MetaboAnnotation/man/matchSpectra.html">?matchSpectra</a></code> for more information). Also, a more advanced matching approach would be available with the <code>MatchForwardReverseParam</code> that calculates in addition to the <em>forward score</em> also a <em>reverse similarity</em> for each match.</p>
+<p>The <code>matchSpectra</code> enables thus to perform convenient spectra matching between MS data represented as <code>Spectra</code> objects. As a result, a <code>MatchedSpectra</code> object is returned that, in addition to the matching results, contains also the query and target spectra. Pre-filtering the spectra prior to the actual spectra similarity calculation can reduce the running time of a <code>matchSpectra</code> call but might also miss some potential matches. Note that in addition to the precursor m/z-based pre-filter also retention time pre-filtering would be available (see <code><a href="https://rdrr.io/pkg/MetaboAnnotation/man/matchSpectra.html">?matchSpectra</a></code> for more information). Also, a more advanced matching approach would be available with the <code>MatchForwardReverseParam</code> that calculates in addition to the <em>forward score</em> also a <em>reverse similarity</em> for each match.</p>
 </div>
 <div id="ms2-spectra-matching-in-an-xcms-workflow" class="section level2">
 <h2 class="hasAnchor">
 <a href="#ms2-spectra-matching-in-an-xcms-workflow" class="anchor"></a>MS2 spectra matching in an <code>xcms</code> workflow</h2>
-<p>In LC-MS/MS-based untargeted metabolomics (or small compound mass spectrometry experiments in general) quantification of the compounds is performed in MS1 while the MS2 data is used for identification of the features. Quantification of MS1 data requires a chromatographic peak detection step which is most frequently performed using the functionality from the <em><a href="https://bioconductor.org/packages/3.14/xcms">xcms</a></em> package. Below we load thus the <code>xcms</code> package and read the data using the <code>readMSData</code> function.</p>
+<p>In LC-MS/MS-based untargeted metabolomics (or small compound mass spectrometry experiments in general) quantification of the compounds is performed in MS1 while the MS2 data is used for identification of the features. Quantification of MS1 data requires a chromatographic peak detection step which can be performed using the functionality from the <em><a href="https://bioconductor.org/packages/3.14/xcms">xcms</a></em> package. Below we load thus the <code>xcms</code> package and import the full MS data using the <code>readMSData</code> function.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sneumann/xcms">xcms</a></span><span class="op">)</span>
 <span class="va">pest_all</span> <span class="op">&lt;-</span> <span class="fu">readMSData</span><span class="op">(</span><span class="va">fl</span>, mode <span class="op">=</span> <span class="st">"onDisk"</span><span class="op">)</span></code></pre></div>
-<p>We next perform the chromatographic peak detection using the <em>centWave</em> algorithm (see the <em>LC-MS/MS data analysis with xcms</em> vignette from the <code>xcms</code> package for details about chromatographic peak detection related settings).</p>
+<p>We next perform the chromatographic peak detection using the <em>centWave</em> algorithm (see the <em>LC-MS/MS data analysis with xcms</em> vignette from the <code>xcms</code> package for details on the chromatographic peak detection settings).</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cwp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/xcms/man/findChromPeaks-centWave.html">CentWaveParam</a></span><span class="op">(</span>snthresh <span class="op">=</span> <span class="fl">5</span>, noise <span class="op">=</span> <span class="fl">100</span>, ppm <span class="op">=</span> <span class="fl">10</span>,
                      peakwidth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">30</span><span class="op">)</span><span class="op">)</span>
@@ -737,7 +689,7 @@
 ## CP04 4877.1162 367      1
 ## CP05  784.9196 114      1
 ## CP06 1006.9720 110      1</code></pre>
-<p>We can now extract all MS2 spectra for each chromatographic peak with the <code>chromPeakSpectra</code> function. By setting <code>return.type = "Spectra"</code> we ensure the data to be returned in the newer <code>Spectra</code> format hence enabling the simplified spectra matching with the functionality presented here.</p>
+<p>We can now extract all MS2 spectra for each chromatographic peak with the <code>chromPeakSpectra</code> function. This function identifies all MS2 spectra recorded by the instrument with a retention time within the retention time and with a precursor m/z within the m/z boundaries of the chromatographic peak. By setting <code>return.type = "Spectra"</code> we ensure that the data is being returned in the newer <code>Spectra</code> format hence enabling the simplified spectra matching with the functionality presented here.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pest_ms2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/xcms/man/chromPeakSpectra.html">chromPeakSpectra</a></span><span class="op">(</span><span class="va">pest_all</span>, return.type <span class="op">=</span> <span class="st">"Spectra"</span><span class="op">)</span>
 <span class="va">pest_ms2</span></code></pre></div>
@@ -1095,6 +1047,13 @@
 ## [89] tibble_3.1.5                iterators_1.0.13           
 ## [91] memoise_2.0.0               IRanges_2.27.2             
 ## [93] cluster_2.1.2               ellipsis_0.3.2</code></pre>
+</div>
+<div class="footnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Institute for Biomedicine, Eurac Research, Bolzano, Italy; <a href="mailto:johannes.rainer@eurac.edu" class="email">johannes.rainer@eurac.edu</a><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>Research Unit Analytical BioGeoChemistry, Helmholtz Zentrum München and Chair of Analytical Food Chemistry, TUM School or Life Sciences, Technical University of Munich, Germany<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
   </div>
 

@@ -97,7 +97,7 @@
 
     
     
-<p><strong>Last modified:</strong> 2021-10-04 14:50:05<br><strong>Compiled</strong>: Mon Oct 4 14:58:10 2021</p>
+<p><strong>Last modified:</strong> 2021-10-04 16:03:14<br><strong>Compiled</strong>: Mon Oct 4 16:12:18 2021</p>
 <div id="overview" class="section level1">
 <h1 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h1>
@@ -337,7 +337,7 @@
 ## 3         1     1.491         5
 ##  ... 33 more variables/columns.
 ## Processing:
-##  Switch backend from MsBackendMzR to MsBackendDataFrame [Mon Oct  4 14:58:15 2021]</code></pre>
+##  Switch backend from MsBackendMzR to MsBackendDataFrame [Mon Oct  4 16:12:24 2021]</code></pre>
 <p>In our workshop, we next want to identify in our experimental data MS2 spectra that were generated from an ion that matches the m/z of the <code>[M+H]+</code> ion of the metabolite cystine (one of the standards added to the sample mix measured in the present experimental data). We thus use below the <code>filterPrecursorMz</code> function to subset the data to MS2 spectra matching that m/z (accepting a difference in m/z of 10 parts-per-million (ppm)).</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Define the m/z ratio for an ion of cystine</span>
@@ -357,8 +357,8 @@
 ## 6         2   240.020       804
 ##  ... 33 more variables/columns.
 ## Processing:
-##  Switch backend from MsBackendMzR to MsBackendDataFrame [Mon Oct  4 14:58:15 2021]
-##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Mon Oct  4 14:58:15 2021]</code></pre>
+##  Switch backend from MsBackendMzR to MsBackendDataFrame [Mon Oct  4 16:12:24 2021]
+##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Mon Oct  4 16:12:24 2021]</code></pre>
 <p>In total 6 spectra matched our target precursor m/z.</p>
 </div>
 <div id="data-processing-and-manipulation" class="section level2">
@@ -514,7 +514,7 @@
 ##  Use  'spectraVariables' to list all of them.
 ## Lazy evaluation queue: 1 processing step(s)
 ## Processing:
-##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Mon Oct  4 14:58:18 2021]</code></pre>
+##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Mon Oct  4 16:12:28 2021]</code></pre>
 <p>This left us with 12 spectra for which we calculate the similarity against each of our experimental spectra using the <code>compareSpectra</code> function.</p>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Compare MassBank subset to experimental spectra</span>
