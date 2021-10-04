@@ -1,8 +1,6 @@
 ---
 title: "MS/MS Spectra Matching with the `MetaboAnnotation` Package"
-author: "Johannes Rainer^[Institute for Biomedicine, Eurac Research, Bolzano,
-Italy; johannes.rainer@eurac.edu], Michael Witting^[Research Unit Analytical
-BioGeoChemistry, Helmholtz Zentrum München and Chair of Analytical Food Chemistry, TUM School or Life Sciences, Technical University of Munich, Germany]"
+author: "Johannes Rainer^[Institute for Biomedicine, Eurac Research, Bolzano, Italy; johannes.rainer@eurac.edu], Michael Witting^[Research Unit Analytical BioGeoChemistry, Helmholtz Zentrum München and Chair of Analytical Food Chemistry, TUM School or Life Sciences, Technical University of Munich, Germany]"
 output:
   rmarkdown::html_document:
     highlight: pygments
@@ -95,15 +93,18 @@ computationally very intense because a similarity score would be calculated
 between each query and each target spectrum. As alternative we use here the
 `matchSpectra` function from the
 [`MetaboAnnotation`](https://github.com/RforMassSpectrometry/MetaboAnnotation)
-package that allows to restrict similarity calculations only between query and
-target spectra that have a similar precursor m/z. We thus create below a
-`CompareSpectraParam` object with parameter `requirePrecursor = TRUE` (to
-restrict similarity calculations only to query and target spectra with a similar
-precursor m/z) and `ppm = 10` (m/z difference between the query and target
-precursor has to be within 10 ppm). Parameter `THRESHFUN` enables to define a
-*threshold function* that defines which spectra are considered matching. With
-the function used below only MS2 spectra with a similarity (calculated with the
-default *dotproduct* function) larger or equal to 0.8 are considered matching.
+package that allows to restrict similarity calculations between query and target
+spectra with similar m/z of their precursor ion or have a similar retention
+time.
+
+Below we create a `CompareSpectraParam` object setting parameter
+`requirePrecursor = TRUE` (to restrict similarity calculations only to query and
+target spectra with a similar precursor m/z) and `ppm = 10` (m/z difference
+between the query and target precursor has to be within 10 ppm). Parameter
+`THRESHFUN` enables to define a *threshold function* that defines which spectra
+are considered matching. With the function used below only MS2 spectra with a
+similarity (calculated with the default *dotproduct* function) larger or equal
+to 0.8 are considered matching.
 
 ```{r}
 library(MetaboAnnotation)
@@ -121,7 +122,7 @@ mtch <- matchSpectra(pest, mbank, param = prm)
 mtch
 ```
 
-As a result we got a `MatchedSpectra` object that contains the query and target
+As a result we get a `MatchedSpectra` object that contains the query and target
 spectra as well as the matching result (i.e. the information which query
 spectrum matches with which target spectrum based on what similarity score). We
 can use the `query` and `target` functions to access the query and target
@@ -140,9 +141,9 @@ whichQuery(mtch)
 ```
 
 As we can see only few of the query spectra (`r length(whichQuery(mtch))` of the
-`r length(query(mtch))` spectra) could be matched. In part this is because a big
-proportion of the MassBank spectra have a missing precursor m/z and with
-`requirePrecursor = TRUE` they would not be considered in the similarity
+`r length(query(mtch))` spectra) could be matched. This is in part because for a
+large proportion spectra in MassBank no precursor m/z is available and with
+`requirePrecursor = TRUE` these are not considered in the similarity
 calculation. Setting `requirePrecursor = FALSE` would calculate a similarity
 between all spectra (even those with missing precursor information) but
 calculations can take up to several hours.
@@ -161,10 +162,11 @@ variable names of the query.
 spectraVariables(mtch)
 ```
 
-We can access spectra variables using `$` and the variable name, or by passing
-the variable name(s) to the `spectraData` function. Below we thus extract the
-retention time the precursor m/z or the query spectrum, the precursor m/z of the
-target spectrum as well as the similarity score from the object.
+We can access spectra individual variables using `$` and the variable name, or
+multiple variables with the `spectraData` function. Below we extract the
+retention time, the precursor m/z of the query spectrum, the precursor m/z of
+the target spectrum as well as the similarity score from the object using the
+`spectraData` function.
 
 ```{r}
 spectraData(mtch, c("rtime", "precursorMz", "target_precursorMz", "score"))
@@ -172,9 +174,12 @@ spectraData(mtch, c("rtime", "precursorMz", "target_precursorMz", "score"))
 
 The returned `DataFrame` contains the matching information for the full data
 set, i.e. of each query spectrum and hence, returns `NA` values for query
-spectra that could not be matched with a target spectrum. If we're only
-interested in query spectra for which a match was found, we could simply subset
-the `MatchedSpectra` like below.
+spectra that could not be matched with a target spectrum. Note also that query
+spectra matching multiple target spectra are represented by multiple rows (one
+for each matching target spectrum).
+
+Here we're only interested in query spectra for which a match was found and thus
+we subset the `MatchedSpectra` to query spectra with a matching target spectrum.
 
 ```{r}
 mtch <- mtch[whichQuery(mtch)]
@@ -182,8 +187,9 @@ mtch <- mtch[whichQuery(mtch)]
 
 Subsetting of `MatchedSpectra` is always relative to the query, i.e. subsetting
 an object with an index `4` would restrict the object to only the matching
-results for the 4th query spectrum. We now extract now the matching information
-after subsetting
+results for the 4th query spectrum.
+
+We now extract the matching information after subsetting:
 
 ```{r}
 spectraData(mtch, c("rtime", "precursorMz", "target_precursorMz", "score"))
@@ -198,9 +204,9 @@ pandoc.table(style = "rmarkdown",
 ```
 
 The `matchSpectra` enables thus to perform convenient spectra matching between
-MS data represented as `Spectra` objects. As a result a `MatchedSpectra` object
+MS data represented as `Spectra` objects. As a result, a `MatchedSpectra` object
 is returned that, in addition to the matching results, contains also the query
-and target spectra. Pre-filtering the spectra prior the actual spectra
+and target spectra. Pre-filtering the spectra prior to the actual spectra
 similarity calculation can reduce the running time of a `matchSpectra` call but
 might also miss some potential matches. Note that in addition to the precursor
 m/z-based pre-filter also retention time pre-filtering would be available (see
@@ -214,9 +220,9 @@ addition to the *forward score* also a *reverse similarity* for each match.
 In LC-MS/MS-based untargeted metabolomics (or small compound mass spectrometry
 experiments in general) quantification of the compounds is performed in MS1
 while the MS2 data is used for identification of the features. Quantification of
-MS1 data requires a chromatographic peak detection step which is most frequently
-performed using the functionality from the `r BiocStyle::Biocpkg("xcms")`
-package. Below we load thus the `xcms` package and read the data using the
+MS1 data requires a chromatographic peak detection step which can be performed
+using the functionality from the `r BiocStyle::Biocpkg("xcms")` package. Below
+we load thus the `xcms` package and import the full MS data using the
 `readMSData` function.
 
 ```{r}
@@ -226,7 +232,7 @@ pest_all <- readMSData(fl, mode = "onDisk")
 
 We next perform the chromatographic peak detection using the *centWave*
 algorithm (see the *LC-MS/MS data analysis with xcms* vignette from the `xcms`
-package for details about chromatographic peak detection related settings).
+package for details on the chromatographic peak detection settings).
 
 ```{r}
 cwp <- CentWaveParam(snthresh = 5, noise = 100, ppm = 10,
@@ -242,9 +248,12 @@ head(chromPeaks(pest_all))
 ```
 
 We can now extract all MS2 spectra for each chromatographic peak with the
-`chromPeakSpectra` function. By setting `return.type = "Spectra"` we ensure the
-data to be returned in the newer `Spectra` format hence enabling the simplified
-spectra matching with the functionality presented here.
+`chromPeakSpectra` function. This function identifies all MS2 spectra recorded
+by the instrument with a retention time within the retention time and with a
+precursor m/z within the m/z boundaries of the chromatographic peak. By setting
+`return.type = "Spectra"` we ensure that the data is being returned in the newer
+`Spectra` format hence enabling the simplified spectra matching with the
+functionality presented here.
 
 ```{r}
 pest_ms2 <- chromPeakSpectra(pest_all, return.type = "Spectra")

@@ -50,5 +50,5 @@ Remotes:
 URL: https://jorainer.github.io/SpectraTutorials/
 BugReports: https://github.com/jorainer/SpectraTutorials/issues/new
 VignetteBuilder: knitr
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 DockerImage: jorainer/spectra_tutorials:latest

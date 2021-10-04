@@ -189,3 +189,17 @@ Other R packages not (yet) in Bioconductor:
 | Comparing spectra against MassBank         | 10min |
 | Data export                                | 5min  |
 | (Comparing spectra against HMDB)           | (5min)|
+
+
+
+## MS/MS Spectra Matching with the `MetaboAnnotation` Package
+
+The `Spectra` package provides all the functionality required for annotation and
+identification workflows for untargeted LC-MS/MS data, but, while being very
+flexible and customizable, it might be too cumbersome for beginners or analysts
+not accustomed with R. To fill this gap we developed the [`MetaboAnnotation`](https://rformassspectrometry.github.io/MetaboAnnotation)
+package that builds upon `Spectra` and provides functions for annotation of
+LC-MS and LC-MS/MS data sets tailored towards the less experienced R user.
+
+This tutorial shows how `MetaboAnnotatio` can be used in R-based LC-MS/MS
+annotation workflows.
