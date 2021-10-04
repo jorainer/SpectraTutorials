@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SpectraTutorials</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -54,6 +54,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/Spectra-matching-with-MetaboAnnotation.html">MS/MS Spectra Matching with the `MetaboAnnotation` Package</a>
+    </li>
+    <li>
       <a href="../articles/analyzing-MS-data-from-different-sources-with-Spectra.html">Seamless Integration of Mass Spectrometry Data from Different Sources with the `Spectra` Package</a>
     </li>
   </ul>
@@ -79,7 +82,7 @@
 
       
 
-      </header><script src="analyzing-MS-data-from-different-sources-with-Spectra_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
+      </header><script src="analyzing-MS-data-from-different-sources-with-Spectra_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Seamless Integration of Mass Spectrometry Data from Different Sources with the <code>Spectra</code> Package</h1>
@@ -94,7 +97,7 @@
 
     
     
-<p><strong>Last modified:</strong> 2021-09-08 09:38:29<br><strong>Compiled</strong>: Wed Sep 8 09:42:07 2021</p>
+<p><strong>Last modified:</strong> 2021-10-04 14:50:05<br><strong>Compiled</strong>: Mon Oct 4 14:58:10 2021</p>
 <div id="overview" class="section level1">
 <h1 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h1>
@@ -334,7 +337,7 @@
 ## 3         1     1.491         5
 ##  ... 33 more variables/columns.
 ## Processing:
-##  Switch backend from MsBackendMzR to MsBackendDataFrame [Wed Sep  8 09:42:13 2021]</code></pre>
+##  Switch backend from MsBackendMzR to MsBackendDataFrame [Mon Oct  4 14:58:15 2021]</code></pre>
 <p>In our workshop, we next want to identify in our experimental data MS2 spectra that were generated from an ion that matches the m/z of the <code>[M+H]+</code> ion of the metabolite cystine (one of the standards added to the sample mix measured in the present experimental data). We thus use below the <code>filterPrecursorMz</code> function to subset the data to MS2 spectra matching that m/z (accepting a difference in m/z of 10 parts-per-million (ppm)).</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Define the m/z ratio for an ion of cystine</span>
@@ -354,8 +357,8 @@
 ## 6         2   240.020       804
 ##  ... 33 more variables/columns.
 ## Processing:
-##  Switch backend from MsBackendMzR to MsBackendDataFrame [Wed Sep  8 09:42:13 2021]
-##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Wed Sep  8 09:42:13 2021]</code></pre>
+##  Switch backend from MsBackendMzR to MsBackendDataFrame [Mon Oct  4 14:58:15 2021]
+##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Mon Oct  4 14:58:15 2021]</code></pre>
 <p>In total 6 spectra matched our target precursor m/z.</p>
 </div>
 <div id="data-processing-and-manipulation" class="section level2">
@@ -511,7 +514,7 @@
 ##  Use  'spectraVariables' to list all of them.
 ## Lazy evaluation queue: 1 processing step(s)
 ## Processing:
-##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Wed Sep  8 09:42:18 2021]</code></pre>
+##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Mon Oct  4 14:58:18 2021]</code></pre>
 <p>This left us with 12 spectra for which we calculate the similarity against each of our experimental spectra using the <code>compareSpectra</code> function.</p>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Compare MassBank subset to experimental spectra</span>
