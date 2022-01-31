@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SpectraTutorials</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -67,7 +63,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/jorainer/SpectraTutorials">
+  <a href="https://github.com/jorainer/SpectraTutorials" class="external-link">
     <span class="fa fa-github"></span>
      
   </a>
@@ -82,45 +78,45 @@
 
       
 
-      </header><script src="analyzing-MS-data-from-different-sources-with-Spectra_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Seamless Integration of Mass Spectrometry Data from Different Sources with the <code>Spectra</code> Package</h1>
-                        <h4 class="author">Johannes Rainer<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>, Michael Witting<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>, Sebastian Gibb<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>, Laurent Gatto<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>
+                        <h4 data-toc-skip class="author">Johannes Rainer<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>, Michael Witting<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>, Sebastian Gibb<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>, Laurent Gatto<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>
 </h4>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/jorainer/SpectraTutorials/blob/master/vignettes/analyzing-MS-data-from-different-sources-with-Spectra.Rmd"><code>vignettes/analyzing-MS-data-from-different-sources-with-Spectra.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/jorainer/SpectraTutorials/blob/HEAD/vignettes/analyzing-MS-data-from-different-sources-with-Spectra.Rmd" class="external-link"><code>vignettes/analyzing-MS-data-from-different-sources-with-Spectra.Rmd</code></a></small>
       <div class="hidden name"><code>analyzing-MS-data-from-different-sources-with-Spectra.Rmd</code></div>
 
     </div>
 
     
     
-<p><strong>Last modified:</strong> 2021-10-04 16:03:14<br><strong>Compiled</strong>: Mon Oct 4 16:12:18 2021</p>
-<div id="overview" class="section level1">
-<h1 class="hasAnchor">
-<a href="#overview" class="anchor"></a>Overview</h1>
-<div id="description" class="section level2">
-<h2 class="hasAnchor">
-<a href="#description" class="anchor"></a>Description</h2>
+<p><strong>Last modified:</strong> 2022-01-31 18:42:47<br><strong>Compiled</strong>: Mon Jan 31 18:47:25 2022</p>
+<div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
+<div class="section level3">
+<h3 id="description">Description<a class="anchor" aria-label="anchor" href="#description"></a>
+</h3>
 <p>Mass spectrometry (MS) data is a key technology in modern proteomics and metabolomics experiments. Due to continuous improvements in MS instrumentation, the generated data can easily become very large. Also, additional resources of MS data exist, such as spectra libraries and databases, all with their own specific file formats and database systems that sometimes do not support manipulations of the original data.</p>
-<p>Learning from experiences with the <em><a href="https://bioconductor.org/packages/3.14/MSnbase">MSnbase</a></em> Bioconductor package, the <em><a href="https://bioconductor.org/packages/3.14/Spectra">Spectra</a></em> package was developed to provide an even more flexible and expandable infrastructure for MS data in R. This package implements a clear separation between the user interface and the code to provide, store and import MS data. The latter is defined by the <code>MsBackend</code> interface which thus allows implementation of data type, format or storage-dependent <em>backends</em>. Backends can thus be implemented for specific file types and data resources or different ways to represent MS data (e.g. in memory or <em>on-disk</em> data representations as described in <span class="citation">(Gatto, Gibb, and Rainer 2020)</span>). They are also supposed to be interchangeable hence allowing the user to switch backends without affecting the analysis. To enable processing of also very large MS data sets, data manipulations are by default not directly applied to the data but cached in a <em>lazy evaluation queue</em> which allows analyses also of <em>read-only</em> data representations.</p>
+<p>Learning from experiences with the <em><a href="https://bioconductor.org/packages/3.15/MSnbase" class="external-link">MSnbase</a></em> Bioconductor package, the <em><a href="https://bioconductor.org/packages/3.15/Spectra" class="external-link">Spectra</a></em> package was developed to provide an even more flexible and expandable infrastructure for MS data in R. This package implements a clear separation between the user interface and the code to provide, store and import MS data. The latter is defined by the <code>MsBackend</code> interface which thus allows implementation of data type, format or storage-dependent <em>backends</em>. Backends can thus be implemented for specific file types and data resources or different ways to represent MS data (e.g. in memory or <em>on-disk</em> data representations as described in <span class="citation">(Gatto, Gibb, and Rainer 2020)</span>). They are also supposed to be interchangeable hence allowing the user to switch backends without affecting the analysis. To enable processing of also very large MS data sets, data manipulations are by default not directly applied to the data but cached in a <em>lazy evaluation queue</em> which allows analyses also of <em>read-only</em> data representations.</p>
 <p>This (instructor-led live demo) workshop shows the expandability of the new infrastructure to enable a seamless integration and analysis of MS data from a variety of input formats illustrated by a simple comparison and matching of experimental MS2 spectra against public spectral databases and export of the data in a format commonly used for exchange of MS2 data.</p>
 </div>
-<div id="pre-requisites" class="section level2">
-<h2 class="hasAnchor">
-<a href="#pre-requisites" class="anchor"></a>Pre-requisites</h2>
+<div class="section level3">
+<h3 id="pre-requisites">Pre-requisites<a class="anchor" aria-label="anchor" href="#pre-requisites"></a>
+</h3>
 <ul>
 <li>Basic familiarity with R and Bioconductor.</li>
 <li>Basic understanding of Mass Spectrometry (MS) data.</li>
 </ul>
 </div>
-<div id="installation-and-participation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation-and-participation" class="anchor"></a>Installation and Participation</h2>
+<div class="section level3">
+<h3 id="installation-and-participation">Installation and Participation<a class="anchor" aria-label="anchor" href="#installation-and-participation"></a>
+</h3>
 <ul>
-<li><p>Get the <a href="https://hub.docker.com/r/jorainer/spectra_tutorials">docker image</a> of this tutorial with <code>docker pull jorainer/spectra_tutorials:latest</code>.</p></li>
+<li><p>Get the <a href="https://hub.docker.com/r/jorainer/spectra_tutorials" class="external-link">docker image</a> of this tutorial with <code>docker pull jorainer/spectra_tutorials:latest</code>.</p></li>
 <li>
 <p>Start docker using</p>
 <pre><code>docker run \
@@ -130,30 +126,26 @@
 </li>
 <li><p>Enter <code>http://localhost:8787</code> in a web browser and log in with username <code>rstudio</code> and password <code>bioc</code>.</p></li>
 <li><p>Open this R-markdown file (<em>vignettes/analyzing-MS-data-from-different-sources-with-Spectra.Rmd</em>) in the RStudio server version in the web browser and evaluate the R code blocks.</p></li>
-<li><p>To get the source code: clone <a href="https://github.com/jorainer/SpectraTutorials">this github repository</a>, e.g. with <code>git clone https://github.com/jorainer/SpectraTutorials</code>.</p></li>
-<li><p>Optionally, to run also the code to import the MS2 spectra from HMDB the <em>All Spectra Files (XML)</em> archive from the <a href="https://hmdb.ca/downloads">hmdb downloads page</a> has to be downloaded. The contents of the <em>hmdb_all_spectra.zip</em> archive should then be unzipped into the folder <em>data/hmdb_all_spectra</em>.</p></li>
+<li><p>To get the source code: clone <a href="https://github.com/jorainer/SpectraTutorials" class="external-link">this github repository</a>, e.g. with <code>git clone https://github.com/jorainer/SpectraTutorials</code>.</p></li>
 </ul>
 </div>
-<div id="rbioconductor-packages-used" class="section level2">
-<h2 class="hasAnchor">
-<a href="#rbioconductor-packages-used" class="anchor"></a>R/Bioconductor packages used</h2>
+<div class="section level3">
+<h3 id="rbioconductor-packages-used">R/Bioconductor packages used<a class="anchor" aria-label="anchor" href="#rbioconductor-packages-used"></a>
+</h3>
 <ul>
-<li><a href="https://bioconductor.org/packages/Spectra"><code>Spectra</code></a></li>
-<li><a href="https://bioconductor.org/packages/MsCoreUtils"><code>MsCoreUtils</code></a></li>
-<li><a href="https://bioconductor.org/packages/MsBackendMgf"><code>MsBackendMgf</code></a></li>
-<li><a href="https://bioconductor.org/packages/MsBackendMassbank"><code>MsBackendMassbank</code></a></li>
-</ul>
-<p>Other R packages not (yet) in Bioconductor:</p>
-<ul>
-<li><a href="https://rformassspectrometry.github.io/MsBackendHmdb"><code>MsBackendHmdb</code></a></li>
+<li><a href="https://bioconductor.org/packages/Spectra" class="external-link"><code>Spectra</code></a></li>
+<li><a href="https://bioconductor.org/packages/MsCoreUtils" class="external-link"><code>MsCoreUtils</code></a></li>
+<li><a href="https://bioconductor.org/packages/MsBackendMgf" class="external-link"><code>MsBackendMgf</code></a></li>
+<li><a href="https://bioconductor.org/packages/MsBackendMassbank" class="external-link"><code>MsBackendMassbank</code></a></li>
+<li><a href="https://bioconductor.org/packages/CompoundDb" class="external-link"><code>CompoundDb</code></a></li>
 </ul>
 </div>
-<div id="time-outline" class="section level2">
-<h2 class="hasAnchor">
-<a href="#time-outline" class="anchor"></a>Time outline</h2>
-<div id="time-outline-1" class="section level3">
-<h3 class="hasAnchor">
-<a href="#time-outline-1" class="anchor"></a>Time outline</h3>
+<div class="section level3">
+<h3 id="time-outline">Time outline<a class="anchor" aria-label="anchor" href="#time-outline"></a>
+</h3>
+<div class="section level4">
+<h4 id="time-outline-1">Time outline<a class="anchor" aria-label="anchor" href="#time-outline-1"></a>
+</h4>
 <table class="table">
 <thead><tr class="header">
 <th>Activity</th>
@@ -192,20 +184,20 @@
 </table>
 </div>
 </div>
-<div id="workshop-goals-and-objectives" class="section level2">
-<h2 class="hasAnchor">
-<a href="#workshop-goals-and-objectives" class="anchor"></a>Workshop goals and objectives</h2>
-<div id="learning-goals" class="section level3">
-<h3 class="hasAnchor">
-<a href="#learning-goals" class="anchor"></a>Learning goals</h3>
+<div class="section level3">
+<h3 id="workshop-goals-and-objectives">Workshop goals and objectives<a class="anchor" aria-label="anchor" href="#workshop-goals-and-objectives"></a>
+</h3>
+<div class="section level4">
+<h4 id="learning-goals">Learning goals<a class="anchor" aria-label="anchor" href="#learning-goals"></a>
+</h4>
 <ul>
 <li>Understand how to import MS data into R.</li>
 <li>Understand the basic concept of <em>backends</em> in <code>Spectra</code> and how they can be used to work with MS data from various sources.</li>
 </ul>
 </div>
-<div id="learning-objectives" class="section level3">
-<h3 class="hasAnchor">
-<a href="#learning-objectives" class="anchor"></a>Learning objectives</h3>
+<div class="section level4">
+<h4 id="learning-objectives">Learning objectives<a class="anchor" aria-label="anchor" href="#learning-objectives"></a>
+</h4>
 <ul>
 <li>Import and export MS data with <code>Spectra</code>.</li>
 <li>Integrate MS data from different resources into an MS data analysis workflow.</li>
@@ -215,12 +207,12 @@
 </div>
 </div>
 </div>
-<div id="workshop" class="section level1">
-<h1 class="hasAnchor">
-<a href="#workshop" class="anchor"></a>Workshop</h1>
-<div id="lc-msms-in-a-nutshell" class="section level2">
-<h2 class="hasAnchor">
-<a href="#lc-msms-in-a-nutshell" class="anchor"></a>LC-MS/MS in a nutshell</h2>
+<div class="section level2">
+<h2 id="workshop">Workshop<a class="anchor" aria-label="anchor" href="#workshop"></a>
+</h2>
+<div class="section level3">
+<h3 id="lc-msms-in-a-nutshell">LC-MS/MS in a nutshell<a class="anchor" aria-label="anchor" href="#lc-msms-in-a-nutshell"></a>
+</h3>
 <ul>
 <li>Mass spectrometry (<strong>MS</strong>) instruments measure mass-to-charge ratios (m/z) and abundances of ions. The resulting m/z and intensity values are stored/represented as a <em>spectrum</em>.</li>
 <li>Most compounds are not charged, they need to be ionized first (with e.g. electro spray ionization (<strong>ESI</strong>)).</li>
@@ -241,10 +233,10 @@
 <li>Comparing and matching such fragment spectra against a <em>reference</em> helps identifying the compound.</li>
 </ul>
 </div>
-<div id="the-spectra-package" class="section level2">
-<h2 class="hasAnchor">
-<a href="#the-spectra-package" class="anchor"></a>The <code>Spectra</code> package</h2>
-<p>The <code>Spectra</code> package implements a clear separation between the user interface and the code to provide, store and read mass spectrometry data. Thus, different data or file format-specific <em>backends</em> can be implemented and directly <em>plugged-in</em> without affecting the way the user would access or analyze the data. This represents an extension to the <em>in-memory</em> and <em>on-disk</em> data modes already available in the <em><a href="https://bioconductor.org/packages/3.14/MSnbase">MSnbase</a></em> package that enabled either a fast data processing or an analysis of very large data sets by keeping only a limited amount of data in the computer’s memory <span class="citation">(Gatto, Gibb, and Rainer 2020)</span>.</p>
+<div class="section level3">
+<h3 id="the-spectra-package">The <code>Spectra</code> package<a class="anchor" aria-label="anchor" href="#the-spectra-package"></a>
+</h3>
+<p>The <code>Spectra</code> package implements a clear separation between the user interface and the code to provide, store and read mass spectrometry data. Thus, different data or file format-specific <em>backends</em> can be implemented and directly <em>plugged-in</em> without affecting the way the user would access or analyze the data. This represents an extension to the <em>in-memory</em> and <em>on-disk</em> data modes already available in the <em><a href="https://bioconductor.org/packages/3.15/MSnbase" class="external-link">MSnbase</a></em> package that enabled either a fast data processing or an analysis of very large data sets by keeping only a limited amount of data in the computer’s memory <span class="citation">(Gatto, Gibb, and Rainer 2020)</span>.</p>
 <div class="figure">
 <img src="Spectra.png" alt=""><p class="caption">Spectra: separation into user functionality and data representation</p>
 </div>
@@ -256,345 +248,345 @@
 <li>annotate the spectra and export them to a file in <em>MGF</em> format.</li>
 </ul>
 </div>
-<div id="ms-data-import-and-handling" class="section level2">
-<h2 class="hasAnchor">
-<a href="#ms-data-import-and-handling" class="anchor"></a>MS data import and handling</h2>
+<div class="section level3">
+<h3 id="ms-data-import-and-handling">MS data import and handling<a class="anchor" aria-label="anchor" href="#ms-data-import-and-handling"></a>
+</h3>
 <p>Below we import the MS data from the mzML files provided within this package. These files contain MSn data of a mix of 8 standard compounds (added either to water or a pool of human serum samples) measured with a HILIC-based LC-MS/MS setup. MS2 data was generated by data dependent acquisition using a collision energy of 20eV. For data import and representation of these experimental data we use the <code>MsBackendMzR</code> backend which supports import (and export) of data from the most common <em>raw</em> mass spectrometry file formats (i.e. mzML, mzXML and CDF).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/Spectra">Spectra</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/Spectra" class="external-link">Spectra</a></span><span class="op">)</span>
 
 <span class="co">#' Define the input files</span>
-<span class="va">fls</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"mzML"</span>, package <span class="op">=</span> <span class="st">"SpectraTutorials"</span><span class="op">)</span>,
+<span class="va">fls</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">dir</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"mzML"</span>, package <span class="op">=</span> <span class="st">"SpectraTutorials"</span><span class="op">)</span>,
            full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
 <span class="co">#' Import the data</span>
-<span class="va">sps_all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html">Spectra</a></span><span class="op">(</span><span class="va">fls</span>, source <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/MsBackend.html">MsBackendMzR</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="va">sps_all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">fls</span>, source <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/MsBackend.html" class="external-link">MsBackendMzR</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>The MS data is now represented by a <code>Spectra</code> object, which can be thought of as a <code>data.frame</code> with rows being the individual spectra and columns the spectra <em>variables</em> (such as <code>"rtime"</code>, i.e. the retention time). The <code>spectraVariables</code> function lists all available variables within such a <code>Spectra</code> object.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' List all available spectra variables (attributes)</span>
-<span class="fu">spectraVariables</span><span class="op">(</span><span class="va">sps_all</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] "msLevel"                  "rtime"                   
-##  [3] "acquisitionNum"           "scanIndex"               
-##  [5] "dataStorage"              "dataOrigin"              
-##  [7] "centroided"               "smoothed"                
-##  [9] "polarity"                 "precScanNum"             
-## [11] "precursorMz"              "precursorIntensity"      
-## [13] "precursorCharge"          "collisionEnergy"         
-## [15] "isolationWindowLowerMz"   "isolationWindowTargetMz" 
-## [17] "isolationWindowUpperMz"   "peaksCount"              
-## [19] "totIonCurrent"            "basePeakMZ"              
-## [21] "basePeakIntensity"        "ionisationEnergy"        
-## [23] "lowMZ"                    "highMZ"                  
-## [25] "mergedScan"               "mergedResultScanNum"     
-## [27] "mergedResultStartScanNum" "mergedResultEndScanNum"  
-## [29] "injectionTime"            "filterString"            
-## [31] "spectrumId"               "ionMobilityDriftTime"    
-## [33] "scanWindowLowerLimit"     "scanWindowUpperLimit"</code></pre>
-<p>Each spectra variable can be accessed either <em>via</em> <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code> and its name or by using its dedicated access function (which is the preferred way). Below we access the retention times of the first spectra using either <code>$rtime</code> or the function <code>rtime</code>.</p>
+<span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">spectraVariables</a></span><span class="op">(</span><span class="va">sps_all</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">##  [1] "msLevel"                  "rtime"                   </span>
+<span class="co">##  [3] "acquisitionNum"           "scanIndex"               </span>
+<span class="co">##  [5] "dataStorage"              "dataOrigin"              </span>
+<span class="co">##  [7] "centroided"               "smoothed"                </span>
+<span class="co">##  [9] "polarity"                 "precScanNum"             </span>
+<span class="co">## [11] "precursorMz"              "precursorIntensity"      </span>
+<span class="co">## [13] "precursorCharge"          "collisionEnergy"         </span>
+<span class="co">## [15] "isolationWindowLowerMz"   "isolationWindowTargetMz" </span>
+<span class="co">## [17] "isolationWindowUpperMz"   "peaksCount"              </span>
+<span class="co">## [19] "totIonCurrent"            "basePeakMZ"              </span>
+<span class="co">## [21] "basePeakIntensity"        "ionisationEnergy"        </span>
+<span class="co">## [23] "lowMZ"                    "highMZ"                  </span>
+<span class="co">## [25] "mergedScan"               "mergedResultScanNum"     </span>
+<span class="co">## [27] "mergedResultStartScanNum" "mergedResultEndScanNum"  </span>
+<span class="co">## [29] "injectionTime"            "filterString"            </span>
+<span class="co">## [31] "spectrumId"               "ionMobilityDriftTime"    </span>
+<span class="co">## [33] "scanWindowLowerLimit"     "scanWindowUpperLimit"</span></code></pre>
+<p>Each spectra variable can be accessed either <em>via</em> <code>$</code> and its name or by using its dedicated access function (which is the preferred way). Below we access the retention times of the first spectra using either <code>$rtime</code> or the function <code>rtime</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Access the spectras' retention time</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">sps_all</span><span class="op">$</span><span class="va">rtime</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 0.273 0.570 0.873 1.183 1.491 1.798</code></pre>
+<span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sps_all</span><span class="op">$</span><span class="va">rtime</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## [1] 0.273 0.570 0.873 1.183 1.491 1.798</span></code></pre>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu">rtime</span><span class="op">(</span><span class="va">sps_all</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 0.273 0.570 0.873 1.183 1.491 1.798</code></pre>
-<p>Our <code>Spectra</code> object contains information from in total 1578 spectra from <code><a href="https://rdrr.io/r/base/length.html">length(unique(dataOrigin(sps_all)))</a></code> mzML files. By using the <code>MsBackendMzR</code> backend, only general information about each spectrum is kept in memory resulting in a low memory footprint.</p>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">rtime</a></span><span class="op">(</span><span class="va">sps_all</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## [1] 0.273 0.570 0.873 1.183 1.491 1.798</span></code></pre>
+<p>Our <code>Spectra</code> object contains information from in total 1578 spectra from <code>length(unique(dataOrigin(sps_all)))</code> mzML files. By using the <code>MsBackendMzR</code> backend, only general information about each spectrum is kept in memory resulting in a low memory footprint.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span><span class="op">(</span><span class="va">sps_all</span><span class="op">)</span>, units <span class="op">=</span> <span class="st">"MB"</span><span class="op">)</span></code></pre></div>
-<pre><code>## 0.4 Mb</code></pre>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html" class="external-link">object.size</a></span><span class="op">(</span><span class="va">sps_all</span><span class="op">)</span>, units <span class="op">=</span> <span class="st">"MB"</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## 0.4 Mb</span></code></pre>
 <p>The spectra’s m/z and intensity values can be accessed with the <code>mz</code> or <code>intensity</code> functions. By using an <code>MsBackendMzR</code> backend, these are retrieved on demand from the original data files each time the functions are called.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">mz</span><span class="op">(</span><span class="va">sps_all</span><span class="op">)</span></code></pre></div>
-<pre><code>## NumericList of length 1578
-## [[1]] 50.2264681118888 52.9758613330164 ... 998.412321909748 999.815483842029
-## [[2]] 50.0188439310345 51.0188982589394 ... 994.093212059943 998.65669267328
-## [[3]] 50.0188439310345 51.0260087879784 ... 999.549654921888 999.904649454908
-## [[4]] 50.0347997547605 51.0271913631291 ... 984.467433193755 998.839380503321
-## [[5]] 50.1615393614339 51.0280734441081 ... 996.599267645346 999.81102566575
-## [[6]] 50.0158524973623 50.2809808965161 ... 992.93057113729 999.650537939432
-## [[7]] 50.0178467765376 51.02704020796 ... 999.217711368357 999.757528325686
-## [[8]] 50.0158524973623 51.0257255950236 ... 993.780890433629 999.583671855333
-## [[9]] 50.0158524973623 50.9727348052523 ... 999.508971233846 999.663911424618
-## [[10]] 50.0158524973623 50.0264589058649 ... 997.312177169353 999.672827131107
-## ...
-## &lt;1568 more elements&gt;</code></pre>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">mz</a></span><span class="op">(</span><span class="va">sps_all</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## NumericList of length 1578</span>
+<span class="co">## [[1]] 50.2264681118888 52.9758613330164 ... 998.412321909748 999.815483842029</span>
+<span class="co">## [[2]] 50.0188439310345 51.0188982589394 ... 994.093212059943 998.65669267328</span>
+<span class="co">## [[3]] 50.0188439310345 51.0260087879784 ... 999.549654921888 999.904649454908</span>
+<span class="co">## [[4]] 50.0347997547605 51.0271913631291 ... 984.467433193755 998.839380503321</span>
+<span class="co">## [[5]] 50.1615393614339 51.0280734441081 ... 996.599267645346 999.81102566575</span>
+<span class="co">## [[6]] 50.0158524973623 50.2809808965161 ... 992.93057113729 999.650537939432</span>
+<span class="co">## [[7]] 50.0178467765376 51.02704020796 ... 999.217711368357 999.757528325686</span>
+<span class="co">## [[8]] 50.0158524973623 51.0257255950236 ... 993.780890433629 999.583671855333</span>
+<span class="co">## [[9]] 50.0158524973623 50.9727348052523 ... 999.508971233846 999.663911424618</span>
+<span class="co">## [[10]] 50.0158524973623 50.0264589058649 ... 997.312177169353 999.672827131107</span>
+<span class="co">## ...</span>
+<span class="co">## &lt;1568 more elements&gt;</span></code></pre>
 <p>We can also load the full data into memory by changing the backend from <code>MsBackendMzR</code> to <code>MsBackendDataFrame</code>. This does not affect the way we use the <code>Spectra</code> object itself: the same operations and functions are available, independently of the way the data is stored (i.e. which backend is used).</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Change backend to a MsBackendDataFrame: load data into memory</span>
-<span class="va">sps_all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html">setBackend</a></span><span class="op">(</span><span class="va">sps_all</span>, <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/MsBackend.html">MsBackendDataFrame</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="va">sps_all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html" class="external-link">setBackend</a></span><span class="op">(</span><span class="va">sps_all</span>, <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/MsBackend.html" class="external-link">MsBackendDataFrame</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>The size of our <code>Spectra</code> object is now larger, since the full data has been loaded into memory.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span><span class="op">(</span><span class="va">sps_all</span><span class="op">)</span>, units <span class="op">=</span> <span class="st">"MB"</span><span class="op">)</span></code></pre></div>
-<pre><code>## 16.5 Mb</code></pre>
-<p>To subset <code>Spectra</code> objects, we can use either <code><a href="https://rdrr.io/r/base/Extract.html">[</a></code> or one of the many available <code>filter*</code> functions (that are usually more efficient than <code><a href="https://rdrr.io/r/base/Extract.html">[</a></code>). We could this subset the <code>sps_all</code> to some arbitrary spectra simply using:</p>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html" class="external-link">object.size</a></span><span class="op">(</span><span class="va">sps_all</span><span class="op">)</span>, units <span class="op">=</span> <span class="st">"MB"</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## 16.5 Mb</span></code></pre>
+<p>To subset <code>Spectra</code> objects, we can use either <code>[</code> or one of the many available <code>filter*</code> functions (that are usually more efficient than <code>[</code>). We could this subset the <code>sps_all</code> to some arbitrary spectra simply using:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sps_all</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">2</span>, <span class="fl">5</span><span class="op">)</span><span class="op">]</span></code></pre></div>
-<pre><code>## MSn data (Spectra) with 3 spectra in a MsBackendDataFrame backend:
-##     msLevel     rtime scanIndex
-##   &lt;integer&gt; &lt;numeric&gt; &lt;integer&gt;
-## 1         1     1.183         4
-## 2         1     0.570         2
-## 3         1     1.491         5
-##  ... 33 more variables/columns.
-## Processing:
-##  Switch backend from MsBackendMzR to MsBackendDataFrame [Mon Oct  4 16:12:24 2021]</code></pre>
-<p>In our workshop, we next want to identify in our experimental data MS2 spectra that were generated from an ion that matches the m/z of the <code>[M+H]+</code> ion of the metabolite cystine (one of the standards added to the sample mix measured in the present experimental data). We thus use below the <code>filterPrecursorMz</code> function to subset the data to MS2 spectra matching that m/z (accepting a difference in m/z of 10 parts-per-million (ppm)).</p>
+<code class="sourceCode R"><span class="va">sps_all</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">2</span>, <span class="fl">5</span><span class="op">)</span><span class="op">]</span></code></pre></div>
+<pre><code><span class="co">## MSn data (Spectra) with 3 spectra in a MsBackendDataFrame backend:</span>
+<span class="co">##     msLevel     rtime scanIndex</span>
+<span class="co">##   &lt;integer&gt; &lt;numeric&gt; &lt;integer&gt;</span>
+<span class="co">## 1         1     1.183         4</span>
+<span class="co">## 2         1     0.570         2</span>
+<span class="co">## 3         1     1.491         5</span>
+<span class="co">##  ... 33 more variables/columns.</span>
+<span class="co">## Processing:</span>
+<span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Mon Jan 31 18:47:30 2022]</span></code></pre>
+<p>In our workshop, we next want to identify in our experimental data MS2 spectra that were generated from an ion that matches the m/z of the <code>[M+H]+</code> ion of the metabolite cystine (one of the standards added to the sample mix measured in the present experimental data). We thus use below the <code>filterPrecursorMzValues</code> function to subset the data to MS2 spectra matching that m/z (accepting a difference in m/z of 10 parts-per-million (ppm)).</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Define the m/z ratio for an ion of cystine</span>
 <span class="va">mz</span> <span class="op">&lt;-</span> <span class="fl">241.0311</span>
 
 <span class="co">#' Subset the dataset to MS2 spectra matching the m/z</span>
-<span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu">filterPrecursorMz</span><span class="op">(</span><span class="va">sps_all</span>, mz <span class="op">=</span> <span class="va">mz</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html">ppm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="va">mz</span>, <span class="va">mz</span><span class="op">)</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span>
+<span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html" class="external-link">filterPrecursorMzValues</a></span><span class="op">(</span><span class="va">sps_all</span>, mz <span class="op">=</span> <span class="va">mz</span>, ppm <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
 <span class="va">sps</span></code></pre></div>
-<pre><code>## MSn data (Spectra) with 6 spectra in a MsBackendDataFrame backend:
-##     msLevel     rtime scanIndex
-##   &lt;integer&gt; &lt;numeric&gt; &lt;integer&gt;
-## 1         2   209.936       673
-## 2         2   220.072       714
-## 3         2   231.604       734
-## 4         2   215.089       761
-## 5         2   225.739       781
-## 6         2   240.020       804
-##  ... 33 more variables/columns.
-## Processing:
-##  Switch backend from MsBackendMzR to MsBackendDataFrame [Mon Oct  4 16:12:24 2021]
-##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Mon Oct  4 16:12:24 2021]</code></pre>
+<pre><code><span class="co">## MSn data (Spectra) with 6 spectra in a MsBackendDataFrame backend:</span>
+<span class="co">##     msLevel     rtime scanIndex</span>
+<span class="co">##   &lt;integer&gt; &lt;numeric&gt; &lt;integer&gt;</span>
+<span class="co">## 1         2   209.936       673</span>
+<span class="co">## 2         2   220.072       714</span>
+<span class="co">## 3         2   231.604       734</span>
+<span class="co">## 4         2   215.089       761</span>
+<span class="co">## 5         2   225.739       781</span>
+<span class="co">## 6         2   240.020       804</span>
+<span class="co">##  ... 33 more variables/columns.</span>
+<span class="co">## Processing:</span>
+<span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Mon Jan 31 18:47:30 2022]</span>
+<span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Mon Jan 31 18:47:30 2022]</span></code></pre>
 <p>In total 6 spectra matched our target precursor m/z.</p>
 </div>
-<div id="data-processing-and-manipulation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#data-processing-and-manipulation" class="anchor"></a>Data processing and manipulation</h2>
+<div class="section level3">
+<h3 id="data-processing-and-manipulation">Data processing and manipulation<a class="anchor" aria-label="anchor" href="#data-processing-and-manipulation"></a>
+</h3>
 <p>The <code>plotSpectra</code> function can be used to visualize spectra. Below we plot the first spectrum from our data subset.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Plot the first spectrum</span>
-<span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectra</a></span><span class="op">(</span><span class="va">sps</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html" class="external-link">plotSpectra</a></span><span class="op">(</span><span class="va">sps</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <p><img src="analyzing-MS-data-from-different-sources-with-Spectra_files/figure-html/raw-ms2-1.png" width="672"></p>
 <p>This raw MS2 spectrum contains many very low intensity peaks, most likely representing noise. Thus we next filter the spectra removing all peaks with an intensity smaller than 5% of the maximum intensity of each spectrum (i.e. the base peak intensity). To this end we define a function that takes intensity values from each spectrum as input and returns a logical value whether the peak should be retained (<code>TRUE</code>) or not (<code>FALSE</code>). This function is then passed to the <code>filterIntensity</code> function to perform the actual filtering of the spectra.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Define a filtering function</span>
 <span class="va">low_int</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span>
-    <span class="va">x</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">x</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">*</span> <span class="fl">0.05</span>
+    <span class="va">x</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">x</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">*</span> <span class="fl">0.05</span>
 <span class="op">}</span>
 <span class="co">#' Apply the function to filter the spectra</span>
-<span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu">filterIntensity</span><span class="op">(</span><span class="va">sps</span>, intensity <span class="op">=</span> <span class="va">low_int</span><span class="op">)</span></code></pre></div>
+<span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">filterIntensity</a></span><span class="op">(</span><span class="va">sps</span>, intensity <span class="op">=</span> <span class="va">low_int</span><span class="op">)</span></code></pre></div>
 <p>After filtering, the spectra are <em>cleaner</em>:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Plot the first spectrum after filtering</span>
-<span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectra</a></span><span class="op">(</span><span class="va">sps</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html" class="external-link">plotSpectra</a></span><span class="op">(</span><span class="va">sps</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <p><img src="analyzing-MS-data-from-different-sources-with-Spectra_files/figure-html/raw-ms2-filtered-1.png" width="672"></p>
 <p>In addition we <em>normalize</em> each spectrum replacing the absolute intensity values with values relative to the spectrum’s maximum intensity (which is set to 100). Also for this operation we define a function which takes a <em>peak matrix</em> as input and returns a matrix with the same dimensions. The peak matrix is the two-column matrix with m/z (first column) and intensity values (second column) representing the MS data of a spectrum. This function is then passed with parameter <code>FUN</code> to the <code>addProcessing</code> function which allows to apply any user-defined function to the peak matrix of each spectrum in a <code>Spectra</code> object. With this function <code>Spectra</code> thus provides a powerful framework to apply any user-defined data manipulation operation to MS data.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Define a function to *normalize* the intensities</span>
 <span class="va">norm_int</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span>
-    <span class="va">maxint</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span>, <span class="st">"intensity"</span><span class="op">]</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+    <span class="va">maxint</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span>, <span class="st">"intensity"</span><span class="op">]</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
     <span class="va">x</span><span class="op">[</span>, <span class="st">"intensity"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">100</span> <span class="op">*</span> <span class="va">x</span><span class="op">[</span>, <span class="st">"intensity"</span><span class="op">]</span> <span class="op">/</span> <span class="va">maxint</span>
     <span class="va">x</span>
 <span class="op">}</span>
 <span class="co">#' *Apply* the function to the data</span>
-<span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html">addProcessing</a></span><span class="op">(</span><span class="va">sps</span>, <span class="va">norm_int</span><span class="op">)</span></code></pre></div>
+<span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html" class="external-link">addProcessing</a></span><span class="op">(</span><span class="va">sps</span>, <span class="va">norm_int</span><span class="op">)</span></code></pre></div>
 <p>To show the effect of the normalization we extract the intensities of the first spectrum:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Get the intensities after normalization</span>
-<span class="fu">intensity</span><span class="op">(</span><span class="va">sps</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></code></pre></div>
-<pre><code>## [1]  13.439402  93.631648  49.287979 100.000000   9.422415   6.581111  12.969807
-## [8]  54.633224</code></pre>
+<span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">intensity</a></span><span class="op">(</span><span class="va">sps</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></code></pre></div>
+<pre><code><span class="co">## [1]  13.439402  93.631648  49.287979 100.000000   9.422415   6.581111  12.969807</span>
+<span class="co">## [8]  54.633224</span></code></pre>
 <p>The intensity values are now all between 0 and 100.</p>
 </div>
-<div id="spectrum-data-comparison" class="section level2">
-<h2 class="hasAnchor">
-<a href="#spectrum-data-comparison" class="anchor"></a>Spectrum data comparison</h2>
+<div class="section level3">
+<h3 id="spectrum-data-comparison">Spectrum data comparison<a class="anchor" aria-label="anchor" href="#spectrum-data-comparison"></a>
+</h3>
 <p>We next perform a pairwise comparison of the subsetted spectra using the dot product as similarity measure. Prior to the actual similarity calculation, the peaks of the individual spectra have to be matched against each other (i.e. it has to be determined which peak from one spectrum correspond to which from the other spectrum based on their mass-to-charge ratios). We specify <code>ppm = 20</code> so that peaks with a difference in m/z smaller than 20ppm will be considered matching.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Pairwise comparison of all spectra</span>
-<span class="va">cormat</span> <span class="op">&lt;-</span> <span class="fu">compareSpectra</span><span class="op">(</span><span class="va">sps</span>, ppm <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>
+<span class="va">cormat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compareSpectra</a></span><span class="op">(</span><span class="va">sps</span>, ppm <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>
 <span class="va">cormat</span></code></pre></div>
-<pre><code>##           [,1]      [,2]      [,3]      [,4]      [,5]      [,6]
-## [1,] 1.0000000 0.9717669 0.8907129 0.9721095 0.8795912 0.8818719
-## [2,] 0.9717669 1.0000000 0.9992127 0.9964783 0.9525726 0.9486682
-## [3,] 0.8907129 0.9992127 1.0000000 0.9947650 0.9518138 0.9478201
-## [4,] 0.9721095 0.9964783 0.9947650 1.0000000 0.9543584 0.9494561
-## [5,] 0.8795912 0.9525726 0.9518138 0.9543584 1.0000000 0.9994800
-## [6,] 0.8818719 0.9486682 0.9478201 0.9494561 0.9994800 1.0000000</code></pre>
+<pre><code><span class="co">##           [,1]      [,2]      [,3]      [,4]      [,5]      [,6]</span>
+<span class="co">## [1,] 1.0000000 0.9717669 0.8907129 0.9721095 0.8795912 0.8818719</span>
+<span class="co">## [2,] 0.9717669 1.0000000 0.9992127 0.9964783 0.9525726 0.9486682</span>
+<span class="co">## [3,] 0.8907129 0.9992127 1.0000000 0.9947650 0.9518138 0.9478201</span>
+<span class="co">## [4,] 0.9721095 0.9964783 0.9947650 1.0000000 0.9543584 0.9494561</span>
+<span class="co">## [5,] 0.8795912 0.9525726 0.9518138 0.9543584 1.0000000 0.9994800</span>
+<span class="co">## [6,] 0.8818719 0.9486682 0.9478201 0.9494561 0.9994800 1.0000000</span></code></pre>
 <p>The pairwise spectra similarities are represented with the heatmap below (note that RStudio in the docker might crash by the <code>pheatmap</code> call - to avoid this add <code>filename = "hm.pdf"</code> to the <code>heatmap</code> call).</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">pheatmap</span><span class="op">)</span>
-<span class="va">hm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html">pheatmap</a></span><span class="op">(</span><span class="va">cormat</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, length.out <span class="op">=</span> <span class="fl">101</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">pheatmap</span><span class="op">)</span>
+<span class="va">hm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html" class="external-link">pheatmap</a></span><span class="op">(</span><span class="va">cormat</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, length.out <span class="op">=</span> <span class="fl">101</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="analyzing-MS-data-from-different-sources-with-Spectra_files/figure-html/ms2-heatmap-1.png" width="672"></p>
 <p>The similarity between all the selected experimental MS2 spectra is very high (in fact above 0.88) suggesting all of them representing fragment spectra of the same compound.</p>
 </div>
-<div id="comparing-spectra-against-massbank" class="section level2">
-<h2 class="hasAnchor">
-<a href="#comparing-spectra-against-massbank" class="anchor"></a>Comparing spectra against MassBank</h2>
+<div class="section level3">
+<h3 id="comparing-spectra-against-massbank">Comparing spectra against MassBank<a class="anchor" aria-label="anchor" href="#comparing-spectra-against-massbank"></a>
+</h3>
 <p>Although the precursor m/z of our spectra matches the m/z of cystine, we can still not exclude that they represent fragmentations of ions from different compounds (that would have the same precursor m/z than cystine).</p>
 <p>Matching experimental spectra against a public spectral library can be used as a first step in the identification process. Several (public) spectral libraries for small molecules are available, such as:</p>
 <ul>
-<li><a href="https://massbank.eu/MassBank/">MassBank</a></li>
-<li>MassBank of North America <a href="https://mona.fiehnlab.ucdavis.edu/">MoNa</a>
+<li><a href="https://massbank.eu/MassBank/" class="external-link">MassBank</a></li>
+<li>MassBank of North America <a href="https://mona.fiehnlab.ucdavis.edu/" class="external-link">MoNa</a>
 </li>
-<li>Human Metabolom Database <a href="https://hmdb.ca/">HMDB</a>
+<li>Human Metabolom Database <a href="https://hmdb.ca/" class="external-link">HMDB</a>
 </li>
-<li><a href="https://gnps.ucsd.edu/ProteoSAFe/static/gnps-splash.jsp">GNPS</a></li>
+<li><a href="https://gnps.ucsd.edu/ProteoSAFe/static/gnps-splash.jsp" class="external-link">GNPS</a></li>
 <li>…</li>
 </ul>
-<p>For some of these databases <code>MsBackend</code> interfaces are already implemented allowing inclusion of their data directly into R-based analysis workflows. Access to MassBank data is for example possible with the <code>r BiocStyle::Biocpkg("MsBackendMassbank")</code> package. This package provides the <code>MsBackendMassbank</code> for import/export of <a href="https://github.com/MassBank/MassBank-data">MassBank files</a> as well as the <code>MsBackendMassbankSql</code> backend that directly interfaces the MassBank MySQL database.</p>
+<p>For some of these databases <code>MsBackend</code> interfaces are already implemented allowing inclusion of their data directly into R-based analysis workflows. Access to MassBank data is for example possible with the <code>r BiocStyle::Biocpkg("MsBackendMassbank")</code> package. This package provides the <code>MsBackendMassbank</code> for import/export of <a href="https://github.com/MassBank/MassBank-data" class="external-link">MassBank files</a> as well as the <code>MsBackendMassbankSql</code> backend that directly interfaces the MassBank MySQL database.</p>
 <p>Below we load the <code>MsBackendMassbank</code> package and connect to a local installation of the MassBank MySQL database (release <em>2021.03</em> which is provided within the docker image of this tutorial).</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rmariadb.r-dbi.org">RMariaDB</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/MsBackendMassbank">MsBackendMassbank</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rmariadb.r-dbi.org" class="external-link">RMariaDB</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/MsBackendMassbank" class="external-link">MsBackendMassbank</a></span><span class="op">)</span>
 
 <span class="co">#' Connect to the MassBank MySQL database</span>
-<span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">dbConnect</span><span class="op">(</span><span class="fu"><a href="https://rmariadb.r-dbi.org/reference/dbConnect-MariaDBDriver-method.html">MariaDB</a></span><span class="op">(</span><span class="op">)</span>, user <span class="op">=</span> <span class="st">"massbank"</span>, dbname <span class="op">=</span> <span class="st">"MassBank"</span>,
+<span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">dbConnect</span><span class="op">(</span><span class="fu"><a href="https://rmariadb.r-dbi.org/reference/dbConnect-MariaDBDriver-method.html" class="external-link">MariaDB</a></span><span class="op">(</span><span class="op">)</span>, user <span class="op">=</span> <span class="st">"massbank"</span>, dbname <span class="op">=</span> <span class="st">"MassBank"</span>,
                  host <span class="op">=</span> <span class="st">"localhost"</span>, pass <span class="op">=</span> <span class="st">"massbank"</span><span class="op">)</span></code></pre></div>
 <p>We can now initialize a <code>Spectra</code> object with a <code>MsBackendMassbankSql</code> backend to access all the data in MassBank.</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Access the spectra data in MassBank</span>
-<span class="va">mbank</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html">Spectra</a></span><span class="op">(</span><span class="va">con</span>, source <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/MsBackendMassbank/man/MsBackendMassbankSql.html">MsBackendMassbankSql</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+<span class="va">mbank</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">con</span>, source <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/MsBackendMassbank/man/MsBackendMassbankSql.html" class="external-link">MsBackendMassbankSql</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 <span class="va">mbank</span></code></pre></div>
-<pre><code>## MSn data (Spectra) with 86576 spectra in a MsBackendMassbankSql backend:
-##         msLevel precursorMz  polarity
-##       &lt;integer&gt;   &lt;numeric&gt; &lt;integer&gt;
-## 1             2         506         0
-## 2            NA          NA         1
-## 3            NA          NA         0
-## 4            NA          NA         1
-## 5            NA          NA         0
-## ...         ...         ...       ...
-## 86572         2     449.380         1
-## 86573         2     426.022         0
-## 86574         2     131.060         0
-## 86575         2     183.170         1
-## 86576         2     358.270         0
-##  ... 42 more variables/columns.
-##  Use  'spectraVariables' to list all of them.</code></pre>
-<p>Alternatively, if no MySQL database system is available or if this tutorial can not be run within <em>docker</em>, an SQLite database version of the MassBank data (in the format required for <code>MsBackendMassbankSql</code> is available <a href="https://github.com/jorainer/SpectraTutorials/releases/tag/2021.03">here</a>. This database can be loaded instead using:</p>
+<pre><code><span class="co">## MSn data (Spectra) with 86576 spectra in a MsBackendMassbankSql backend:</span>
+<span class="co">##         msLevel precursorMz  polarity</span>
+<span class="co">##       &lt;integer&gt;   &lt;numeric&gt; &lt;integer&gt;</span>
+<span class="co">## 1             2         506         0</span>
+<span class="co">## 2            NA          NA         1</span>
+<span class="co">## 3            NA          NA         0</span>
+<span class="co">## 4            NA          NA         1</span>
+<span class="co">## 5            NA          NA         0</span>
+<span class="co">## ...         ...         ...       ...</span>
+<span class="co">## 86572         2     449.380         1</span>
+<span class="co">## 86573         2     426.022         0</span>
+<span class="co">## 86574         2     131.060         0</span>
+<span class="co">## 86575         2     183.170         1</span>
+<span class="co">## 86576         2     358.270         0</span>
+<span class="co">##  ... 42 more variables/columns.</span>
+<span class="co">##  Use  'spectraVariables' to list all of them.</span></code></pre>
+<p>Alternatively, if no MySQL database system is available or if this tutorial can not be run within <em>docker</em>, an SQLite database version of the MassBank data (in the format required for <code>MsBackendMassbankSql</code> is available <a href="https://github.com/jorainer/SpectraTutorials/releases/tag/2021.03" class="external-link">here</a>. This database can be loaded instead using:</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Alternative to the MySQL server - assuming the SQLite database was</span>
 <span class="co">## stored to the R working directory.</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">RSQLite</span><span class="op">)</span>
-<span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">dbConnect</span><span class="op">(</span><span class="fu">SQLite</span><span class="op">(</span><span class="op">)</span>, <span class="st">"MassbankSql-2021-03.db"</span><span class="op">)</span>
-<span class="va">mbank</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html">Spectra</a></span><span class="op">(</span><span class="va">con</span>, source <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/MsBackendMassbank/man/MsBackendMassbankSql.html">MsBackendMassbankSql</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>The <code>Spectra</code> object <code>mbank</code> <em>represents</em> now the MS data from the MassBank database with in total <code><a href="https://rdrr.io/r/base/length.html">length(mbank)</a></code> spectra. In fact, the <code>mbank</code> object itself does not contain any MS data, but only the primary keys of the spectra in the MassBank database. Hence, it has also a relatively low memory footprint.</p>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rsqlite.r-dbi.org" class="external-link">RSQLite</a></span><span class="op">)</span>
+<span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">dbConnect</span><span class="op">(</span><span class="fu"><a href="https://rsqlite.r-dbi.org/reference/SQLite.html" class="external-link">SQLite</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"MassbankSql-2021-03.db"</span><span class="op">)</span>
+<span class="va">mbank</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">con</span>, source <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/MsBackendMassbank/man/MsBackendMassbankSql.html" class="external-link">MsBackendMassbankSql</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>The <code>Spectra</code> object <code>mbank</code> <em>represents</em> now the MS data from the MassBank database with in total <code>length(mbank)</code> spectra. In fact, the <code>mbank</code> object itself does not contain any MS data, but only the primary keys of the spectra in the MassBank database. Hence, it has also a relatively low memory footprint.</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span><span class="op">(</span><span class="va">mbank</span><span class="op">)</span>, units <span class="op">=</span> <span class="st">"MB"</span><span class="op">)</span></code></pre></div>
-<pre><code>## 6.6 Mb</code></pre>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html" class="external-link">object.size</a></span><span class="op">(</span><span class="va">mbank</span><span class="op">)</span>, units <span class="op">=</span> <span class="st">"MB"</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## 6.6 Mb</span></code></pre>
 <p>Any operation on a <code>Spectra</code> object with this backend will load the requested data from the database on demand. Calling <code>intensity</code> on such a <code>Spectra</code> object would for example retrieve the intensity values for all spectra from the database.</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Get intensity values for the first spectrum</span>
-<span class="fu">intensity</span><span class="op">(</span><span class="va">mbank</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></code></pre></div>
-<pre><code>## NumericList of length 1
-## [["MCH00020"]] 0.980184 938.145447 56.718353 ... 2.051622 812.386597 1.093564</code></pre>
+<span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">intensity</a></span><span class="op">(</span><span class="va">mbank</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## NumericList of length 1</span>
+<span class="co">## [[1]] 0.980184 938.145447 56.718353 847.169678 ... 2.051622 812.386597 1.093564</span></code></pre>
 <p>As we can see, also MassBank provides absolute intensities for each spectrum. To have all the data on the same scale, we would however like to scale them to values between 0 and 100, just like we did for our experimental data. Below we thus apply the same data processing operation also to the MassBank <code>Spectra</code> object.</p>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' *Normalize* intensities for all MassBank spectra</span>
-<span class="va">mbank</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html">addProcessing</a></span><span class="op">(</span><span class="va">mbank</span>, <span class="va">norm_int</span><span class="op">)</span>
-<span class="fu">intensity</span><span class="op">(</span><span class="va">mbank</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></code></pre></div>
-<pre><code>## NumericList of length 1
-## [[1]] 0.00409025035453989 3.91482593798892 ... 0.00456337844599795</code></pre>
+<span class="va">mbank</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html" class="external-link">addProcessing</a></span><span class="op">(</span><span class="va">mbank</span>, <span class="va">norm_int</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">intensity</a></span><span class="op">(</span><span class="va">mbank</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## NumericList of length 1</span>
+<span class="co">## [[1]] 0.00409025035453989 3.91482593798892 ... 0.00456337844599795</span></code></pre>
 <p>This worked, although we are (for obvious reasons) <strong>not</strong> allowed to change the m/z and intensity values within the MassBank database. How is this then possible? It works, because any data manipulation operation on a <code>Spectra</code> object is cached within the object’s <em>lazy evaluation queue</em> and any such operation is applied to the m/z and intensity values <em>on-the-fly</em> whenever the data is requested (i.e. whenever <code>mz</code> or <code>intensity</code> is called on it). As a side effect, this also allows to <em>undo</em> certain data operations by simply calling <code>reset</code> on the <code>Spectra</code> object.</p>
-<p>We next want to compare our experimental spectra against the spectra from MassBank. Instead of comparing against all 86576 available spectra, we first filter the MassBank database to spectra with a precursor m/z matching the one of the <em>[M+H]+</em> ion of cystine. Note that, as an alternative to the <code>filterPrecursorMz</code> used below, we could also use the <code>containsMz</code> function to screen for spectra containing an actual peak matching the precursor m/z.</p>
+<p>We next want to compare our experimental spectra against the spectra from MassBank. Instead of comparing against all 86576 available spectra, we first filter the MassBank database to spectra with a precursor m/z matching the one of the <em>[M+H]+</em> ion of cystine. Note that, as an alternative to the <code>filterPrecursorMzValues</code> used below, we could also use the <code>containsMz</code> function to screen for spectra containing an actual peak matching the precursor m/z.</p>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Filter MassBank for spectra of precursor ion</span>
-<span class="va">mbank_sub</span> <span class="op">&lt;-</span> <span class="fu">filterPrecursorMz</span><span class="op">(</span><span class="va">mbank</span>, mz <span class="op">=</span> <span class="va">mz</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html">ppm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="va">mz</span>, <span class="va">mz</span><span class="op">)</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span>
+<span class="va">mbank_sub</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html" class="external-link">filterPrecursorMzValues</a></span><span class="op">(</span><span class="va">mbank</span>, mz <span class="op">=</span> <span class="va">mz</span>, ppm <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
 <span class="va">mbank_sub</span></code></pre></div>
-<pre><code>## MSn data (Spectra) with 12 spectra in a MsBackendMassbankSql backend:
-##       msLevel precursorMz  polarity
-##     &lt;integer&gt;   &lt;numeric&gt; &lt;integer&gt;
-## 1           2     241.031         1
-## 2           2     241.031         1
-## 3           2     241.031         1
-## 4           2     241.031         1
-## 5           2     241.031         1
-## ...       ...         ...       ...
-## 8           2     241.031         1
-## 9           2     241.031         1
-## 10          2     241.031         1
-## 11          2     241.031         1
-## 12          2     241.031         1
-##  ... 42 more variables/columns.
-##  Use  'spectraVariables' to list all of them.
-## Lazy evaluation queue: 1 processing step(s)
-## Processing:
-##  Filter: select spectra with a precursor m/z within [241.028689689, 241.033510311] [Mon Oct  4 16:12:28 2021]</code></pre>
+<pre><code><span class="co">## MSn data (Spectra) with 12 spectra in a MsBackendMassbankSql backend:</span>
+<span class="co">##       msLevel precursorMz  polarity</span>
+<span class="co">##     &lt;integer&gt;   &lt;numeric&gt; &lt;integer&gt;</span>
+<span class="co">## 1           2     241.031         1</span>
+<span class="co">## 2           2     241.031         1</span>
+<span class="co">## 3           2     241.031         1</span>
+<span class="co">## 4           2     241.031         1</span>
+<span class="co">## 5           2     241.031         1</span>
+<span class="co">## ...       ...         ...       ...</span>
+<span class="co">## 8           2     241.031         1</span>
+<span class="co">## 9           2     241.031         1</span>
+<span class="co">## 10          2     241.031         1</span>
+<span class="co">## 11          2     241.031         1</span>
+<span class="co">## 12          2     241.031         1</span>
+<span class="co">##  ... 42 more variables/columns.</span>
+<span class="co">##  Use  'spectraVariables' to list all of them.</span>
+<span class="co">## Lazy evaluation queue: 1 processing step(s)</span>
+<span class="co">## Processing:</span>
+<span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Mon Jan 31 18:47:33 2022]</span></code></pre>
 <p>This left us with 12 spectra for which we calculate the similarity against each of our experimental spectra using the <code>compareSpectra</code> function.</p>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Compare MassBank subset to experimental spectra</span>
-<span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">compareSpectra</span><span class="op">(</span><span class="va">mbank_sub</span>, <span class="va">sps</span>, ppm <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>
+<span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compareSpectra</a></span><span class="op">(</span><span class="va">mbank_sub</span>, <span class="va">sps</span>, ppm <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>
 <span class="va">res</span></code></pre></div>
-<pre><code>##               [,1]       [,2]        [,3]        [,4]        [,5]        [,6]
-## RP014401 0.2026317 0.18071444 0.180198970 0.159611261 0.178432055 0.187159472
-## RP014402 0.3343503 0.29331600 0.289277897 0.306782584 0.360811559 0.362983456
-## RP014403 0.0246586 0.02144096 0.005165072 0.005668103 0.005392068 0.005564441
-## CE000600 0.9021127 0.88638673 0.886268770 0.866622989 0.879227845 0.884905386
-## CE000598 0.9069832 0.86557977 0.854177851 0.876050308 0.910186361 0.870563436
-## CE000602 0.7714246 0.75079464 0.733570598 0.777097524 0.776174404 0.720059795
-## CE000595 0.4711052 0.43073883 0.440694894 0.438244787 0.501664547 0.505248228
-## CE000599 0.5101048 0.53045776 0.537988018 0.473824102 0.491324937 0.501360573
-## CE000596 0.7358534 0.74158396 0.748032016 0.695780398 0.718522961 0.727849493
-## CE000597 0.2843629 0.30699105 0.315713004 0.258086379 0.278344659 0.286485423
-## CE000603 0.6267950 0.60792849 0.622025989 0.581961642 0.646976175 0.655418467
-## CE000601 0.6085564 0.56699213 0.545861294 0.604958829 0.605503692 0.552365660</code></pre>
+<pre><code><span class="co">##               [,1]       [,2]        [,3]        [,4]        [,5]        [,6]</span>
+<span class="co">## RP014401 0.2026317 0.18071444 0.180198970 0.159611261 0.178432055 0.187159472</span>
+<span class="co">## RP014402 0.3343503 0.29331600 0.289277897 0.306782584 0.360811559 0.362983456</span>
+<span class="co">## RP014403 0.0246586 0.02144096 0.005165072 0.005668103 0.005392068 0.005564441</span>
+<span class="co">## CE000600 0.9021127 0.88638673 0.886268770 0.866622989 0.879227845 0.884905386</span>
+<span class="co">## CE000598 0.9069832 0.86557977 0.854177851 0.876050308 0.910186361 0.870563436</span>
+<span class="co">## CE000602 0.7714246 0.75079464 0.733570598 0.777097524 0.776174404 0.720059795</span>
+<span class="co">## CE000595 0.4711052 0.43073883 0.440694894 0.438244787 0.501664547 0.505248228</span>
+<span class="co">## CE000599 0.5101048 0.53045776 0.537988018 0.473824102 0.491324937 0.501360573</span>
+<span class="co">## CE000596 0.7358534 0.74158396 0.748032016 0.695780398 0.718522961 0.727849493</span>
+<span class="co">## CE000597 0.2843629 0.30699105 0.315713004 0.258086379 0.278344659 0.286485423</span>
+<span class="co">## CE000603 0.6267950 0.60792849 0.622025989 0.581961642 0.646976175 0.655418467</span>
+<span class="co">## CE000601 0.6085564 0.56699213 0.545861294 0.604958829 0.605503692 0.552365660</span></code></pre>
 <p>As a result we got the (normalized dot product) similarity score between each tested MassBank spectrum (rows) against each experimental spectrum (columns).</p>
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html">pheatmap</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html" class="external-link">pheatmap</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></code></pre></div>
 <p><img src="analyzing-MS-data-from-different-sources-with-Spectra_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
 <p>We get some very high similarity scores, but also some lower ones. We next determine the best matching pair from all the comparisons.</p>
 <div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">best_match</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">res</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span>, arr.ind <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">best_match</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">res</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span>, arr.ind <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">best_match</span></code></pre></div>
-<pre><code>##          row col
-## CE000598   5   5</code></pre>
+<pre><code><span class="co">##          row col</span>
+<span class="co">## CE000598   5   5</span></code></pre>
 <p>The <code>best_match</code> variable contains now the index of the best matching MassBank and experimental spectrum. Below we visualize these two using a <em>mirror plot</em> showing in the upper panel the MS2 spectrum from MassBank and in the lower panel the best matching experimental spectrum. Matching peaks are highlighted with a blue color. Plotting functions in <code>Spectra</code> are highly customizable and in the example below we add the m/z for each individual peak as an <em>annotation</em> to it but only if the intensity of the peak is higher than 5.</p>
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Specifying a function to draw peak labels</span>
 <span class="va">label_fun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
-    <span class="va">ints</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="fu">intensity</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>
-    <span class="va">mzs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="fu">mz</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>
+    <span class="va">ints</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">intensity</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>
+    <span class="va">mzs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">mz</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>
     <span class="va">mzs</span><span class="op">[</span><span class="va">ints</span> <span class="op">&lt;</span> <span class="fl">5</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">""</span>
     <span class="va">mzs</span>
 <span class="op">}</span>
-<span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectraMirror</a></span><span class="op">(</span><span class="va">mbank_sub</span><span class="op">[</span><span class="va">best_match</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">sps</span><span class="op">[</span><span class="va">best_match</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>,
+<span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html" class="external-link">plotSpectraMirror</a></span><span class="op">(</span><span class="va">mbank_sub</span><span class="op">[</span><span class="va">best_match</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">sps</span><span class="op">[</span><span class="va">best_match</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>,
                   ppm <span class="op">=</span> <span class="fl">20</span>, labels <span class="op">=</span> <span class="va">label_fun</span>, labelPos <span class="op">=</span> <span class="fl">2</span>,
                   labelOffset <span class="op">=</span> <span class="fl">0.2</span>, labelSrt <span class="op">=</span> <span class="op">-</span><span class="fl">30</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/grid.html">grid</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/grid.html" class="external-link">grid</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="analyzing-MS-data-from-different-sources-with-Spectra_files/figure-html/massbank-mirror-plot-1.png" width="672"></p>
 <p>As a comparison we plot also two spectra with a low similarity score.</p>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectraMirror</a></span><span class="op">(</span><span class="va">mbank_sub</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">sps</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>,
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html" class="external-link">plotSpectraMirror</a></span><span class="op">(</span><span class="va">mbank_sub</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">sps</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>,
                   ppm <span class="op">=</span> <span class="fl">20</span>, labels <span class="op">=</span> <span class="va">label_fun</span>, labelPos <span class="op">=</span> <span class="fl">2</span>,
                   labelOffset <span class="op">=</span> <span class="fl">0.2</span>, labelSrt <span class="op">=</span> <span class="op">-</span><span class="fl">30</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/grid.html">grid</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/grid.html" class="external-link">grid</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="analyzing-MS-data-from-different-sources-with-Spectra_files/figure-html/massbank-mirror-plot-low-1.png" width="672"></p>
 <p>Since we could identify a MassBank spectrum with a high similarity to our experimental spectra we would also like to know which compound this spectrum actually represents. <code>Spectra</code> objects are generally very flexible and can have arbitrarily many additional annotation fields (i.e. <em>spectra variables</em>) for each spectrum. Thus, we below use the <code>spectraVariables</code> function to list all of the variables that are available in our MassBank <code>Spectra</code> object.</p>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' What variables are available in MassBank</span>
-<span class="fu">spectraVariables</span><span class="op">(</span><span class="va">mbank_sub</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] "msLevel"                 "rtime"                  
-##  [3] "acquisitionNum"          "scanIndex"              
-##  [5] "dataStorage"             "dataOrigin"             
-##  [7] "centroided"              "smoothed"               
-##  [9] "polarity"                "precScanNum"            
-## [11] "precursorMz"             "precursorIntensity"     
-## [13] "precursorCharge"         "collisionEnergy"        
-## [15] "isolationWindowLowerMz"  "isolationWindowTargetMz"
-## [17] "isolationWindowUpperMz"  "spectrum_id"            
-## [19] "spectrum_name"           "date"                   
-## [21] "authors"                 "license"                
-## [23] "copyright"               "publication"            
-## [25] "splash"                  "compound_id"            
-## [27] "adduct"                  "ionization"             
-## [29] "ionization_voltage"      "fragmentation_mode"     
-## [31] "collision_energy_text"   "instrument"             
-## [33] "instrument_type"         "formula"                
-## [35] "exactmass"               "smiles"                 
-## [37] "inchi"                   "inchikey"               
-## [39] "cas"                     "pubchem"                
-## [41] "synonym"                 "precursor_mz_text"      
-## [43] "compound_name"</code></pre>
+<span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">spectraVariables</a></span><span class="op">(</span><span class="va">mbank_sub</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">##  [1] "msLevel"                 "rtime"                  </span>
+<span class="co">##  [3] "acquisitionNum"          "scanIndex"              </span>
+<span class="co">##  [5] "dataStorage"             "dataOrigin"             </span>
+<span class="co">##  [7] "centroided"              "smoothed"               </span>
+<span class="co">##  [9] "polarity"                "precScanNum"            </span>
+<span class="co">## [11] "precursorMz"             "precursorIntensity"     </span>
+<span class="co">## [13] "precursorCharge"         "collisionEnergy"        </span>
+<span class="co">## [15] "isolationWindowLowerMz"  "isolationWindowTargetMz"</span>
+<span class="co">## [17] "isolationWindowUpperMz"  "spectrum_id"            </span>
+<span class="co">## [19] "spectrum_name"           "date"                   </span>
+<span class="co">## [21] "authors"                 "license"                </span>
+<span class="co">## [23] "copyright"               "publication"            </span>
+<span class="co">## [25] "splash"                  "compound_id"            </span>
+<span class="co">## [27] "adduct"                  "ionization"             </span>
+<span class="co">## [29] "ionization_voltage"      "fragmentation_mode"     </span>
+<span class="co">## [31] "collision_energy_text"   "instrument"             </span>
+<span class="co">## [33] "instrument_type"         "formula"                </span>
+<span class="co">## [35] "exactmass"               "smiles"                 </span>
+<span class="co">## [37] "inchi"                   "inchikey"               </span>
+<span class="co">## [39] "cas"                     "pubchem"                </span>
+<span class="co">## [41] "synonym"                 "precursor_mz_text"      </span>
+<span class="co">## [43] "compound_name"</span></code></pre>
 <p>In fact, in addition to spectra specific information like the instrument on which it was measured or the ionization voltage used, we get also information on the originating compound such as its name (<code>"compound_name"</code>), its chemical formula (<code>"formula"</code>) or its INChI key (<code>"inchikey"</code>). We thus next subset <code>mbank_sub</code> to the best matching spectrum and display its associated compound name.</p>
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mbank_best_match</span> <span class="op">&lt;-</span> <span class="va">mbank_sub</span><span class="op">[</span><span class="va">best_match</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
 <span class="va">mbank_best_match</span><span class="op">$</span><span class="va">compound_name</span></code></pre></div>
-<pre><code>## [1] "Cystine"</code></pre>
+<pre><code><span class="co">## [1] "Cystine"</span></code></pre>
 <p>Indeed, our experimental cystine spectrum matches (one) cystine spectrum in MassBank. Below we next add the name and the chemical formula of this spectrum to our experimental spectra. We also set the collision energy for to 20eV and assign the ion/adduct of cystine from which the reference spectrum was created.</p>
 <div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Add annotations to the experimental spectra</span>
@@ -602,116 +594,135 @@
 <span class="va">sps</span><span class="op">$</span><span class="va">formula</span> <span class="op">&lt;-</span> <span class="va">mbank_best_match</span><span class="op">$</span><span class="va">formula</span>
 <span class="va">sps</span><span class="op">$</span><span class="va">adduct</span> <span class="op">&lt;-</span> <span class="va">mbank_best_match</span><span class="op">$</span><span class="va">adduct</span>
 <span class="va">sps</span><span class="op">$</span><span class="va">collisionEnergy</span> <span class="op">&lt;-</span> <span class="fl">20</span></code></pre></div>
-<p>Note: a more convenient spectra matching functionality designed for less experienced R users is available in the <a href="https://rformassspectrometry.github.io/MetaboAnnotation"><code>MetaboAnnotation</code></a> package.</p>
+<p>Note: a more convenient spectra matching functionality designed for less experienced R users is available in the <a href="https://rformassspectrometry.github.io/MetaboAnnotation" class="external-link"><code>MetaboAnnotation</code></a> package. A second tutorial is available within this github repository/R package and additional tutorials can be found in the <a href="https://jorainer.github.io/MetaboAnnotationTutorials" class="external-link">MetaboAnnotationTutorials</a> repository/R package.</p>
 </div>
-<div id="data-export" class="section level2">
-<h2 class="hasAnchor">
-<a href="#data-export" class="anchor"></a>Data export</h2>
-<p>At last we want to export our spectra to a file in MGF format. For this we use the <em><a href="https://bioconductor.org/packages/3.14/MsBackendMgf">MsBackendMgf</a></em> package which provides the <code>MsBackendMgf</code> backend that adds support for MGF file import/export to <code>Spectra</code> objects.</p>
+<div class="section level3">
+<h3 id="data-export">Data export<a class="anchor" aria-label="anchor" href="#data-export"></a>
+</h3>
+<p>At last we want to export our spectra to a file in MGF format. For this we use the <em><a href="https://bioconductor.org/packages/3.15/MsBackendMgf" class="external-link">MsBackendMgf</a></em> package which provides the <code>MsBackendMgf</code> backend that adds support for MGF file import/export to <code>Spectra</code> objects.</p>
 <p>Data from <code>Spectra</code> objects can generally be exported with the <code>export</code> function. The format in which the data is exported depends on the specified <code>MsBackend</code> class. By using an instance of <code>MsBackendMgf</code> we define to export the data to a file in MGF format.</p>
 <div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/MsBackendMgf">MsBackendMgf</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/MsBackendMgf" class="external-link">MsBackendMgf</a></span><span class="op">)</span>
 
 <span class="co">#' Export the spectra to a MGF file</span>
-<span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html">export</a></span><span class="op">(</span><span class="va">sps</span>, backend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/MsBackendMgf/man/MsBackendMgf.html">MsBackendMgf</a></span><span class="op">(</span><span class="op">)</span>, file <span class="op">=</span> <span class="st">"Cystine_ce20.mgf"</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html" class="external-link">export</a></span><span class="op">(</span><span class="va">sps</span>, backend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/MsBackendMgf/man/MsBackendMgf.html" class="external-link">MsBackendMgf</a></span><span class="op">(</span><span class="op">)</span>, file <span class="op">=</span> <span class="st">"Cystine_ce20.mgf"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="comparing-spectra-against-hmdb" class="section level2">
-<h2 class="hasAnchor">
-<a href="#comparing-spectra-against-hmdb" class="anchor"></a>Comparing spectra against HMDB</h2>
-<p>In addition to the <code>MsBackendMassbank</code>, which provides access to MassBank data, there is also the <a href="https://github.com/RforMassSpectrometry/MsBackendHmdb"><code>MsBackendHmdb</code></a> package supporting spectral data from the public Human Metabolome Database (HMDB). This package does however not yet provide direct access to the HMDB database but, through the <code>MsBackendHmdbXml</code> backend, allows to import MS2 spectra files in HMDB format. These are provided by HMDB as individual xml files in a custom file format which are bundled (and can hence be downloaded) in a single archive.</p>
-<p>To reproduce the following code it is expected (as detailed in the Installation section) that all xml files from HMDB are available in a folder <em>data/hmdb_all_spectra</em>. Below we identify all xml files containing the key word <code>"ms_ms"</code> in their file name and load them into a <code>Spectra</code> object using the <code>MsBackendHmdbXml</code> backend. Note that this import operation from the ~ 500,000 individual xml files takes up to ~ 2 hours to finish.</p>
+<div class="section level3">
+<h3 id="comparing-spectra-against-hmdb">Comparing spectra against HMDB<a class="anchor" aria-label="anchor" href="#comparing-spectra-against-hmdb"></a>
+</h3>
+<p>In addition to the <code>MsBackendMassbank</code>, which provides access to MassBank data, there is also the <a href="https://github.com/RforMassSpectrometry/MsBackendHmdb" class="external-link"><code>MsBackendHmdb</code></a> package supporting spectral data from the public Human Metabolome Database (HMDB). This package does however not yet provide direct access to the HMDB database but, through the <code>MsBackendHmdbXml</code> backend, allows to import MS2 spectra files in HMDB format. These are provided by HMDB as individual xml files in a custom file format which are bundled (and can hence be downloaded) in a single archive.</p>
+<p>As an alternative, it is also possible to create portable annotation resources using the <a href="https://rformassspectrometry.github.io/CompoundDb" class="external-link"><code>CompoundDb</code></a> package. This packages allows for example to create annotation databases for MoNA, MassBank or HMDB. A <code>CompDb</code> database containing all compound annotations along with all (experimental) MS2 spectra is provided as a data release in the <a href="https://jorainer.github.io/MetaboAnnotationTutorials/" class="external-link">MetaboAnnotationTutorials</a> repository. Below we download this SQLite database to a temporary file.</p>
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/MsBackendHmdb">MsBackendHmdb</a></span><span class="op">)</span>
-
-<span class="co">#' Get all MS2 spectra xml files and import data</span>
-<span class="va">fls</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span><span class="op">(</span><span class="st">"data/hmdb_all_spectra/"</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span>, pattern <span class="op">=</span> <span class="st">"ms_ms"</span><span class="op">)</span>
-<span class="va">hmdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html">Spectra</a></span><span class="op">(</span><span class="va">fls</span>, source <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/MsBackendHmdb/man/MsBackendHmdbXml.html">MsBackendHmdbXml</a></span><span class="op">(</span><span class="op">)</span>, nonStop <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<p>With this we have now a <code>Spectra</code> object containing all MS2 spectra from HMDB. Note that with the <code>MsBackendHmdbXml</code> all spectra data is kept in memory.</p>
+<code class="sourceCode R"><span class="co">#' Download the CompDb database using curl</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeroen/curl" class="external-link">curl</a></span><span class="op">)</span>
+<span class="va">dbname</span> <span class="op">&lt;-</span> <span class="st">"CompDb.Hsapiens.HMDB.5.0.sqlite"</span>
+<span class="va">db_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">dbname</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/curl/man/curl_download.html" class="external-link">curl_download</a></span><span class="op">(</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"https://github.com/jorainer/MetaboAnnotationTutorials/"</span>,
+           <span class="st">"releases/download/2021-11-02/"</span>, <span class="va">dbname</span><span class="op">)</span>,
+    destfile <span class="op">=</span> <span class="va">db_file</span><span class="op">)</span></code></pre></div>
+<p>We can now load this annotation resource using the <code>CompDb</code> function from the <code>CompoundDb</code> package:</p>
 <div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">hmdb</span></code></pre></div>
-<pre><code>## MSn data (Spectra) with 458963 spectra in a MsBackendHmdbXml backend:
-##          msLevel     rtime scanIndex
-##        &lt;integer&gt; &lt;numeric&gt; &lt;integer&gt;
-## 1              2        NA        NA
-## 2              2        NA        NA
-## 3              2        NA        NA
-## 4              2        NA        NA
-## 5              2        NA        NA
-## ...          ...       ...       ...
-## 458959         2        NA        NA
-## 458960         2        NA        NA
-## 458961         2        NA        NA
-## 458962         2        NA        NA
-## 458963         2        NA        NA
-##  ... 21 more variables/columns.</code></pre>
-<p>Also here, we want to filter the data resource first for spectra with a matching precursor m/z. Unfortunately, HMDB does not provided the spectra’s precursor m/z and we hence need to used the <code>containsMz</code> function to find spectra containing a peak with an m/z matching the m/z of our ion of interest. In addition, We need to use a rather large <code>tolerance</code> value (which defines the maximal acceptable absolute difference in m/z values) since some of the experimental spectra in HMDB seem to be recorded by not well calibrated instrument.</p>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/CompoundDb" class="external-link">CompoundDb</a></span><span class="op">)</span>
+<span class="co">#' Load a CompDb database with compound annotation from HMDB</span>
+<span class="va">cdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/CompoundDb/man/CompDb.html" class="external-link">CompDb</a></span><span class="op">(</span><span class="va">db_file</span><span class="op">)</span>
+<span class="va">cdb</span></code></pre></div>
+<pre><code><span class="co">## class: CompDb </span>
+<span class="co">##  data source: HMDB </span>
+<span class="co">##  version: 5.0 </span>
+<span class="co">##  organism: Hsapiens </span>
+<span class="co">##  compound count: 217776 </span>
+<span class="co">##  MS/MS spectra count: 64920</span></code></pre>
+<p>We can now again create a <code>Spectra</code> object to get access to the MS2 spectra within this package:</p>
 <div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">#' Identify spectra containing a peak matching cystine m/z</span>
-<span class="va">has_mz</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html">containsMz</a></span><span class="op">(</span><span class="va">hmdb</span>, mz <span class="op">=</span> <span class="va">mz</span>, tolerance <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></code></pre></div>
-<p>In total 46772 spectra contain a peak with the required m/z (+/- 0.2 Dalton) and we can proceed to calculate spectral similarities between these and our experimental spectra.</p>
+<code class="sourceCode R"><span class="va">hmdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></code></pre></div>
+<p>With this we have now a <code>Spectra</code> object containing all MS2 spectra from HMDB.</p>
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">hmdb</span></code></pre></div>
+<pre><code><span class="co">## MSn data (Spectra) with 64920 spectra in a MsBackendCompDb backend:</span>
+<span class="co">##         msLevel     rtime scanIndex</span>
+<span class="co">##       &lt;integer&gt; &lt;numeric&gt; &lt;integer&gt;</span>
+<span class="co">## 1            NA        NA        NA</span>
+<span class="co">## 2            NA        NA        NA</span>
+<span class="co">## 3            NA        NA        NA</span>
+<span class="co">## 4            NA        NA        NA</span>
+<span class="co">## 5            NA        NA        NA</span>
+<span class="co">## ...         ...       ...       ...</span>
+<span class="co">## 64916        NA        NA        NA</span>
+<span class="co">## 64917        NA        NA        NA</span>
+<span class="co">## 64918        NA        NA        NA</span>
+<span class="co">## 64919        NA        NA        NA</span>
+<span class="co">## 64920        NA        NA        NA</span>
+<span class="co">##  ... 26 more variables/columns.</span>
+<span class="co">##  data source: HMDB </span>
+<span class="co">##  version: 5.0 </span>
+<span class="co">##  organism: Hsapiens</span></code></pre>
+<p>Also here, we want to filter the data resource first for spectra with a matching precursor m/z. Unfortunately, HMDB does not provided the spectra’s precursor m/z and we hence need to used the <code>containsMz</code> function to find spectra containing a peak with an m/z matching the m/z of our ion of interest. In addition, We need to use a rather large <code>tolerance</code> value (which defines the maximal acceptable absolute difference in m/z values) since some of the experimental spectra in HMDB seem to be recorded by not well calibrated instrument.</p>
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#' Identify spectra containing a peak matching cystine m/z</span>
+<span class="va">has_mz</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html" class="external-link">containsMz</a></span><span class="op">(</span><span class="va">hmdb</span>, mz <span class="op">=</span> <span class="va">mz</span>, tolerance <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></code></pre></div>
+<p>In total 3904 spectra contain a peak with the required m/z (+/- 0.2 Dalton) and we can proceed to calculate spectral similarities between these and our experimental spectra.</p>
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Subset HMDB</span>
 <span class="va">hmdb_sub</span> <span class="op">&lt;-</span> <span class="va">hmdb</span><span class="op">[</span><span class="va">has_mz</span><span class="op">]</span>
 
 <span class="co">#' Compare HMDB against experimental spectra</span>
-<span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">compareSpectra</span><span class="op">(</span><span class="va">hmdb_sub</span>, <span class="va">sps</span>, tolerance <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></code></pre></div>
+<span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compareSpectra</a></span><span class="op">(</span><span class="va">hmdb_sub</span>, <span class="va">sps</span>, tolerance <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></code></pre></div>
 <p>The highest similarity between our spectra and the spectra from HMDB is <code>r max(res)</code>. Below we compare the two best matching spectra with a <em>mirror plot</em>, in the upper panel showing our experimental spectrum and in the lower panel the best matching MS2 spectrum from HMDB.</p>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">best_match</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">res</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span>, arr.ind <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">best_match</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">res</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span>, arr.ind <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">## Specifying a function to draw peak labels</span>
 <span class="va">label_fun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="fu">mz</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">mz</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>
 <span class="op">}</span>
-<span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html">plotSpectraMirror</a></span><span class="op">(</span><span class="va">hmdb_sub</span><span class="op">[</span><span class="va">best_match</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">sps</span><span class="op">[</span><span class="va">best_match</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>, tolerance <span class="op">=</span> <span class="fl">0.2</span>,
+<span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html" class="external-link">plotSpectraMirror</a></span><span class="op">(</span><span class="va">hmdb_sub</span><span class="op">[</span><span class="va">best_match</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">sps</span><span class="op">[</span><span class="va">best_match</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>, tolerance <span class="op">=</span> <span class="fl">0.2</span>,
                   labels <span class="op">=</span> <span class="va">label_fun</span>, labelPos <span class="op">=</span> <span class="fl">2</span>, labelOffset <span class="op">=</span> <span class="fl">0.2</span>,
                   labelSrt <span class="op">=</span> <span class="op">-</span><span class="fl">30</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/grid.html">grid</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/grid.html" class="external-link">grid</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="analyzing-MS-data-from-different-sources-with-Spectra_files/figure-html/mirror-plot-1.png" width="672"></p>
 <p>Our experimental spectrum seems to nicely match the <em>reference</em> MS2 in HMDB. Below we extract the compound identifier from the best matching HMDB spectrum (stored in a spectra variable called <code>"compound_id"</code>)</p>
-<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">hmdb_sub</span><span class="op">[</span><span class="va">best_match</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">compound_id</span></code></pre></div>
-<pre><code>## [1] "HMDB0000192"</code></pre>
-<p>In fact, the matching spectrum from HMDB is an experimental spectrum for <a href="https://hmdb.ca/metabolites/HMDB0000192">L-Cystine</a>.</p>
+<pre><code><span class="co">## [1] "HMDB0000192"</span></code></pre>
+<p>In fact, the matching spectrum from HMDB is an experimental spectrum for <a href="https://hmdb.ca/metabolites/HMDB0000192" class="external-link">L-Cystine</a>.</p>
 </div>
 </div>
-<div id="short-summary" class="section level1">
-<h1 class="hasAnchor">
-<a href="#short-summary" class="anchor"></a>Short summary</h1>
+<div class="section level2">
+<h2 id="short-summary">Short summary<a class="anchor" aria-label="anchor" href="#short-summary"></a>
+</h2>
 <ul>
 <li><p>Independence between data analysis and data storage functionality allows to easily add support for additional data types or data handling/storage modes.</p></li>
 <li><p>Caching data operations and applying them on-the-fly allow data manipulations regardless of how and where data is stored.</p></li>
 </ul>
 </div>
-<div id="summary" class="section level1">
-<h1 class="hasAnchor">
-<a href="#summary" class="anchor"></a>Summary</h1>
-<p>With the simple use case of matching experimental MS2 spectra against a public database we illustrated in this short tutorial the flexibility and expandability of the <code>Spectra</code> package that enables the seamless integration of mass spectrometry data from different sources. This was only possible with a clear separation of the user functionality (<code>Spectra</code> object) from the representation of the data (<code>MsBackend</code> object). Backends such as the <a href="https://github.com/RforMassSpectrometry/MsBackendMgf"><code>MsBackendMgf</code></a>, the <a href="https://github.com/michealwitting/MsBackendMassbank"><code>MsBackendMassbank</code></a> or the <a href="https://github.com/RforMassSpectrometry/MsBackendHmdb"><code>MsBackendHmdbXml</code></a> provide support for additional data formats or data sources, while others, due to their much lower memory footprint (<code>MsBackendMzR</code>, <code>MsBackendHdf5Peaks</code>), enable the analysis of also very large data sets. Most importantly however, these backends are interchangeable and do not affect the way users can handle and analyze MS data with the <code>Spectra</code> package. Also, by caching data operations within the <code>Spectra</code> object and applying them only upon data requests, the same data operations can be applied to any data resource regardless of how and where the data is stored, even if the data itself is <em>read-only</em>.</p>
+<div class="section level2">
+<h2 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
+</h2>
+<p>With the simple use case of matching experimental MS2 spectra against a public database we illustrated in this short tutorial the flexibility and expandability of the <code>Spectra</code> package that enables the seamless integration of mass spectrometry data from different sources. This was only possible with a clear separation of the user functionality (<code>Spectra</code> object) from the representation of the data (<code>MsBackend</code> object). Backends such as the <a href="https://github.com/RforMassSpectrometry/MsBackendMgf" class="external-link"><code>MsBackendMgf</code></a>, the <a href="https://github.com/michealwitting/MsBackendMassbank" class="external-link"><code>MsBackendMassbank</code></a> or the <a href="https://github.com/RforMassSpectrometry/MsBackendHmdb" class="external-link"><code>MsBackendHmdbXml</code></a> provide support for additional data formats or data sources, while others, due to their much lower memory footprint (<code>MsBackendMzR</code>, <code>MsBackendHdf5Peaks</code>), enable the analysis of also very large data sets. Most importantly however, these backends are interchangeable and do not affect the way users can handle and analyze MS data with the <code>Spectra</code> package. Also, by caching data operations within the <code>Spectra</code> object and applying them only upon data requests, the same data operations can be applied to any data resource regardless of how and where the data is stored, even if the data itself is <em>read-only</em>.</p>
 </div>
-<div id="what-else" class="section level1">
-<h1 class="hasAnchor">
-<a href="#what-else" class="anchor"></a>What else?</h1>
+<div class="section level2">
+<h2 id="what-else">What else?<a class="anchor" aria-label="anchor" href="#what-else"></a>
+</h2>
 <ul>
 <li>
-<a href="https://github.com/rformassspectrometry/MetaboAnnotation"><code>MetaboAnnotation</code></a> (Andrea Vicini, Michael Witting) to provide simple functions for matching of spectra or m/z and retention time data.</li>
+<a href="https://github.com/rformassspectrometry/MetaboAnnotation" class="external-link"><code>MetaboAnnotation</code></a> (Andrea Vicini, Michael Witting) to provide simple functions for matching of spectra or m/z and retention time data.</li>
 <li>
-<a href="https://github.com/EuracBiomedicalResearch/CompoundDb"><code>CompoundDb</code></a> to create and use small compound annotation databases (including <code>Spectra</code>).</li>
+<a href="https://github.com/rformassspectrometry/MsExperiment" class="external-link"><code>MsExperiment</code></a> to represent whole MS experiments (incl. <code>Spectra</code>, sample annotation, data quantitation, annotation files etc).</li>
 <li>
-<a href="https://github.com/rformassspectrometry/MsExperiment"><code>MsExperiment</code></a> to represent whole MS experiments (incl. <code>Spectra</code>, sample annotation, data quantitation, annotation files etc).</li>
+<a href="https://github.com/tnaake/msQC" class="external-link"><code>msQC</code></a> (Thomas Naake): QC measures for MS data.</li>
 <li>
-<a href="https://github.com/tnaake/msQC"><code>msQC</code></a> (Thomas Naake): QC measures for MS data.</li>
+<a href="https://github.com/rformassspectrometry/MsBackendMsp" class="external-link"><code>MsBackendMsp</code></a> (Steffen Neumann): backend for files in MSP format.</li>
 <li>
-<a href="https://github.com/rformassspectrometry/MsBackendMsp"><code>MsBackendMsp</code></a> (Steffen Neumann): backend for files in MSP format.</li>
-<li>
-<a href="https://github.com/RforMassSpectrometry/MsBackendSql"><code>MsBackendSql</code></a> (Chong Tang): SQL-based backend for very large data sets.</li>
+<a href="https://github.com/RforMassSpectrometry/MsBackendSql" class="external-link"><code>MsBackendSql</code></a> (Chong Tang): SQL-based backend for very large data sets.</li>
 <li><code>...</code></li>
 </ul>
 </div>
-<div id="references" class="section level1 unnumbered">
-<h1 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h1>
+<div class="section level2">
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-gattoMSnbaseEfficientElegant2020a" class="csl-entry">
-Gatto, Laurent, Sebastian Gibb, and Johannes Rainer. 2020. <span>“<span>MSnbase</span>, <span>Efficient</span> and <span>Elegant R</span>-<span>Based Processing</span> and <span>Visualization</span> of <span>Raw Mass Spectrometry Data</span>.”</span> <em>Journal of Proteome Research</em>, September. <a href="https://doi.org/10.1021/acs.jproteome.0c00313">https://doi.org/10.1021/acs.jproteome.0c00313</a>.
+Gatto, Laurent, Sebastian Gibb, and Johannes Rainer. 2020. <span>“<span>MSnbase</span>, <span>Efficient</span> and <span>Elegant R</span>-<span>Based Processing</span> and <span>Visualization</span> of <span>Raw Mass Spectrometry Data</span>.”</span> <em>Journal of Proteome Research</em>, September. <a href="https://doi.org/10.1021/acs.jproteome.0c00313" class="external-link">https://doi.org/10.1021/acs.jproteome.0c00313</a>.
 </div>
 </div>
 </div>
@@ -737,11 +748,13 @@ Gatto, Laurent, Sebastian Gibb, and Johannes Rainer. 2020. <span>“<span>MSnbas
 
 
       <footer><div class="copyright">
-  <p>Developed by Johannes Rainer, Michael Witting, Laurent Gatto, Sebastian Gibb.</p>
+  <p></p>
+<p>Developed by Johannes Rainer, Michael Witting, Laurent Gatto, Sebastian Gibb.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -749,6 +762,8 @@ Gatto, Laurent, Sebastian Gibb, and Johannes Rainer. 2020. <span>“<span>MSnbas
 
   
 
+
+  
 
   </body>
 </html>
