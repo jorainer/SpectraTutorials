@@ -12,7 +12,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding[utf8]{inputenc}
   %\VignettePackage{SpectraTutorials}
-  %\VignetteDepends{Spectra,mzR,RMariaDB,pheatmap,BiocStyle}
+  %\VignetteDepends{Spectra,mzR,RMariaDB,pheatmap,BiocStyle,CompoundDb}
 bibliography: references.bib
 ---
 
@@ -83,11 +83,6 @@ data in a format commonly used for exchange of MS2 data.
 - To get the source code: clone [this github
 repository](https://github.com/jorainer/SpectraTutorials), e.g. with `git clone
 https://github.com/jorainer/SpectraTutorials`.
-- Optionally, to run also the code to import the MS2 spectra from HMDB the *All
-  Spectra Files (XML)* archive from the [hmdb downloads
-  page](https://hmdb.ca/downloads) has to be downloaded. The contents of the
-  *hmdb_all_spectra.zip* archive should then be unzipped into the folder
-  *data/hmdb_all_spectra*.
 
 
 ## R/Bioconductor packages used
@@ -96,10 +91,7 @@ https://github.com/jorainer/SpectraTutorials`.
 - [`MsCoreUtils`](https://bioconductor.org/packages/MsCoreUtils)
 - [`MsBackendMgf`](https://bioconductor.org/packages/MsBackendMgf)
 - [`MsBackendMassbank`](https://bioconductor.org/packages/MsBackendMassbank)
-
-Other R packages not (yet) in Bioconductor:
-
-- [`MsBackendHmdb`](https://rformassspectrometry.github.io/MsBackendHmdb)
+- [`CompoundDb`](https://bioconductor.org/packages/CompoundDb)
 
 
 ## Time outline
@@ -607,7 +599,10 @@ sps$collisionEnergy <- 20
 Note: a more convenient spectra matching functionality designed for less
 experienced R users is available in the
 [`MetaboAnnotation`](https://rformassspectrometry.github.io/MetaboAnnotation)
-package.
+package. A second tutorial is available within this github repository/R package
+and additional tutorials can be found in the
+[MetaboAnnotationTutorials](https://jorainer.github.io/MetaboAnnotationTutorials)
+repository/R package.
 
 
 ## Data export
@@ -641,34 +636,44 @@ through the `MsBackendHmdbXml` backend, allows to import MS2 spectra files in
 HMDB format. These are provided by HMDB as individual xml files in a custom file
 format which are bundled (and can hence be downloaded) in a single archive.
 
-To reproduce the following code it is expected (as detailed in the Installation
-section) that all xml files from HMDB are available in a folder
-*data/hmdb_all_spectra*. Below we identify all xml files containing the key word
-`"ms_ms"` in their file name and load them into a `Spectra` object using the
-`MsBackendHmdbXml` backend. Note that this import operation from the ~ 500,000
-individual xml files takes up to ~ 2 hours to finish.
+As an alternative, it is also possible to create portable annotation resources
+using the [`CompoundDb`](https://rformassspectrometry.github.io/CompoundDb)
+package. This packages allows for example to create annotation databases for
+MoNA, MassBank or HMDB. A `CompDb` database containing all compound annotations
+along with all (experimental) MS2 spectra is provided as a data release in the
+[MetaboAnnotationTutorials](https://jorainer.github.io/MetaboAnnotationTutorials/)
+repository. Below we download this SQLite database to a temporary file.
 
-```{r hmdb-import, eval = FALSE}
-library(MsBackendHmdb)
-
-#' Get all MS2 spectra xml files and import data
-fls <- dir("data/hmdb_all_spectra/", full.names = TRUE, pattern = "ms_ms")
-hmdb <- Spectra(fls, source = MsBackendHmdbXml(), nonStop = TRUE)
+```{r hmdb-download, message = FALSE}
+#' Download the CompDb database using curl
+library(curl)
+dbname <- "CompDb.Hsapiens.HMDB.5.0.sqlite"
+db_file <- file.path(tempdir(), dbname)
+curl_download(
+    paste0("https://github.com/jorainer/MetaboAnnotationTutorials/",
+           "releases/download/2021-11-02/", dbname),
+    destfile = db_file)
 ```
 
-```{r hmdb-import-save, eval = FALSE, echo = FALSE}
-#' Eventually save for faster re-use
-save(hmdb, file = "data/hmdb.RData", compress = "xz")
+We can now load this annotation resource using the `CompDb` function from the
+`CompoundDb` package:
+
+```{r, message = FALSE}
+library(CompoundDb)
+#' Load a CompDb database with compound annotation from HMDB
+cdb <- CompDb(db_file)
+cdb
 ```
 
-```{r hmdb-load, echo = FALSE}
-#' Load the pre-generated Spectra object with spectra from HMDB.
-library(MsBackendHmdb)
-data("hmdb", package = "SpectraTutorials")
+We can now again create a `Spectra` object to get access to the MS2 spectra
+within this package:
+
+```{r}
+hmdb <- Spectra(cdb)
 ```
 
 With this we have now a `Spectra` object containing all MS2 spectra from
-HMDB. Note that with the `MsBackendHmdbXml` all spectra data is kept in memory.
+HMDB.
 
 ```{r}
 hmdb
@@ -763,8 +768,6 @@ the data is stored, even if the data itself is *read-only*.
 - [`MetaboAnnotation`](https://github.com/rformassspectrometry/MetaboAnnotation)
   (Andrea Vicini, Michael Witting) to provide simple functions for matching of
   spectra or m/z and retention time data.
-- [`CompoundDb`](https://github.com/EuracBiomedicalResearch/CompoundDb) to
-  create and use small compound annotation databases (including `Spectra`).
 - [`MsExperiment`](https://github.com/rformassspectrometry/MsExperiment) to
   represent whole MS experiments (incl. `Spectra`, sample annotation, data
   quantitation, annotation files etc).

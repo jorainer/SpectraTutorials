@@ -115,11 +115,6 @@ The video recording of this workshop at the
 - To get the source code: clone [this github
 repository](https://github.com/jorainer/SpectraTutorials), e.g. with `git clone
 https://github.com/jorainer/SpectraTutorials`.
-- Optionally, to run also the code to import the MS2 spectra from HMDB the *All
-  Spectra Files (XML)* archive from the [hmdb downloads
-  page](https://hmdb.ca/downloads) has to be downloaded. The contents of the
-  *hmdb_all_spectra.zip* archive should then be unzipped into the folder
-  *data/hmdb_all_spectra*.
 
 Alternatively, a SQLite database containing all required data from MassBank is
 available
@@ -145,7 +140,7 @@ BiocManager::install(c("BiocStyle",
                        "MsCoreUtils",
                        "Spectra",
                        "pheatmap"))
-devtools::install_github("RforMassSpectrometry/MsBackendHmdb")
+devtools::install_github("RforMassSpectrometry/CompoundDb")
 devtools::install_github("RforMassSpectrometry/MsBackendMgf")
 devtools::install_github("michaelwitting/MsBackendMassbank")
 devtools::install_github("jorainer/SpectraTutorials")
@@ -173,10 +168,7 @@ emacs, vim, ...) and evaluate the R-code in the tutorial interactively.
 - [`MsCoreUtils`](https://bioconductor.org/packages/MsCoreUtils)
 - [`MsBackendMgf`](https://bioconductor.org/packages/MsBackendMgf)
 - [`MsBackendMassbank`](https://bioconductor.org/packages/MsBackendMassbank)
-
-Other R packages not (yet) in Bioconductor:
-
-- [`MsBackendHmdb`](https://rformassspectrometry.github.io/MsBackendHmdb)
+- [`CompoundDb`](https://bioconductor.org/packages/CompoundDb)
 
 ### Time outline
 
@@ -197,7 +189,8 @@ Other R packages not (yet) in Bioconductor:
 The `Spectra` package provides all the functionality required for annotation and
 identification workflows for untargeted LC-MS/MS data, but, while being very
 flexible and customizable, it might be too cumbersome for beginners or analysts
-not accustomed with R. To fill this gap we developed the [`MetaboAnnotation`](https://rformassspectrometry.github.io/MetaboAnnotation)
+not accustomed with R. To fill this gap we developed the
+[`MetaboAnnotation`](https://rformassspectrometry.github.io/MetaboAnnotation)
 package that builds upon `Spectra` and provides functions for annotation of
 LC-MS and LC-MS/MS data sets tailored towards the less experienced R user.
 

@@ -1,3 +1,10 @@
+# Version 0.6
+
+## Version 0.6.0
+
+- Remove the `Spectra` object with data from HMDB.
+- Use a `CompDb` database for HMDB annotations.
+
 # Version 0.5
 
 ## Version 0.5.0
