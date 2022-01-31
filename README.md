@@ -8,27 +8,28 @@
 <a href="https://rformassspectrometry.github.io/Spectra">
 <img
 src="https://raw.githubusercontent.com/rformassspectrometry/stickers/master/Spectra/Spectra.png"
-height="150">
+height="100">
 </a>
 <a href="https://rformassspectrometry.github.io/MsBackendMassbank">
 <img
 src="https://raw.githubusercontent.com/rformassspectrometry/stickers/master/MsBackendMassbank/MsBackendMassbank.png"
-height="150">
+height="100">
 </a>
 <a href="https://rformassspectrometry.github.io/MsBackendMgf">
 <img
 src="https://raw.githubusercontent.com/rformassspectrometry/stickers/master/MsBackendMgf/MsBackendMgf.png"
-height="150">
+height="100">
+</a>
+<a href="https://rformassspectrometry.github.io/CompoundDb">
+<img
+src="https://raw.githubusercontent.com/rformassspectrometry/stickers/master/CompoundDb/CompoundDb.png"
+height="100">
 </a>
 </div>
 <br>
 <br>
 <br>
 <br>
-<br>
-<br>
-<br>
-
 
 <div></div>
 
