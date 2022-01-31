@@ -48,7 +48,7 @@ Suggests:
 Remotes:
     RforMassSpectrometry/MsBackendHmdb,
     RforMassSpectrometry/MetaboAnnotation,
-    RforMassSpectronetry/CompoundDb
+    RforMassSpectrometry/CompoundDb
 URL: https://jorainer.github.io/SpectraTutorials/
 BugReports: https://github.com/jorainer/SpectraTutorials/issues/new
 VignetteBuilder: knitr
