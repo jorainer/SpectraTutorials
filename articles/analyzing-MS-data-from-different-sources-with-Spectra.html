@@ -93,7 +93,7 @@
 
     
     
-<p><strong>Last modified:</strong> 2022-01-31 18:42:47<br><strong>Compiled</strong>: Mon Jan 31 18:47:25 2022</p>
+<p><strong>Last modified:</strong> 2022-01-31 19:55:45<br><strong>Compiled</strong>: Mon Jan 31 20:03:34 2022</p>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
@@ -329,7 +329,7 @@
 <span class="co">## 3         1     1.491         5</span>
 <span class="co">##  ... 33 more variables/columns.</span>
 <span class="co">## Processing:</span>
-<span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Mon Jan 31 18:47:30 2022]</span></code></pre>
+<span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Mon Jan 31 20:03:41 2022]</span></code></pre>
 <p>In our workshop, we next want to identify in our experimental data MS2 spectra that were generated from an ion that matches the m/z of the <code>[M+H]+</code> ion of the metabolite cystine (one of the standards added to the sample mix measured in the present experimental data). We thus use below the <code>filterPrecursorMzValues</code> function to subset the data to MS2 spectra matching that m/z (accepting a difference in m/z of 10 parts-per-million (ppm)).</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Define the m/z ratio for an ion of cystine</span>
@@ -349,8 +349,8 @@
 <span class="co">## 6         2   240.020       804</span>
 <span class="co">##  ... 33 more variables/columns.</span>
 <span class="co">## Processing:</span>
-<span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Mon Jan 31 18:47:30 2022]</span>
-<span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Mon Jan 31 18:47:30 2022]</span></code></pre>
+<span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Mon Jan 31 20:03:41 2022]</span>
+<span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Mon Jan 31 20:03:41 2022]</span></code></pre>
 <p>In total 6 spectra matched our target precursor m/z.</p>
 </div>
 <div class="section level3">
@@ -506,7 +506,7 @@
 <span class="co">##  Use  'spectraVariables' to list all of them.</span>
 <span class="co">## Lazy evaluation queue: 1 processing step(s)</span>
 <span class="co">## Processing:</span>
-<span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Mon Jan 31 18:47:33 2022]</span></code></pre>
+<span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Mon Jan 31 20:03:46 2022]</span></code></pre>
 <p>This left us with 12 spectra for which we calculate the similarity against each of our experimental spectra using the <code>compareSpectra</code> function.</p>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Compare MassBank subset to experimental spectra</span>
