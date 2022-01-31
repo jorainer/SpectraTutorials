@@ -275,16 +275,16 @@ sps_all[c(4, 2, 5)]
 In our workshop, we next want to identify in our experimental data MS2 spectra
 that were generated from an ion that matches the m/z of the `[M+H]+` ion of the
 metabolite cystine (one of the standards added to the sample mix measured in the
-present experimental data). We thus use below the `filterPrecursorMz` function
-to subset the data to MS2 spectra matching that m/z (accepting a difference in
-m/z of 10 parts-per-million (ppm)).
+present experimental data). We thus use below the `filterPrecursorMzValues`
+function to subset the data to MS2 spectra matching that m/z (accepting a
+difference in m/z of 10 parts-per-million (ppm)).
 
 ```{r filter-precursor-mz}
 #' Define the m/z ratio for an ion of cystine
 mz <- 241.0311
 
 #' Subset the dataset to MS2 spectra matching the m/z
-sps <- filterPrecursorMz(sps_all, mz = mz + ppm(c(-mz, mz), 10))
+sps <- filterPrecursorMzValues(sps_all, mz = mz, ppm = 10)
 sps
 ```
 
@@ -494,12 +494,13 @@ We next want to compare our experimental spectra against the spectra from
 MassBank. Instead of comparing against all `r length(mbank)` available spectra,
 we first filter the MassBank database to spectra with a precursor m/z matching
 the one of the *[M+H]+* ion of cystine. Note that, as an alternative to the
-`filterPrecursorMz` used below, we could also use the `containsMz` function to
-screen for spectra containing an actual peak matching the precursor m/z.
+`filterPrecursorMzValues` used below, we could also use the `containsMz`
+function to screen for spectra containing an actual peak matching the precursor
+m/z.
 
 ```{r massbank-precursor}
 #' Filter MassBank for spectra of precursor ion
-mbank_sub <- filterPrecursorMz(mbank, mz = mz + ppm(c(-mz, mz), 10))
+mbank_sub <- filterPrecursorMzValues(mbank, mz = mz, ppm = 10)
 mbank_sub
 ```
 
