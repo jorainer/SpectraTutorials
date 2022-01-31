@@ -47,7 +47,7 @@ Suggests:
     MetaboAnnotation
 Remotes:
     RforMassSpectrometry/MsBackendHmdb,
-    RforMassSpectrometry/MetaboAnnotation
+    RforMassSpectrometry/MetaboAnnotation,
     RforMassSpectronetry/CompoundDb
 URL: https://jorainer.github.io/SpectraTutorials/
 BugReports: https://github.com/jorainer/SpectraTutorials/issues/new
