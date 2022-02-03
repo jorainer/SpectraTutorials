@@ -10,7 +10,6 @@
 src="https://raw.githubusercontent.com/rformassspectrometry/stickers/master/Spectra/Spectra.png"
 height="100">
 </a>
-<div style="float: left;">
 <a href="https://rformassspectrometry.github.io/MsCoreUtils">
 <img
 src="https://raw.githubusercontent.com/rformassspectrometry/stickers/master/MsCoreUtils/MsCoreUtils.png"
