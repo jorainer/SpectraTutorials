@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SpectraTutorials</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.1</span>
       </span>
     </div>
 
@@ -93,7 +93,7 @@
 
     
     
-<p><strong>Last modified:</strong> 2022-01-31 19:55:45<br><strong>Compiled</strong>: Mon Jan 31 20:03:34 2022</p>
+<p><strong>Last modified:</strong> 2022-02-03 15:12:11<br><strong>Compiled</strong>: Thu Feb 3 15:17:39 2022</p>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
@@ -329,7 +329,7 @@
 <span class="co">## 3         1     1.491         5</span>
 <span class="co">##  ... 33 more variables/columns.</span>
 <span class="co">## Processing:</span>
-<span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Mon Jan 31 20:03:41 2022]</span></code></pre>
+<span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Thu Feb  3 15:17:44 2022]</span></code></pre>
 <p>In our workshop, we next want to identify in our experimental data MS2 spectra that were generated from an ion that matches the m/z of the <code>[M+H]+</code> ion of the metabolite cystine (one of the standards added to the sample mix measured in the present experimental data). We thus use below the <code>filterPrecursorMzValues</code> function to subset the data to MS2 spectra matching that m/z (accepting a difference in m/z of 10 parts-per-million (ppm)).</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Define the m/z ratio for an ion of cystine</span>
@@ -349,8 +349,8 @@
 <span class="co">## 6         2   240.020       804</span>
 <span class="co">##  ... 33 more variables/columns.</span>
 <span class="co">## Processing:</span>
-<span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Mon Jan 31 20:03:41 2022]</span>
-<span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Mon Jan 31 20:03:41 2022]</span></code></pre>
+<span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Thu Feb  3 15:17:44 2022]</span>
+<span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Thu Feb  3 15:17:44 2022]</span></code></pre>
 <p>In total 6 spectra matched our target precursor m/z.</p>
 </div>
 <div class="section level3">
@@ -458,7 +458,7 @@
 <span class="co">## 86576         2     358.270         0</span>
 <span class="co">##  ... 42 more variables/columns.</span>
 <span class="co">##  Use  'spectraVariables' to list all of them.</span></code></pre>
-<p>Alternatively, if no MySQL database system is available or if this tutorial can not be run within <em>docker</em>, an SQLite database version of the MassBank data (in the format required for <code>MsBackendMassbankSql</code> is available <a href="https://github.com/jorainer/SpectraTutorials/releases/tag/2021.03" class="external-link">here</a>. This database can be loaded instead using:</p>
+<p>Alternatively, if no MySQL database system is available or if this tutorial can not be run within <em>docker</em>, an SQLite database version of the MassBank data (in the format required for <code>MsBackendMassbankSql</code> is available <a href="https://github.com/jorainer/SpectraTutorials/releases/tag/2021.03" class="external-link">here</a>. After downloading the database <em>MassbankSql-2021-03.db</em> to the current R workspace, the resource can be loaded with:</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Alternative to the MySQL server - assuming the SQLite database was</span>
 <span class="co">## stored to the R working directory.</span>
@@ -506,7 +506,7 @@
 <span class="co">##  Use  'spectraVariables' to list all of them.</span>
 <span class="co">## Lazy evaluation queue: 1 processing step(s)</span>
 <span class="co">## Processing:</span>
-<span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Mon Jan 31 20:03:46 2022]</span></code></pre>
+<span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Thu Feb  3 15:17:48 2022]</span></code></pre>
 <p>This left us with 12 spectra for which we calculate the similarity against each of our experimental spectra using the <code>compareSpectra</code> function.</p>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Compare MassBank subset to experimental spectra</span>
@@ -636,40 +636,61 @@
 <p>We can now again create a <code>Spectra</code> object to get access to the MS2 spectra within this package:</p>
 <div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">hmdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">cdb</span><span class="op">)</span></code></pre></div>
-<p>With this we have now a <code>Spectra</code> object containing all MS2 spectra from HMDB.</p>
+<p>With this we have now a <code>Spectra</code> object containing all MS2 spectra from HMDB along with compound annotations.</p>
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">hmdb</span></code></pre></div>
 <pre><code><span class="co">## MSn data (Spectra) with 64920 spectra in a MsBackendCompDb backend:</span>
-<span class="co">##         msLevel     rtime scanIndex</span>
-<span class="co">##       &lt;integer&gt; &lt;numeric&gt; &lt;integer&gt;</span>
-<span class="co">## 1            NA        NA        NA</span>
-<span class="co">## 2            NA        NA        NA</span>
-<span class="co">## 3            NA        NA        NA</span>
-<span class="co">## 4            NA        NA        NA</span>
-<span class="co">## 5            NA        NA        NA</span>
-<span class="co">## ...         ...       ...       ...</span>
-<span class="co">## 64916        NA        NA        NA</span>
-<span class="co">## 64917        NA        NA        NA</span>
-<span class="co">## 64918        NA        NA        NA</span>
-<span class="co">## 64919        NA        NA        NA</span>
-<span class="co">## 64920        NA        NA        NA</span>
-<span class="co">##  ... 26 more variables/columns.</span>
+<span class="co">##         msLevel precursorMz  polarity</span>
+<span class="co">##       &lt;integer&gt;   &lt;numeric&gt; &lt;integer&gt;</span>
+<span class="co">## 1            NA          NA         1</span>
+<span class="co">## 2            NA          NA         1</span>
+<span class="co">## 3            NA          NA         1</span>
+<span class="co">## 4            NA          NA         1</span>
+<span class="co">## 5            NA          NA         1</span>
+<span class="co">## ...         ...         ...       ...</span>
+<span class="co">## 64916        NA          NA         0</span>
+<span class="co">## 64917        NA          NA         0</span>
+<span class="co">## 64918        NA          NA         0</span>
+<span class="co">## 64919        NA          NA         0</span>
+<span class="co">## 64920        NA          NA         1</span>
+<span class="co">##  ... 32 more variables/columns.</span>
+<span class="co">##  Use  'spectraVariables' to list all of them.</span>
 <span class="co">##  data source: HMDB </span>
 <span class="co">##  version: 5.0 </span>
 <span class="co">##  organism: Hsapiens</span></code></pre>
-<p>Also here, we want to filter the data resource first for spectra with a matching precursor m/z. Unfortunately, HMDB does not provided the spectra’s precursor m/z and we hence need to used the <code>containsMz</code> function to find spectra containing a peak with an m/z matching the m/z of our ion of interest. In addition, We need to use a rather large <code>tolerance</code> value (which defines the maximal acceptable absolute difference in m/z values) since some of the experimental spectra in HMDB seem to be recorded by not well calibrated instrument.</p>
+<p>The spectra variables (including compound annotations) available for each spectrum are:</p>
 <div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">spectraVariables</a></span><span class="op">(</span><span class="va">hmdb</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">##  [1] "msLevel"                 "rtime"                  </span>
+<span class="co">##  [3] "acquisitionNum"          "scanIndex"              </span>
+<span class="co">##  [5] "dataStorage"             "dataOrigin"             </span>
+<span class="co">##  [7] "centroided"              "smoothed"               </span>
+<span class="co">##  [9] "polarity"                "precScanNum"            </span>
+<span class="co">## [11] "precursorMz"             "precursorIntensity"     </span>
+<span class="co">## [13] "precursorCharge"         "collisionEnergy"        </span>
+<span class="co">## [15] "isolationWindowLowerMz"  "isolationWindowTargetMz"</span>
+<span class="co">## [17] "isolationWindowUpperMz"  "compound_id"            </span>
+<span class="co">## [19] "name"                    "inchi"                  </span>
+<span class="co">## [21] "inchikey"                "formula"                </span>
+<span class="co">## [23] "exactmass"               "smiles"                 </span>
+<span class="co">## [25] "original_spectrum_id"    "predicted"              </span>
+<span class="co">## [27] "splash"                  "instrument_type"        </span>
+<span class="co">## [29] "instrument"              "spectrum_id"            </span>
+<span class="co">## [31] "msms_mz_range_min"       "msms_mz_range_max"      </span>
+<span class="co">## [33] "synonym"</span></code></pre>
+<p>Also here, we want to filter the data resource first for spectra with a matching precursor m/z. Unfortunately, HMDB does not provided the spectra’s precursor m/z and we hence need to used the <code>containsMz</code> function to find spectra containing a peak with an m/z matching the m/z of our ion of interest. In addition, We need to use a rather large <code>tolerance</code> value (which defines the maximal acceptable absolute difference in m/z values) since some of the experimental spectra in HMDB seem to be recorded by not well calibrated instrument.</p>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Identify spectra containing a peak matching cystine m/z</span>
 <span class="va">has_mz</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html" class="external-link">containsMz</a></span><span class="op">(</span><span class="va">hmdb</span>, mz <span class="op">=</span> <span class="va">mz</span>, tolerance <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></code></pre></div>
 <p>In total 3904 spectra contain a peak with the required m/z (+/- 0.2 Dalton) and we can proceed to calculate spectral similarities between these and our experimental spectra.</p>
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#' Subset HMDB</span>
 <span class="va">hmdb_sub</span> <span class="op">&lt;-</span> <span class="va">hmdb</span><span class="op">[</span><span class="va">has_mz</span><span class="op">]</span>
 
 <span class="co">#' Compare HMDB against experimental spectra</span>
 <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compareSpectra</a></span><span class="op">(</span><span class="va">hmdb_sub</span>, <span class="va">sps</span>, tolerance <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></code></pre></div>
 <p>The highest similarity between our spectra and the spectra from HMDB is <code>r max(res)</code>. Below we compare the two best matching spectra with a <em>mirror plot</em>, in the upper panel showing our experimental spectrum and in the lower panel the best matching MS2 spectrum from HMDB.</p>
-<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">best_match</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">res</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span>, arr.ind <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">## Specifying a function to draw peak labels</span>
 <span class="va">label_fun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
@@ -681,9 +702,13 @@
 <span class="fu"><a href="https://rdrr.io/r/graphics/grid.html" class="external-link">grid</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="analyzing-MS-data-from-different-sources-with-Spectra_files/figure-html/mirror-plot-1.png" width="672"></p>
 <p>Our experimental spectrum seems to nicely match the <em>reference</em> MS2 in HMDB. Below we extract the compound identifier from the best matching HMDB spectrum (stored in a spectra variable called <code>"compound_id"</code>)</p>
-<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">hmdb_sub</span><span class="op">[</span><span class="va">best_match</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">compound_id</span></code></pre></div>
 <pre><code><span class="co">## [1] "HMDB0000192"</span></code></pre>
+<p>And the name of this compound</p>
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">hmdb_sub</span><span class="op">[</span><span class="va">best_match</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">name</span></code></pre></div>
+<pre><code><span class="co">## [1] "L-Cystine"</span></code></pre>
 <p>In fact, the matching spectrum from HMDB is an experimental spectrum for <a href="https://hmdb.ca/metabolites/HMDB0000192" class="external-link">L-Cystine</a>.</p>
 </div>
 </div>
@@ -714,6 +739,8 @@
 <a href="https://github.com/rformassspectrometry/MsBackendMsp" class="external-link"><code>MsBackendMsp</code></a> (Steffen Neumann): backend for files in MSP format.</li>
 <li>
 <a href="https://github.com/RforMassSpectrometry/MsBackendSql" class="external-link"><code>MsBackendSql</code></a> (Chong Tang): SQL-based backend for very large data sets.</li>
+<li>
+<a href="https://github.com/RforMassSpectrometry/MsqlBackend" class="external-link"><code>MsqlBackend</code></a>: alternative SQL-backed backend optimized for MySQL databases.</li>
 <li><code>...</code></li>
 </ul>
 </div>
