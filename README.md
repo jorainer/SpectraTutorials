@@ -10,6 +10,12 @@
 src="https://raw.githubusercontent.com/rformassspectrometry/stickers/master/Spectra/Spectra.png"
 height="100">
 </a>
+<div style="float: left;">
+<a href="https://rformassspectrometry.github.io/MsCoreUtils">
+<img
+src="https://raw.githubusercontent.com/rformassspectrometry/stickers/master/MsCoreUtils/MsCoreUtils.png"
+height="100">
+</a>
 <a href="https://rformassspectrometry.github.io/MsBackendMassbank">
 <img
 src="https://raw.githubusercontent.com/rformassspectrometry/stickers/master/MsBackendMassbank/MsBackendMassbank.png"
@@ -197,3 +203,7 @@ LC-MS and LC-MS/MS data sets tailored towards the less experienced R user.
 
 This tutorial shows how `MetaboAnnotatio` can be used in R-based LC-MS/MS
 annotation workflows.
+
+Note that there is also an additional tutorial for the `MetaboAnnotation`,
+`CompoundDb` and `MetaboCoreUtils` packages available:
+[MetaboAnnotationTutorials](https://jorainer.github.io/MetaboAnnotationTutorials).

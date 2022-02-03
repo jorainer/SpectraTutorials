@@ -32,7 +32,8 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE)
 The `Spectra` package provides all the functionality required for annotation and
 identification workflows for untargeted LC-MS/MS data, but, while being very
 flexible and customizable, it might be too cumbersome for beginners or analysts
-not accustomed with R. To fill this gap we developed the [`MetaboAnnotation`](https://rformassspectrometry.github.io/MetaboAnnotation)
+not accustomed with R. To fill this gap we developed the
+[`MetaboAnnotation`](https://rformassspectrometry.github.io/MetaboAnnotation)
 package that builds upon `Spectra` and provides functions for annotation of
 LC-MS and LC-MS/MS data sets tailored towards the less experienced R user.
 
@@ -83,6 +84,21 @@ library(MsBackendMassbank)
 #' Connect to the MassBank MySQL database
 con <- dbConnect(MariaDB(), user = "massbank", dbname = "MassBank",
                  host = "localhost", pass = "massbank")
+mbank <- Spectra(con, source = MsBackendMassbankSql())
+```
+
+Alternatively, if no MySQL database system is available or if this tutorial can
+not be run within *docker*, an SQLite database version of the MassBank data (in
+the format required for `MsBackendMassbankSql` is available
+[here](https://github.com/jorainer/SpectraTutorials/releases/tag/2021.03). After
+downloading the database *MassbankSql-2021-03.db* to the current R workspace,
+the resource can be loaded with:
+
+```{r massbank-sqlite, eval = FALSE}
+## Alternative to the MySQL server - assuming the SQLite database was
+## stored to the R working directory.
+library(RSQLite)
+con <- dbConnect(SQLite(), "MassbankSql-2021-03.db")
 mbank <- Spectra(con, source = MsBackendMassbankSql())
 ```
 
@@ -312,7 +328,6 @@ pest_match <- pest_match[whichQuery(pest_match)]
 
 The table below lists the compound names of matching spectra for the
 chromatographic peaks.
-
 
 ```{r, results = "asis"}
 pandoc.table(

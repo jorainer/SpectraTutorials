@@ -438,8 +438,9 @@ mbank
 Alternatively, if no MySQL database system is available or if this tutorial can
 not be run within *docker*, an SQLite database version of the MassBank data (in
 the format required for `MsBackendMassbankSql` is available
-[here](https://github.com/jorainer/SpectraTutorials/releases/tag/2021.03). This
-database can be loaded instead using:
+[here](https://github.com/jorainer/SpectraTutorials/releases/tag/2021.03). After
+downloading the database *MassbankSql-2021-03.db* to the current R workspace,
+the resource can be loaded with:
 
 ```{r massbank-sqlite, eval = FALSE}
 ## Alternative to the MySQL server - assuming the SQLite database was
@@ -674,10 +675,17 @@ hmdb <- Spectra(cdb)
 ```
 
 With this we have now a `Spectra` object containing all MS2 spectra from
-HMDB.
+HMDB along with compound annotations.
 
 ```{r}
 hmdb
+```
+
+The spectra variables (including compound annotations) available for each
+spectrum are:
+
+```{r}
+spectraVariables(hmdb)
 ```
 
 Also here, we want to filter the data resource first for spectra with a matching
@@ -730,6 +738,12 @@ spectrum (stored in a spectra variable called `"compound_id"`)
 hmdb_sub[best_match[1]]$compound_id
 ```
 
+And the name of this compound
+
+```{r}
+hmdb_sub[best_match[1]]$name
+```
+
 In fact, the matching spectrum from HMDB is an experimental spectrum for
 [L-Cystine](https://hmdb.ca/metabolites/HMDB0000192).
 
@@ -778,6 +792,8 @@ the data is stored, even if the data itself is *read-only*.
   (Steffen Neumann): backend for files in MSP format.
 - [`MsBackendSql`](https://github.com/RforMassSpectrometry/MsBackendSql) (Chong
   Tang): SQL-based backend for very large data sets.
+- [`MsqlBackend`](https://github.com/RforMassSpectrometry/MsqlBackend):
+  alternative SQL-backed backend optimized for MySQL databases.
 - `...`
 
 # References

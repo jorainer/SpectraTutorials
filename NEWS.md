@@ -1,5 +1,14 @@
 # Version 0.6
 
+## Version 0.6.1
+
+- Adapt to changes in `Spectra` >= 1.5.8: export `spectraVariableMapping`
+  method.
+- Adapt to changes in `CompoundDb` >= 0.9.6: `"target_name"` is available as
+  spectra variable in `Spectra` objects returned from a `CompDb` database.
+- Adapt to changes in `MetaboAnnotation` >= 0.99.4: also the ppm error is
+  reported by `matchMz`.
+
 ## Version 0.6.0
 
 - Remove the `Spectra` object with data from HMDB.
