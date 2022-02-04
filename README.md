@@ -4,40 +4,12 @@
 ![docker pulls](https://img.shields.io/docker/pulls/jorainer/spectra_tutorials)
 [![Docker Image Version (latest by date)](https://img.shields.io/docker/v/jorainer/spectra_tutorials?label=docker%20image)](https://hub.docker.com/repository/docker/jorainer/spectra_tutorials)
 
-<div style="float: left;">
-<a href="https://rformassspectrometry.github.io/Spectra">
-<img
-src="https://raw.githubusercontent.com/rformassspectrometry/stickers/master/Spectra/Spectra.png"
-height="100">
-</a>
-<a href="https://rformassspectrometry.github.io/MsCoreUtils">
-<img
-src="https://raw.githubusercontent.com/rformassspectrometry/stickers/master/MsCoreUtils/MsCoreUtils.png"
-height="100">
-</a>
-<a href="https://rformassspectrometry.github.io/MsBackendMassbank">
-<img
-src="https://raw.githubusercontent.com/rformassspectrometry/stickers/master/MsBackendMassbank/MsBackendMassbank.png"
-height="100">
-</a>
-<a href="https://rformassspectrometry.github.io/MsBackendMgf">
-<img
-src="https://raw.githubusercontent.com/rformassspectrometry/stickers/master/MsBackendMgf/MsBackendMgf.png"
-height="100">
-</a>
-<a href="https://rformassspectrometry.github.io/CompoundDb">
-<img
-src="https://raw.githubusercontent.com/rformassspectrometry/stickers/master/CompoundDb/CompoundDb.png"
-height="100">
-</a>
-</div>
-<br>
-<br>
-<br>
-<br>
-
-<div></div>
-
+![Spectra](man/figures/Spectra.png)
+![MsCoreUtils](man/figures/MsCoreUtils.png)
+![MsBackendMassbank](man/figures/MsBackendMassbank.png)
+![MsBackendMgf](man/figures/MsBackendMgf.png)
+![CompoundDb](man/figures/CompoundDb.png)
+![MetaboAnnotation](man/figures/MetaboAnnotation.png)
 
 Tutorials and workshops for the use of the `Spectra` Bioconductor package to
 analyze mass spectrometry (MS) data.
