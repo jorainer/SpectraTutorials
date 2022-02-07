@@ -30,7 +30,7 @@ jobs:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
         run: |
           service mysql start
-          Rscript -e "rcmdcheck::rcmdcheck(args = c('--no-manual'), error_on = 'warning', check_dir = 'check')"
+          Rscript -e "rcmdcheck::rcmdcheck(args = c('--no-manual'), error_on = 'error', check_dir = 'check')"
         shell: bash {0}
 
       - name: Install deploy dependencies
