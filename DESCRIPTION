@@ -27,6 +27,8 @@ LazyData: false
 Roxygen: list(markdown = TRUE)
 Depends:
     R (>= 4.1)
+Imports:
+    curl
 Suggests:
     Spectra (>= 1.5.8),
     Biobase,
