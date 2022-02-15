@@ -782,7 +782,7 @@ the data is stored, even if the data itself is *read-only*.
 
 - [`MetaboAnnotation`](https://github.com/rformassspectrometry/MetaboAnnotation)
   (Andrea Vicini, Michael Witting) to provide simple functions for matching of
-  spectra or m/z and retention time data.
+  spectra or m/z and retention time data [@rainer_modular_2022].
 - [`MsExperiment`](https://github.com/rformassspectrometry/MsExperiment) to
   represent whole MS experiments (incl. `Spectra`, sample annotation, data
   quantitation, annotation files etc).

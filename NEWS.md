@@ -1,5 +1,9 @@
 # Version 0.6
 
+## Version 0.6.2
+
+- Add citation.
+
 ## Version 0.6.1
 
 - Adapt to changes in `Spectra` >= 1.5.8: export `spectraVariableMapping`

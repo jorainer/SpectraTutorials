@@ -35,8 +35,8 @@ flexible and customizable, it might be too cumbersome for beginners or analysts
 not accustomed with R. To fill this gap we developed the
 [`MetaboAnnotation`](https://rformassspectrometry.github.io/MetaboAnnotation)
 package that builds upon `Spectra` and provides functions for annotation of
-LC-MS and LC-MS/MS data sets tailored towards the less experienced R user.
-
+LC-MS and LC-MS/MS data sets tailored towards the less experienced R user
+[@rainer_modular_2022].
 
 ## Convenient spectra matching using `MetaboAnnotation`
 
@@ -357,3 +357,5 @@ LC-MS features from `xcms`.
 ```{r}
 sessionInfo()
 ```
+
+# References
