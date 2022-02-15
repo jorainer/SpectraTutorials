@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">SpectraTutorials</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,14 +90,14 @@
 
     
     
-<p><strong>Last modified:</strong> 2022-02-07 13:14:58<br><strong>Compiled</strong>: Mon Feb 7 13:19:25 2022</p>
+<p><strong>Last modified:</strong> 2022-02-15 13:44:27<br><strong>Compiled</strong>: Tue Feb 15 13:48:24 2022</p>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
 <div class="section level3">
 <h3 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h3>
-<p>The <code>Spectra</code> package provides all the functionality required for annotation and identification workflows for untargeted LC-MS/MS data, but, while being very flexible and customizable, it might be too cumbersome for beginners or analysts not accustomed with R. To fill this gap we developed the <a href="https://rformassspectrometry.github.io/MetaboAnnotation" class="external-link"><code>MetaboAnnotation</code></a> package that builds upon <code>Spectra</code> and provides functions for annotation of LC-MS and LC-MS/MS data sets tailored towards the less experienced R user.</p>
+<p>The <code>Spectra</code> package provides all the functionality required for annotation and identification workflows for untargeted LC-MS/MS data, but, while being very flexible and customizable, it might be too cumbersome for beginners or analysts not accustomed with R. To fill this gap we developed the <a href="https://rformassspectrometry.github.io/MetaboAnnotation" class="external-link"><code>MetaboAnnotation</code></a> package that builds upon <code>Spectra</code> and provides functions for annotation of LC-MS and LC-MS/MS data sets tailored towards the less experienced R user <span class="citation">(Rainer et al. 2022)</span>.</p>
 </div>
 <div class="section level3">
 <h3 id="convenient-spectra-matching-using-metaboannotation">Convenient spectra matching using <code>MetaboAnnotation</code><a class="anchor" aria-label="anchor" href="#convenient-spectra-matching-using-metaboannotation"></a>
@@ -972,7 +972,7 @@
 </h2>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## R Under development (unstable) (2022-02-03 r81650)</span>
+<pre><code><span class="co">## R Under development (unstable) (2022-02-10 r81713)</span>
 <span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span>
 <span class="co">## Running under: Ubuntu 20.04.3 LTS</span>
 <span class="co">## </span>
@@ -993,31 +993,31 @@
 <span class="co">## </span>
 <span class="co">## other attached packages:</span>
 <span class="co">##  [1] xcms_3.17.3             MSnbase_2.21.5          mzR_2.29.3             </span>
-<span class="co">##  [4] Rcpp_1.0.8              Biobase_2.55.0          MetaboAnnotation_0.99.4</span>
+<span class="co">##  [4] Rcpp_1.0.8              Biobase_2.55.0          MetaboAnnotation_0.99.6</span>
 <span class="co">##  [7] MsBackendMassbank_1.3.4 RMariaDB_1.2.1          pander_0.6.4           </span>
 <span class="co">## [10] Spectra_1.5.8           ProtGenerics_1.27.2     BiocParallel_1.29.12   </span>
 <span class="co">## [13] S4Vectors_0.33.10       BiocGenerics_0.41.2     BiocStyle_2.23.1       </span>
 <span class="co">## </span>
 <span class="co">## loaded via a namespace (and not attached):</span>
 <span class="co">##  [1] colorspace_2.0-2            ellipsis_0.3.2             </span>
-<span class="co">##  [3] MetaboCoreUtils_1.3.4       rprojroot_2.0.2            </span>
+<span class="co">##  [3] MetaboCoreUtils_1.3.7       rprojroot_2.0.2            </span>
 <span class="co">##  [5] XVector_0.35.0              GenomicRanges_1.47.6       </span>
 <span class="co">##  [7] fs_1.5.2                    clue_0.3-60                </span>
 <span class="co">##  [9] affyio_1.65.0               bit64_4.0.5                </span>
 <span class="co">## [11] fansi_1.0.2                 lubridate_1.8.0            </span>
 <span class="co">## [13] codetools_0.2-18            ncdf4_1.19                 </span>
-<span class="co">## [15] doParallel_1.0.16           cachem_1.0.6               </span>
+<span class="co">## [15] doParallel_1.0.17           cachem_1.0.6               </span>
 <span class="co">## [17] impute_1.69.0               robustbase_0.93-9          </span>
 <span class="co">## [19] knitr_1.37                  jsonlite_1.7.3             </span>
 <span class="co">## [21] cluster_2.1.2               vsn_3.63.0                 </span>
 <span class="co">## [23] BiocManager_1.30.16         compiler_4.2.0             </span>
 <span class="co">## [25] assertthat_0.2.1            Matrix_1.4-0               </span>
-<span class="co">## [27] fastmap_1.1.0               limma_3.51.3               </span>
-<span class="co">## [29] cli_3.1.1                   htmltools_0.5.2            </span>
+<span class="co">## [27] fastmap_1.1.0               limma_3.51.4               </span>
+<span class="co">## [29] cli_3.2.0                   htmltools_0.5.2            </span>
 <span class="co">## [31] tools_4.2.0                 gtable_0.3.0               </span>
 <span class="co">## [33] glue_1.6.1                  GenomeInfoDbData_1.2.7     </span>
 <span class="co">## [35] affy_1.73.0                 RANN_2.6.1                 </span>
-<span class="co">## [37] dplyr_1.0.7                 MALDIquant_1.21            </span>
+<span class="co">## [37] dplyr_1.0.8                 MALDIquant_1.21            </span>
 <span class="co">## [39] jquerylib_0.1.4             pkgdown_2.0.2              </span>
 <span class="co">## [41] vctrs_0.3.8                 preprocessCore_1.57.0      </span>
 <span class="co">## [43] iterators_1.0.14            xfun_0.29                  </span>
@@ -1034,7 +1034,7 @@
 <span class="co">## [65] stringi_1.7.6               highr_0.9                  </span>
 <span class="co">## [67] desc_1.4.0                  foreach_1.5.2              </span>
 <span class="co">## [69] GenomeInfoDb_1.31.4         rlang_1.0.1                </span>
-<span class="co">## [71] pkgconfig_2.0.3             systemfonts_1.0.3          </span>
+<span class="co">## [71] pkgconfig_2.0.3             systemfonts_1.0.4          </span>
 <span class="co">## [73] matrixStats_0.61.0          bitops_1.0-7               </span>
 <span class="co">## [75] mzID_1.33.0                 evaluate_0.14              </span>
 <span class="co">## [77] lattice_0.20-45             purrr_0.3.4                </span>
@@ -1043,12 +1043,21 @@
 <span class="co">## [83] R6_2.5.1                    IRanges_2.29.1             </span>
 <span class="co">## [85] generics_0.1.2              DelayedArray_0.21.2        </span>
 <span class="co">## [87] DBI_1.1.2                   pillar_1.7.0               </span>
-<span class="co">## [89] MsCoreUtils_1.7.1           RCurl_1.98-1.5             </span>
-<span class="co">## [91] tibble_3.1.6                crayon_1.4.2               </span>
+<span class="co">## [89] MsCoreUtils_1.7.1           RCurl_1.98-1.6             </span>
+<span class="co">## [91] tibble_3.1.6                crayon_1.5.0               </span>
 <span class="co">## [93] utf8_1.2.2                  rmarkdown_2.11             </span>
 <span class="co">## [95] grid_4.2.0                  digest_0.6.29              </span>
 <span class="co">## [97] textshaping_0.3.6           munsell_0.5.0              </span>
 <span class="co">## [99] bslib_0.3.1</span></code></pre>
+</div>
+<div class="section level2">
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-rainer_modular_2022" class="csl-entry">
+Rainer, Johannes, Andrea Vicini, Liesa Salzer, Jan Stanstrup, Josep M. Badia, Steffen Neumann, Michael A. Stravs, et al. 2022. <span>“A <span>Modular</span> and <span>Expandable</span> <span>Ecosystem</span> for <span>Metabolomics</span> <span>Data</span> <span>Annotation</span> in <span>R</span>.”</span> <em>Metabolites</em> 12 (2): 173. <a href="https://doi.org/10.3390/metabo12020173" class="external-link">https://doi.org/10.3390/metabo12020173</a>.
+</div>
+</div>
 </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
