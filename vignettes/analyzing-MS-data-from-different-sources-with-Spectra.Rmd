@@ -155,7 +155,7 @@ https://github.com/jorainer/SpectraTutorials`.
 
 - Commonly used method: collision induced dissociation (**CID**). In a collision
   chamber filled with e.g. N2, ions get fragmented and a spectrum of these
-  fragments is recorded.
+  fragments is recorded [@steckel_organic_2019].
 - Comparing and matching such fragment spectra against a *reference* helps
   identifying the compound.
 
