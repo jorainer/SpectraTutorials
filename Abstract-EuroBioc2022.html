@@ -48,14 +48,14 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="logo.png" class="logo" alt=""><h1>Abstract</h1>
-      <small class="dont-index">Source: <a href="https://github.com/jorainer/SpectraTutorials/blob/HEAD/Abstract-EuroBioc2020.md" class="external-link"><code>Abstract-EuroBioc2020.md</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/jorainer/SpectraTutorials/blob/HEAD/Abstract-EuroBioc2022.md" class="external-link"><code>Abstract-EuroBioc2022.md</code></a></small>
     </div>
 
 <div id="abstract" class="section level1">
 
 <p>Mass spectrometry (MS) data is a key technology in modern proteomics and metabolomics experiments. Due to continuous improvements in MS instrumentation, the generated data can easily become very large. Also, different additional resources of MS data exist, such as spectra libraries and databases, all with their own specific file formats that sometimes do not support manipulations of the original data.</p>
-<p>Learning from experiences with the <code>r Biocpkg("MSnbase")</code> Bioconductor package we developed a novel infrastructure to handle MS spectral data in R, the <code>r Biocpkg("Spectra")</code> package. This package implements a clear separation of user functionality from code to provide, store and import mass spectrometry data. Different <em>backends</em> can hence be used that enable access to data from various data resources or that are designed specifically for very large MS data sets. Data manipulations are by default not directly applied to the data but cached in a <em>lazy processing queue</em> which allows analyses also of <em>read-only</em> data representations.</p>
-<p>This workshop shows the expandability of the new infrastructure to enable a seamless integration and analysis of MS data from a variety of input formats illustrated by a simple matching of experimental MS2 spectra against a public spectral database and export of the data in a format commonly used for exchange of MS2 data.</p>
+<p>Learning from experiences with the <code>r Biocpkg("MSnbase")</code> Bioconductor package we developed a novel infrastructure to handle MS spectral data in R, the <code>r Biocpkg("Spectra")</code> package. This package implements a clear separation of user functionality from code to provide, store and import mass spectrometry data. Different <em>backends</em> can hence be used to enable access to data from various data resources. Depending on the backend, data representations can be <em>in memory</em>, <em>on disk</em>, local or remote. Data manipulations are by default not directly applied to the data but cached in a <em>lazy processing queue</em> which allows analyses also of <em>read-only</em> data representations.</p>
+<p>This workshop shows how this new infrastructure can be used to integrate data from a variety of different input sources on a simple example in which fragment (MS2) spectra from an experiment are matched against reference MS2 spectra from a public spectral library. Results are finally exported in a format commonly used for exchange of MS2 data.</p>
 </div>
 
   </main></div>
