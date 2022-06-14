@@ -77,7 +77,7 @@ This leads to a data set consisting of `r length(pest)` spectra. We next connect
 to a MassBank database (running within this docker image) and create a `Spectra`
 object representing that data.
 
-```{r massbank-library}
+```{r massbank-library, eval = TRUE}
 library(RMariaDB)
 library(MsBackendMassbank)
 
@@ -98,6 +98,7 @@ the resource can be loaded with:
 ## Alternative to the MySQL server - assuming the SQLite database was
 ## stored to the R working directory.
 library(RSQLite)
+library(MsBackendMassbank)
 con <- dbConnect(SQLite(), "MassbankSql-2021-03.db")
 mbank <- Spectra(con, source = MsBackendMassbankSql())
 ```

@@ -1,5 +1,10 @@
 # Version 0.6
 
+## Version 0.6.3
+
+- Better describe usage of the alternative SQLite MassBank database file in the
+  two workshops.
+
 ## Version 0.6.2
 
 - Add citation.

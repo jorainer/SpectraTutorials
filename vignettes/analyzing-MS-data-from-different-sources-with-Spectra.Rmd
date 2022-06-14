@@ -84,6 +84,10 @@ data in a format commonly used for exchange of MS2 data.
 repository](https://github.com/jorainer/SpectraTutorials), e.g. with `git clone
 https://github.com/jorainer/SpectraTutorials`.
 
+For an alternative way to install the packages and data for the workshop see the
+*README* file of the workshop's [github
+repository](https://github.com/jorainer/SpectraTutorials).
+
 
 ## R/Bioconductor packages used
 
@@ -413,26 +417,14 @@ BiocStyle::Biocpkg("MsBackendMassbank")` package. This package provides the
 `MsBackendMassbankSql` backend that directly interfaces the MassBank MySQL
 database.
 
-Below we load the `MsBackendMassbank` package and connect to a local
-installation of the MassBank MySQL database (release *2021.03* which is provided
-within the docker image of this tutorial).
+Below we connect to a local installation of the MassBank MySQL database (release
+*2021.03* which is provided within the docker image of this tutorial).
 
-```{r massbank-library}
+```{r massbank-library, eval = TRUE}
 library(RMariaDB)
-library(MsBackendMassbank)
-
 #' Connect to the MassBank MySQL database
 con <- dbConnect(MariaDB(), user = "massbank", dbname = "MassBank",
                  host = "localhost", pass = "massbank")
-```
-
-We can now initialize a `Spectra` object with a `MsBackendMassbankSql` backend
-to access all the data in MassBank.
-
-```{r massbank}
-#' Access the spectra data in MassBank
-mbank <- Spectra(con, source = MsBackendMassbankSql())
-mbank
 ```
 
 Alternatively, if no MySQL database system is available or if this tutorial can
@@ -447,7 +439,17 @@ the resource can be loaded with:
 ## stored to the R working directory.
 library(RSQLite)
 con <- dbConnect(SQLite(), "MassbankSql-2021-03.db")
+```
+
+We next load the `MsBackendMassbank` package and initialize a `Spectra` object
+with a `MsBackendMassbankSql` backend providing it with the database
+connection.
+
+```{r massbank}
+library(MsBackendMassbank)
+#' Access the spectra data in MassBank
 mbank <- Spectra(con, source = MsBackendMassbankSql())
+mbank
 ```
 
 The `Spectra` object `mbank` *represents* now the MS data from the

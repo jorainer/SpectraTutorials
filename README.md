@@ -77,6 +77,11 @@ The video recording of this workshop at the
 
 ### Installation and participation
 
+#### Docker-based setup
+
+This workshop is available as a self-contained docker image simplifying
+installation and usage.
+
 - Get the [docker image](https://hub.docker.com/r/jorainer/spectra_tutorials) of
   this tutorial with `docker pull jorainer/spectra_tutorials:latest`.
 - Start docker using
@@ -95,22 +100,17 @@ The video recording of this workshop at the
 repository](https://github.com/jorainer/SpectraTutorials), e.g. with `git clone
 https://github.com/jorainer/SpectraTutorials`.
 
-Alternatively, a SQLite database containing all required data from MassBank is
-available
-[here](https://github.com/jorainer/SpectraTutorials/releases/tag/2021.03). This
-can be used if no local MySQL database server or docker are available (the
-respective code is also shown in the tutorial).
 
+#### Manual installation
 
-#### Manual setup
+As an alternative, it is possible to install all required R packages locally on
+R and to download an SQLite database with MassBank annotations that will be
+required during the workshop.
 
-For more advanced users it is also possible to *manually* install all the
-resources required for this tutorial. In addition to R version >= 4,
-specifically for the examples involving the
-[MassBank](https://massbank.eu/MassBank/) database, a running MySQL/MariaDB
-server is also required.
-
-The required R packages can be installed with the code below:
+- To get the source code: clone [this github
+  repository](https://github.com/jorainer/SpectraTutorials), e.g. with `git
+  clone https://github.com/jorainer/SpectraTutorials`.
+- Install the required R packages:
 
 ```r
 Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS="true")
@@ -118,13 +118,27 @@ install.packages(c("devtools", "rmarkdown", "BiocManager"))
 BiocManager::install(c("BiocStyle",
                        "MsCoreUtils",
                        "Spectra",
-                       "pheatmap"))
-devtools::install_github("RforMassSpectrometry/CompoundDb")
-devtools::install_github("RforMassSpectrometry/MsBackendMgf")
-devtools::install_github("michaelwitting/MsBackendMassbank")
-devtools::install_github("jorainer/SpectraTutorials")
+                       "pheatmap",
+					   "CompoundDb",
+					   "MsBackendMgf",
+					   "MsBackendMassbank"))
+BiocManager::install("jorainer/SpectraTutorials")
 ```
 
+- Download the SQLite database with the content from MassBank from
+  [here](https://github.com/jorainer/SpectraTutorials/releases/tag/2021.03).
+
+
+
+#### Manual installation with available MySQL database
+
+For more advanced users it is also possible to *manually* install all the
+resources required for this tutorial. In addition to R version >= 4,
+specifically for the examples involving the
+[MassBank](https://massbank.eu/MassBank/) database, a running MySQL/MariaDB
+server is also required.
+
+First install all R packages as detailed in the previous section.
 A MySQL database dump of the `MassBank` database can be downloaded from [the
 official github page](https://github.com/MassBank/MassBank-data/releases). A
 database named `MassBank` should then be created in the local MySQL/MariaDB
