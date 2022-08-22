@@ -167,16 +167,18 @@ repository](https://github.com/jorainer/SpectraTutorials).
 
 ## The `Spectra` package
 
-The `Spectra` package implements a clear separation between the user interface
-and the code to provide, store and read mass spectrometry data. Thus, different
-data or file format-specific *backends* can be implemented and directly
-*plugged-in* without affecting the way the user would access or analyze the
-data. This represents an extension to the *in-memory* and *on-disk* data modes
-already available in the `r Biocpkg("MSnbase")` package that enabled either a
-fast data processing or an analysis of very large data sets by keeping only a
-limited amount of data in the computer's memory
-[@gattoMSnbaseEfficientElegant2020a].
-
+- **Purpose**: provide an expandable, well tested and user-friendly
+  infrastructure for mass spectrometry (MS) data.
+- **Design**: separation between user interface (functions) and code to provide,
+  store and read MS data.
+- **Advantage**: support different ways to store and handle the data without
+  affecting the user functionality: all functionality of a `Spectra` object is
+  independent of where the data is, either in-memory, on-disk, locally or
+  remote.
+- **Expandable**: through implementation of additional *backend* classes
+  (extending the `MsBackend` virtual class) it is possible to add support for
+  additional input file formats or data representations without needing to
+  change the `Spectra` package or object.
 
 ![Spectra: separation into user functionality and data
 representation](Spectra.png)
