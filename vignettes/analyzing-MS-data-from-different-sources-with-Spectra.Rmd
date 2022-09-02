@@ -12,7 +12,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding[utf8]{inputenc}
   %\VignettePackage{SpectraTutorials}
-  %\VignetteDepends{Spectra,mzR,RMariaDB,pheatmap,BiocStyle,CompoundDb,curl}
+  %\VignetteDepends{Spectra,mzR,RMariaDB,pheatmap,BiocStyle,CompoundDb,curl,MsqlBackend,MsBackendMassbank}
 bibliography: references.bib
 ---
 
@@ -768,14 +768,14 @@ datasets would be much better with a MySQL database compared to a SQLite
 database as used here. In this section we show how data from an MS experiment
 can be inserted into such a database and how it can be again retrieved.
 
-Below we connect to an empty SQLite database. As detailed above, any SQL
-database system could be used instead (resulting eventually in even better
-performance).
+Below we create an empty SQLite database (in a temporary file). As detailed
+above, any SQL database system could be used instead (resulting eventually in
+even better performance).
 
 ```{r}
 library(MsqlBackend)
 library(RSQLite)
-scon <- dbConnect(SQLite(), "ms_tutorial.sqlite")
+scon <- dbConnect(SQLite(), tempfile())
 ```
 
 We can next import the data from our example experiment into the selected

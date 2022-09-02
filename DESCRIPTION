@@ -40,7 +40,6 @@ Suggests:
     RMariaDB,
     pheatmap,
     MsBackendMgf (>= 1.3.2),
-    MsBackendHmdb,
     MsBackendMassbank (>= 0.3.3),
     pander,
     CompoundDb (>= 0.99.6),
@@ -49,7 +48,6 @@ Suggests:
     MetaboAnnotation (>= 0.99.4),
     microbenchmark
 Remotes:
-    RforMassSpectrometry/MsBackendHmdb,
     RforMassSpectrometry/MetaboAnnotation,
     RforMassSpectrometry/CompoundDb,
     RforMassSpectrometry/MsBackendMgf,
