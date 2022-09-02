@@ -397,7 +397,7 @@ same compound.
 ## Comparing spectra against MassBank
 
 Although the precursor m/z of our spectra matches the m/z of cystine, we can
-still not exclude that they represent fragmentations of ions from different
+still not exclude that they represent fragments of ions from different
 compounds (that would have the same precursor m/z than cystine).
 
 Matching experimental spectra against a public spectral library can be used as a
@@ -412,8 +412,8 @@ for small molecules are available, such as:
 
 For some of these databases `MsBackend` interfaces are already implemented
 allowing inclusion of their data directly into R-based analysis
-workflows. Access to MassBank data is for example possible with the `r
-BiocStyle::Biocpkg("MsBackendMassbank")` package. This package provides the
+workflows. Access to MassBank data is for example possible with the
+`r BiocStyle::Biocpkg("MsBackendMassbank")` package. This package provides the
 `MsBackendMassbank` for import/export of
 [MassBank files](https://github.com/MassBank/MassBank-data) as well as the
 `MsBackendMassbankSql` backend that directly interfaces the MassBank MySQL
@@ -631,125 +631,60 @@ export(sps, backend = MsBackendMgf(), file = "Cystine_ce20.mgf")
 ```
 
 
-## Comparing spectra against HMDB
+## An alternative way to store MS data
 
-In addition to the `MsBackendMassbank`, which provides access to MassBank data,
-there is also the
-[`MsBackendHmdb`](https://github.com/RforMassSpectrometry/MsBackendHmdb) package
-supporting spectral data from the public Human Metabolome Database (HMDB). This
-package does however not yet provide direct access to the HMDB database but,
-through the `MsBackendHmdbXml` backend, allows to import MS2 spectra files in
-HMDB format. These are provided by HMDB as individual xml files in a custom file
-format which are bundled (and can hence be downloaded) in a single archive.
+For some use cases it might be useful to store the data from whole MS
+experiments in a central place. The `MsqlBackend` backend allows for example to
+store such data into a relational database, such as simple *SQLite* files or
+*MySQL*/*MariaDB* database systems. The latter case would allow also remote
+access to a centrally stored data set. In this section we show how data from an
+MS experiment can be inserted into such a database and how it can be again
+retrieved.
 
-As an alternative, it is also possible to create portable annotation resources
-using the [`CompoundDb`](https://rformassspectrometry.github.io/CompoundDb)
-package. This packages allows for example to create annotation databases for
-MoNA, MassBank or HMDB. A `CompDb` database containing all compound annotations
-along with all (experimental) MS2 spectra is provided as a data release in the
-[MetaboAnnotationTutorials](https://jorainer.github.io/MetaboAnnotationTutorials/)
-repository. Below we download this SQLite database to a temporary file.
+**Note**: evaluation (execution) of the code blocks is disabled since they
+require (write) access to a running MySQL/MariaDB server.
 
-```{r hmdb-download, message = FALSE}
-#' Download the CompDb database using curl
-library(curl)
-dbname <- "CompDb.Hsapiens.HMDB.5.0.sqlite"
-db_file <- file.path(tempdir(), dbname)
-curl_download(
-    paste0("https://github.com/jorainer/MetaboAnnotationTutorials/",
-           "releases/download/2021-11-02/", dbname),
-    destfile = db_file)
+Below we connect to an empty database created previously on the locally running
+MySQL server.
+
+```{r, eval = FALSE}
+library(MsqlBackend)
+library(RMariaDB)
+## Connect to a running MySQL/MariaDB database
+mcon <- dbConnect(MariaDB(), host = "localhost", user = "localuser",
+                  pass = "localpass", dbname = "ms_tutorial")
 ```
 
-We can now load this annotation resource using the `CompDb` function from the
-`CompoundDb` package:
+We can next import the data into the selected database.
 
-```{r, message = FALSE}
-library(CompoundDb)
-#' Load a CompDb database with compound annotation from HMDB
-cdb <- CompDb(db_file)
-cdb
+```{r, eval = FALSE}
+## Create a database containing the full raw data
+createMsqlBackendDatabase(mcon, fls)
 ```
 
-We can now again create a `Spectra` object to get access to the MS2 spectra
-within this package:
+The `MsqlBackend` allows now to access and use the MS data stored in such a
+database. We simply provide the connection to the database as a parameter to the
+`Spectra` function and use the `MsqlBackend` as *backend*.
 
-```{r}
-hmdb <- Spectra(cdb)
+```{r, eval = FALSE}
+sps_db <- Spectra(mcon, source = MsqlBackend())
+sps_db
 ```
 
-With this we have now a `Spectra` object containing all MS2 spectra from
-HMDB along with compound annotations.
+The memory footprint of this `Spectra` object is only very small as all the data
+is retrieved from the database *on-the-fly*. The performance of this backend
+would also be higher than for example of a `MsBackendMzR`.
 
-```{r}
-hmdb
+```{r, eval = FALSE}
+print(object.size(sps_db), units = "MB")
 ```
 
-The spectra variables (including compound annotations) available for each
-spectrum are:
-
-```{r}
-spectraVariables(hmdb)
-```
-
-Also here, we want to filter the data resource first for spectra with a matching
-precursor m/z. Unfortunately, HMDB does not provided the spectra's precursor m/z
-and we hence need to used the `containsMz` function to find spectra containing a
-peak with an m/z matching the m/z of our ion of interest. In addition, We need
-to use a rather large `tolerance` value (which defines the maximal acceptable
-absolute difference in m/z values) since some of the experimental spectra in
-HMDB seem to be recorded by not well calibrated instrument.
-
-```{r has-mz}
-#' Identify spectra containing a peak matching cystine m/z
-has_mz <- containsMz(hmdb, mz = mz, tolerance = 0.2)
-```
-
-In total `r sum(has_mz)` spectra contain a peak with the required m/z (+/- 0.2
-Dalton) and we can proceed to calculate spectral similarities between these and
-our experimental spectra.
-
-```{r compare-subset}
-#' Subset HMDB
-hmdb_sub <- hmdb[has_mz]
-
-#' Compare HMDB against experimental spectra
-res <- compareSpectra(hmdb_sub, sps, tolerance = 0.2)
-```
-
-The highest similarity between our spectra and the spectra from HMDB is `r
-max(res)`. Below we compare the two best matching spectra with a *mirror plot*,
-in the upper panel showing our experimental spectrum and in the lower panel the
-best matching MS2 spectrum from HMDB.
-
-```{r mirror-plot, fig.width = 7, fig.height = 7}
-best_match <- which(res == max(res), arr.ind = TRUE)
-## Specifying a function to draw peak labels
-label_fun <- function(x) {
-    format(unlist(mz(x)), digits = 4)
-}
-plotSpectraMirror(hmdb_sub[best_match[1]], sps[best_match[2]], tolerance = 0.2,
-                  labels = label_fun, labelPos = 2, labelOffset = 0.2,
-                  labelSrt = -30)
-grid()
-```
-
-Our experimental spectrum seems to nicely match the *reference* MS2 in
-HMDB. Below we extract the compound identifier from the best matching HMDB
-spectrum (stored in a spectra variable called `"compound_id"`)
-
-```{r}
-hmdb_sub[best_match[1]]$compound_id
-```
-
-And the name of this compound
-
-```{r}
-hmdb_sub[best_match[1]]$name
-```
-
-In fact, the matching spectrum from HMDB is an experimental spectrum for
-[L-Cystine](https://hmdb.ca/metabolites/HMDB0000192).
+A real world use case for such a backend would be to store a large MS experiment
+in a central place. Data analysts could connect to that central database,
+explore and subset the data and ultimately either load subsets of the data into
+the (local) memory by changing the backend of the data subset to e.g. a
+`MsBackendDataFrame` or store the data subset to local files e.g. in mzML
+format by using the `export` method and the `MsBackendMzR` backend.
 
 
 # Short summary
@@ -757,7 +692,7 @@ In fact, the matching spectrum from HMDB is an experimental spectrum for
 - Independence between data analysis and data storage functionality allows to
   easily add support for additional data types or data handling/storage modes.
 
-- Caching data operations and applying them on-the-fly allow data manipulations
+- Caching data operations and applying them on-the-fly allows data manipulations
   regardless of how and where data is stored.
 
 

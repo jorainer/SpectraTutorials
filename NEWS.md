@@ -1,3 +1,7 @@
+# Version 0.7
+
+- Add section on the use of the `MsqlBackend`.
+
 # Version 0.6
 
 ## Version 0.6.3
