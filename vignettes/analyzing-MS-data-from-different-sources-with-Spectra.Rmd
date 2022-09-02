@@ -790,7 +790,7 @@ The `MsqlBackend` allows now to access and use the MS data stored in such a
 database. We simply provide the connection to the database as a parameter to the
 `Spectra` function and use the `MsqlBackend` as *backend*.
 
-```{r, eval = FALSE}
+```{r}
 sps_db <- Spectra(scon, source = MsqlBackend())
 sps_db
 ```
@@ -798,7 +798,7 @@ sps_db
 The memory footprint of this `Spectra` object is only very small as all the data
 is retrieved from the database *on-the-fly*.
 
-```{r, eval = FALSE}
+```{r}
 print(object.size(sps_db), units = "MB")
 ```
 

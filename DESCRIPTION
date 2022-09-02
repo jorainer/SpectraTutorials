@@ -46,7 +46,8 @@ Suggests:
     xcms,
     msdata,
     MetaboAnnotation (>= 0.99.4),
-    microbenchmark
+    microbenchmark,
+    MsqlBackend
 Remotes:
     RforMassSpectrometry/MetaboAnnotation,
     RforMassSpectrometry/CompoundDb,
@@ -56,5 +57,5 @@ Remotes:
 URL: https://jorainer.github.io/SpectraTutorials/
 BugReports: https://github.com/jorainer/SpectraTutorials/issues/new
 VignetteBuilder: knitr
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 DockerImage: jorainer/spectra_tutorials:latest
