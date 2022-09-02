@@ -102,15 +102,17 @@ repository](https://github.com/jorainer/SpectraTutorials).
 
 ### Time outline
 
-| Activity                                   | Time  |
-|--------------------------------------------|-------|
-| Introduction (LC-MS/MS, `Spectra` package) | 10min |
-| MS data import and handling                | 5min  |
-| Data processing and manipulation           | 5min  |
-| Spectrum data comparison                   | 5min  |
-| Comparing spectra against MassBank         | 10min |
-| Data export                                | 5min  |
-| (Comparing spectra against HMDB)           | (5min)|
+| Activity                                   | Time   |
+|--------------------------------------------|--------|
+| Introduction (LC-MS/MS, `Spectra` package) | 10min  |
+| MS data import and handling                | 5min   |
+| Data processing and manipulation           | 5min   |
+| Spectrum data comparison                   | 5min   |
+| Comparing spectra against MassBank         | 10min  |
+| Data export                                | 5min   |
+| (Comparing spectra against HMDB)           | (5min) |
+| (An alternative way to store MS data)      | (5min) |
+
 
 ## Workshop goals and objectives
 
@@ -167,16 +169,18 @@ repository](https://github.com/jorainer/SpectraTutorials).
 
 ## The `Spectra` package
 
-The `Spectra` package implements a clear separation between the user interface
-and the code to provide, store and read mass spectrometry data. Thus, different
-data or file format-specific *backends* can be implemented and directly
-*plugged-in* without affecting the way the user would access or analyze the
-data. This represents an extension to the *in-memory* and *on-disk* data modes
-already available in the `r Biocpkg("MSnbase")` package that enabled either a
-fast data processing or an analysis of very large data sets by keeping only a
-limited amount of data in the computer's memory
-[@gattoMSnbaseEfficientElegant2020a].
-
+- **Purpose**: provide an expandable, well tested and user-friendly
+  infrastructure for mass spectrometry (MS) data.
+- **Design**: separation between user interface (functions) and code to provide,
+  store and read MS data.
+- **Advantage**: support different ways to store and handle the data without
+  affecting the user functionality: all functionality of a `Spectra` object is
+  independent of where the data is, either in-memory, on-disk, locally or
+  remote.
+- **Expandable**: through implementation of additional *backend* classes
+  (extending the `MsBackend` virtual class) it is possible to add support for
+  additional input file formats or data representations without needing to
+  change the `Spectra` package or object.
 
 ![Spectra: separation into user functionality and data
 representation](Spectra.png)
@@ -395,7 +399,7 @@ same compound.
 ## Comparing spectra against MassBank
 
 Although the precursor m/z of our spectra matches the m/z of cystine, we can
-still not exclude that they represent fragmentations of ions from different
+still not exclude that they represent fragments of ions from different
 compounds (that would have the same precursor m/z than cystine).
 
 Matching experimental spectra against a public spectral library can be used as a
@@ -410,8 +414,8 @@ for small molecules are available, such as:
 
 For some of these databases `MsBackend` interfaces are already implemented
 allowing inclusion of their data directly into R-based analysis
-workflows. Access to MassBank data is for example possible with the `r
-BiocStyle::Biocpkg("MsBackendMassbank")` package. This package provides the
+workflows. Access to MassBank data is for example possible with the
+`r BiocStyle::Biocpkg("MsBackendMassbank")` package. This package provides the
 `MsBackendMassbank` for import/export of
 [MassBank files](https://github.com/MassBank/MassBank-data) as well as the
 `MsBackendMassbankSql` backend that directly interfaces the MassBank MySQL
@@ -643,8 +647,12 @@ format which are bundled (and can hence be downloaded) in a single archive.
 As an alternative, it is also possible to create portable annotation resources
 using the [`CompoundDb`](https://rformassspectrometry.github.io/CompoundDb)
 package. This packages allows for example to create annotation databases for
-MoNA, MassBank or HMDB. A `CompDb` database containing all compound annotations
-along with all (experimental) MS2 spectra is provided as a data release in the
+MoNA, MassBank or HMDB. `CompDb` with annotations for small compounds from
+different resources will become available also on Bioconductors
+`r BiocStyle::Biocpkg("AnnotationHub")`.
+
+A `CompDb` database containing all compound annotations along with all
+(experimental) MS2 spectra is provided as a data release in the
 [MetaboAnnotationTutorials](https://jorainer.github.io/MetaboAnnotationTutorials/)
 repository. Below we download this SQLite database to a temporary file.
 
@@ -710,7 +718,6 @@ our experimental spectra.
 ```{r compare-subset}
 #' Subset HMDB
 hmdb_sub <- hmdb[has_mz]
-
 #' Compare HMDB against experimental spectra
 res <- compareSpectra(hmdb_sub, sps, tolerance = 0.2)
 ```
@@ -750,12 +757,93 @@ In fact, the matching spectrum from HMDB is an experimental spectrum for
 [L-Cystine](https://hmdb.ca/metabolites/HMDB0000192).
 
 
+## An alternative way to store MS data
+
+For some use cases it might be useful to store the data from whole MS
+experiments in a central place. The `MsqlBackend` backend allows for example to
+store such data into a relational database, such as simple *SQLite* files or
+*MySQL*/*MariaDB* database systems. The latter case would allow also remote
+access to a centrally stored data set. Also, performance, especially for large
+datasets would be much better with a MySQL database compared to a SQLite
+database as used here. In this section we show how data from an MS experiment
+can be inserted into such a database and how it can be again retrieved.
+
+Below we connect to an empty SQLite database. As detailed above, any SQL
+database system could be used instead (resulting eventually in even better
+performance).
+
+```{r}
+library(MsqlBackend)
+library(RSQLite)
+scon <- dbConnect(SQLite(), "ms_tutorial.sqlite")
+```
+
+We can next import the data from our example experiment into the selected
+database.
+
+```{r}
+## Create a database containing the full raw data
+createMsqlBackendDatabase(scon, fls)
+```
+
+The `MsqlBackend` allows now to access and use the MS data stored in such a
+database. We simply provide the connection to the database as a parameter to the
+`Spectra` function and use the `MsqlBackend` as *backend*.
+
+```{r, eval = FALSE}
+sps_db <- Spectra(scon, source = MsqlBackend())
+sps_db
+```
+
+The memory footprint of this `Spectra` object is only very small as all the data
+is retrieved from the database *on-the-fly*.
+
+```{r, eval = FALSE}
+print(object.size(sps_db), units = "MB")
+```
+
+The performance of this backend is also higher than for example of a
+`MsBackendMzR`. Below we compare the performance of the `MsqlBackend` on the
+present small data set to a `MsBackendDataFrame` (data in-memory) and a
+`MsBackendMzR` (data retrieved from original file).
+
+```{r}
+## Load the data to different backends
+sps_mzr <- Spectra(fls, source = MsBackendMzR())
+sps_df <- setBackend(sps_mzr, MsBackendDataFrame())
+
+library(microbenchmark)
+microbenchmark(peaksData(sps_mzr),
+               peaksData(sps_df),
+               peaksData(sps_db),
+               times = 10)
+```
+
+Thus, the `MsqlBackend` has similar performance than having all the data in
+memory. The performance is even better if smaller subsets of the data are
+loaded.
+
+```{r}
+microbenchmark(peaksData(sps_mzr[1:10]),
+               peaksData(sps_df[1:10]),
+               peaksData(sps_db[1:10]),
+               times = 10)
+```
+
+A real world use case for such a backend would be to store a large MS experiment
+in a central place. Data analysts could connect to that central database,
+explore and subset the data and ultimately either load subsets of the data into
+the (local) memory by changing the backend of the data subset to e.g. a
+`MsBackendDataFrame` or store the data subset to local files e.g. in mzML
+format by using the `export` method and the `MsBackendMzR` backend.
+
+
 # Short summary
 
 - Independence between data analysis and data storage functionality allows to
   easily add support for additional data types or data handling/storage modes.
 
-- Caching data operations and applying them on-the-fly allow data manipulations
+- Caching data operations and applying them on-the-fly allows data manipulations
   regardless of how and where data is stored.
 
 

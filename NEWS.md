@@ -1,3 +1,10 @@
+# Version 0.7
+
+## Version 0.7.0
+
+- Add section on the use of the `MsqlBackend` and compare performance to
+  `MsBackendMzR` and `MsBackendDataFrame`.
+
 # Version 0.6
 
 ## Version 0.6.3
