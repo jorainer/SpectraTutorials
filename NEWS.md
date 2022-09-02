@@ -1,6 +1,7 @@
 # Version 0.7
 
-- Add section on the use of the `MsqlBackend`.
+- Add section on the use of the `MsqlBackend` and compare performance to
+  `MsBackendMzR` and `MsBackendDataFrame`.
 
 # Version 0.6
 
