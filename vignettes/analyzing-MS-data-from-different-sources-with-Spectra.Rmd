@@ -786,7 +786,6 @@ above, any SQL database system could be used instead (resulting eventually in
 even better performance).
 
 ```{r}
-library(MsqlBackend)
 library(RSQLite)
 scon <- dbConnect(SQLite(), tempfile())
 ```
@@ -795,6 +794,7 @@ We can next import the data from our example experiment into the selected
 database.
 
 ```{r}
+library(MsqlBackend)
 ## Create a database containing the full raw data
 createMsqlBackendDatabase(scon, fls)
 ```
@@ -852,6 +852,8 @@ format by using the `export` method and the `MsBackendMzR` backend.
 
 
 # Short summary
+
+- `Spectra` provides a powerful infrastructure for MS data.
 
 - Independence between data analysis and data storage functionality allows to
   easily add support for additional data types or data handling/storage modes.
