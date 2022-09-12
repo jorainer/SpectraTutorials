@@ -47,7 +47,8 @@ Suggests:
     msdata,
     MetaboAnnotation (>= 0.99.4),
     microbenchmark,
-    MsqlBackend
+    MsqlBackend,
+    RSQLite
 Remotes:
     RforMassSpectrometry/MetaboAnnotation,
     RforMassSpectrometry/CompoundDb,
