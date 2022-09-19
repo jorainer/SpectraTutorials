@@ -1,5 +1,9 @@
 # Version 0.7
 
+## Version 0.7.1
+
+- Simplify/clarify description of spectra data processing.
+
 ## Version 0.7.0
 
 - Add section on the use of the `MsqlBackend` and compare performance to

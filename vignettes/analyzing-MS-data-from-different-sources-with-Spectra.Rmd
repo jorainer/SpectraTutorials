@@ -51,11 +51,11 @@ MS data sets, data manipulations are by default not directly applied to the data
 but cached in a *lazy evaluation queue* which allows analyses also of
 *read-only* data representations.
 
-This (instructor-led live demo) workshop shows the expandability of the new
-infrastructure to enable a seamless integration and analysis of MS data from a
-variety of input formats. This is illustrated by a simple comparison and
-matching of experimental MS2 spectra against public spectral databases and
-export of the data in a format commonly used for exchange of MS2 data.
+This workshop shows the expandability of the new infrastructure to enable a
+seamless integration and analysis of MS data from a variety of input
+formats. This is illustrated by a simple comparison and matching of experimental
+MS2 spectra against public spectral databases and export of the data in a format
+commonly used for exchange of MS2 data.
 
 
 ## Pre-requisites
@@ -96,7 +96,6 @@ repository](https://github.com/jorainer/SpectraTutorials).
 - [`MsBackendMgf`](https://bioconductor.org/packages/MsBackendMgf)
 - [`MsBackendMassbank`](https://bioconductor.org/packages/MsBackendMassbank)
 - [`CompoundDb`](https://bioconductor.org/packages/CompoundDb)
-
 
 ## Time outline
 
@@ -336,35 +335,34 @@ After filtering, the spectra are *cleaner*:
 plotSpectra(sps[1])
 ```
 
-In addition we *normalize* each spectrum replacing the absolute intensity values
-with values relative to the spectrum's maximum intensity (which is set to
-100). Also for this operation we define a function which takes a *peak matrix*
-as input and returns a matrix with the same dimensions. The peak matrix is the
-two-column matrix with m/z (first column) and intensity values (second column)
-representing the MS data of a spectrum. This function is then passed with
-parameter `FUN` to the `addProcessing` function.
+In addition we want to replace the absolute peak intensities with values that
+are relative to each spectrum's highest peak intensity. To this end we define a
+function that takes a *peak matrix* as input (i.e. a `numeric` matrix with
+columns containing the m/z and intensity values) and returns a two-column
+`numeric` matrix. This function is then passed with parameter `FUN` to the
+`addProcessing` function to perform the desired data processing.
 
-```{r normalize}
-#' Define a function to *normalize* the intensities. `x` is expected to be a
+```{r scale}
+#' Define a function to scale the intensities. `x` is expected to be a
 #' *peak matrix*, i.e. numeric matrix with columns m/z and intensity
-norm_int <- function(x, ...) {
+scale_int <- function(x, ...) {
     maxint <- max(x[, "intensity"], na.rm = TRUE)
     x[, "intensity"] <- 100 * x[, "intensity"] / maxint
     x
 }
 #' *Apply* the function to the data
-sps <- addProcessing(sps, norm_int)
+sps <- addProcessing(sps, scale_int)
 ```
 
 The `addProcessing` function allows to add **any** user-defined data
 manipulation operation on MS data (i.e. the peaks matrices) in a `Spectra`
 object.
 
-To show the effect of the normalization we extract the intensities of the first
-spectrum:
+To show the effect of the data processing we extract the intensities of the
+first spectrum:
 
 ```{r}
-#' Get the intensities after normalization
+#' Get the intensities after scaling
 peaksData(sps)[[1L]]
 ```
 
@@ -488,9 +486,9 @@ values between 0 and 100, just like we did for our experimental data. Below we
 thus apply the same data processing operation also to the MassBank `Spectra`
 object.
 
-```{r massbank-normalize}
-#' *Normalize* intensities for all MassBank spectra
-mbank <- addProcessing(mbank, norm_int)
+```{r massbank-scale}
+#' Scale intensities for all MassBank spectra
+mbank <- addProcessing(mbank, scale_int)
 peaksData(mbank[1])[[1L]]
 ```
 
@@ -895,10 +893,6 @@ the data is stored, even if the data itself is *read-only*.
   data.
 - [`MsBackendMsp`](https://github.com/rformassspectrometry/MsBackendMsp)
   (Steffen Neumann): backend for files in MSP format.
-- [`MsBackendSql`](https://github.com/RforMassSpectrometry/MsBackendSql) (Chong
-  Tang): SQL-based backend for very large data sets.
-- [`MsqlBackend`](https://github.com/RforMassSpectrometry/MsqlBackend):
-  alternative SQL-backed backend optimized for MySQL databases.
 - `...`
 
 # References
