@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">SpectraTutorials</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,7 +97,7 @@ UCLouvain, Brussels, Belgium&lt;/p&gt;"><sup>4</sup></a>
 
     
     
-<p><strong>Last modified:</strong> 2022-09-12 09:26:44<br><strong>Compiled</strong>: Mon Sep 12 09:33:50 2022</p>
+<p><strong>Last modified:</strong> 2022-09-19 06:15:28<br><strong>Compiled</strong>: Mon Sep 19 06:22:51 2022</p>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
@@ -127,12 +127,11 @@ enable processing of also very large MS data sets, data manipulations
 are by default not directly applied to the data but cached in a <em>lazy
 evaluation queue</em> which allows analyses also of <em>read-only</em>
 data representations.</p>
-<p>This (instructor-led live demo) workshop shows the expandability of
-the new infrastructure to enable a seamless integration and analysis of
-MS data from a variety of input formats. This is illustrated by a simple
-comparison and matching of experimental MS2 spectra against public
-spectral databases and export of the data in a format commonly used for
-exchange of MS2 data.</p>
+<p>This workshop shows the expandability of the new infrastructure to
+enable a seamless integration and analysis of MS data from a variety of
+input formats. This is illustrated by a simple comparison and matching
+of experimental MS2 spectra against public spectral databases and export
+of the data in a format commonly used for exchange of MS2 data.</p>
 </div>
 <div class="section level3">
 <h3 id="pre-requisites">Pre-requisites<a class="anchor" aria-label="anchor" href="#pre-requisites"></a>
@@ -442,7 +441,7 @@ simply using:</p>
 <span><span class="co">## 3         1     1.491         5</span></span>
 <span><span class="co">##  ... 33 more variables/columns.</span></span>
 <span><span class="co">## Processing:</span></span>
-<span><span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Mon Sep 12 09:33:56 2022]</span></span></code></pre>
+<span><span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Mon Sep 19 06:22:56 2022]</span></span></code></pre>
 <p>In our workshop, we next want to identify in our experimental data
 MS2 spectra that were generated from an ion that matches the m/z of the
 <code>[M+H]+</code> ion of the metabolite cystine (one of the standards
@@ -468,8 +467,8 @@ in m/z of 10 parts-per-million (ppm)).</p>
 <span><span class="co">## 6         2   240.020       804</span></span>
 <span><span class="co">##  ... 33 more variables/columns.</span></span>
 <span><span class="co">## Processing:</span></span>
-<span><span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Mon Sep 12 09:33:56 2022]</span></span>
-<span><span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Mon Sep 12 09:33:56 2022]</span></span></code></pre>
+<span><span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Mon Sep 19 06:22:56 2022]</span></span>
+<span><span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Mon Sep 19 06:22:57 2022]</span></span></code></pre>
 <p>In total 6 spectra matched our target precursor m/z.</p>
 </div>
 <div class="section level3">
@@ -502,32 +501,31 @@ actual filtering of the spectra.</p>
 <code class="sourceCode R"><span><span class="co">#' Plot the first spectrum after filtering</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html" class="external-link">plotSpectra</a></span><span class="op">(</span><span class="va">sps</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p><img src="analyzing-MS-data-from-different-sources-with-Spectra_files/figure-html/raw-ms2-filtered-1.png" width="672"></p>
-<p>In addition we <em>normalize</em> each spectrum replacing the
-absolute intensity values with values relative to the spectrum’s maximum
-intensity (which is set to 100). Also for this operation we define a
-function which takes a <em>peak matrix</em> as input and returns a
-matrix with the same dimensions. The peak matrix is the two-column
-matrix with m/z (first column) and intensity values (second column)
-representing the MS data of a spectrum. This function is then passed
-with parameter <code>FUN</code> to the <code>addProcessing</code>
-function.</p>
+<p>In addition we want to replace the absolute peak intensities with
+values that are relative to each spectrum’s highest peak intensity. To
+this end we define a function that takes a <em>peak matrix</em> as input
+(i.e. a <code>numeric</code> matrix with columns containing the m/z and
+intensity values) and returns a two-column <code>numeric</code> matrix.
+This function is then passed with parameter <code>FUN</code> to the
+<code>addProcessing</code> function to perform the desired data
+processing.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#' Define a function to *normalize* the intensities. `x` is expected to be a</span></span>
+<code class="sourceCode R"><span><span class="co">#' Define a function to scale the intensities. `x` is expected to be a</span></span>
 <span><span class="co">#' *peak matrix*, i.e. numeric matrix with columns m/z and intensity</span></span>
-<span><span class="va">norm_int</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="va">scale_int</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="va">maxint</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span>, <span class="st">"intensity"</span><span class="op">]</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span>    <span class="va">x</span><span class="op">[</span>, <span class="st">"intensity"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">100</span> <span class="op">*</span> <span class="va">x</span><span class="op">[</span>, <span class="st">"intensity"</span><span class="op">]</span> <span class="op">/</span> <span class="va">maxint</span></span>
 <span>    <span class="va">x</span></span>
 <span><span class="op">}</span></span>
 <span><span class="co">#' *Apply* the function to the data</span></span>
-<span><span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html" class="external-link">addProcessing</a></span><span class="op">(</span><span class="va">sps</span>, <span class="va">norm_int</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">sps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html" class="external-link">addProcessing</a></span><span class="op">(</span><span class="va">sps</span>, <span class="va">scale_int</span><span class="op">)</span></span></code></pre></div>
 <p>The <code>addProcessing</code> function allows to add
 <strong>any</strong> user-defined data manipulation operation on MS data
 (i.e. the peaks matrices) in a <code>Spectra</code> object.</p>
-<p>To show the effect of the normalization we extract the intensities of
-the first spectrum:</p>
+<p>To show the effect of the data processing we extract the intensities
+of the first spectrum:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#' Get the intensities after normalization</span></span>
+<code class="sourceCode R"><span><span class="co">#' Get the intensities after scaling</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html" class="external-link">peaksData</a></span><span class="op">(</span><span class="va">sps</span><span class="op">)</span><span class="op">[[</span><span class="fl">1L</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">##             mz  intensity</span></span>
 <span><span class="co">## [1,]  74.02289  13.439402</span></span>
@@ -693,8 +691,8 @@ to scale them to values between 0 and 100, just like we did for our
 experimental data. Below we thus apply the same data processing
 operation also to the MassBank <code>Spectra</code> object.</p>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#' *Normalize* intensities for all MassBank spectra</span></span>
-<span><span class="va">mbank</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html" class="external-link">addProcessing</a></span><span class="op">(</span><span class="va">mbank</span>, <span class="va">norm_int</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co">#' Scale intensities for all MassBank spectra</span></span>
+<span><span class="va">mbank</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html" class="external-link">addProcessing</a></span><span class="op">(</span><span class="va">mbank</span>, <span class="va">scale_int</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html" class="external-link">peaksData</a></span><span class="op">(</span><span class="va">mbank</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">[[</span><span class="fl">1L</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">##             mz    intensity</span></span>
 <span><span class="co">##  [1,] 146.7608 4.090250e-03</span></span>
@@ -760,7 +758,7 @@ spectra containing an actual peak matching the precursor m/z.</p>
 <span><span class="co">##  Use  'spectraVariables' to list all of them.</span></span>
 <span><span class="co">## Lazy evaluation queue: 1 processing step(s)</span></span>
 <span><span class="co">## Processing:</span></span>
-<span><span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Mon Sep 12 09:34:00 2022]</span></span></code></pre>
+<span><span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Mon Sep 19 06:23:01 2022]</span></span></code></pre>
 <p>This left us with 12 spectra for which we calculate the similarity
 against each of our experimental spectra using the
 <code>compareSpectra</code> function.</p>
@@ -1106,7 +1104,7 @@ database as a parameter to the <code>Spectra</code> function and use the
 <span><span class="co">## 1578         2     95.0608         1</span></span>
 <span><span class="co">##  ... 34 more variables/columns.</span></span>
 <span><span class="co">##  Use  'spectraVariables' to list all of them.</span></span>
-<span><span class="co">## Database: /tmp/RtmpKGRHSk/file60060a1104</span></span></code></pre>
+<span><span class="co">## Database: /tmp/Rtmpd0oLdw/file60218bd9c23</span></span></code></pre>
 <p>The memory footprint of this <code>Spectra</code> object is only very
 small as all the data is retrieved from the database
 <em>on-the-fly</em>.</p>
@@ -1129,10 +1127,10 @@ small as all the data is retrieved from the database
 <span>               <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html" class="external-link">peaksData</a></span><span class="op">(</span><span class="va">sps_db</span><span class="op">)</span>,</span>
 <span>               times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
-<span><span class="co">##                expr      min       lq      mean   median       uq      max</span></span>
-<span><span class="co">##  peaksData(sps_mzr) 442.9627 455.1184 468.67884 466.6653 482.8089 505.4824</span></span>
-<span><span class="co">##   peaksData(sps_df) 143.6764 145.6868 201.98622 164.6305 168.7906 585.9998</span></span>
-<span><span class="co">##   peaksData(sps_db)  66.8906  71.0135  88.34302  90.4260 101.7522 120.2776</span></span>
+<span><span class="co">##                expr      min       lq      mean    median       uq      max</span></span>
+<span><span class="co">##  peaksData(sps_mzr) 446.1647 454.2958 466.48957 460.80715 488.7996 494.9686</span></span>
+<span><span class="co">##   peaksData(sps_df) 138.5289 140.6505 150.90686 145.00480 159.4934 182.5854</span></span>
+<span><span class="co">##   peaksData(sps_db)  88.0310  90.7271  95.82102  94.67725  97.8086 115.0974</span></span>
 <span><span class="co">##  neval</span></span>
 <span><span class="co">##     10</span></span>
 <span><span class="co">##     10</span></span>
@@ -1147,9 +1145,9 @@ subsets of the data are loaded.</p>
 <span>               times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
 <span><span class="co">##                      expr     min      lq     mean   median      uq     max</span></span>
-<span><span class="co">##  peaksData(sps_mzr[1:10]) 16.2045 16.5229 17.57191 17.27245 17.6439 21.7494</span></span>
-<span><span class="co">##   peaksData(sps_df[1:10])  7.2982  7.3767  7.84816  7.56455  8.0394  9.9441</span></span>
-<span><span class="co">##   peaksData(sps_db[1:10])  2.7278  2.9938  3.61289  3.22815  3.8148  5.8952</span></span>
+<span><span class="co">##  peaksData(sps_mzr[1:10]) 16.5493 16.8125 17.06416 16.98370 17.1897 18.2603</span></span>
+<span><span class="co">##   peaksData(sps_df[1:10])  6.8988  7.1295  8.04241  7.30760  7.6314 12.6421</span></span>
+<span><span class="co">##   peaksData(sps_db[1:10])  2.8145  2.8960  3.00021  2.93295  3.0558  3.4799</span></span>
 <span><span class="co">##  neval</span></span>
 <span><span class="co">##     10</span></span>
 <span><span class="co">##     10</span></span>
@@ -1218,12 +1216,6 @@ annotation, data quantitation, annotation files etc).</li>
 <li>
 <a href="https://github.com/rformassspectrometry/MsBackendMsp" class="external-link"><code>MsBackendMsp</code></a>
 (Steffen Neumann): backend for files in MSP format.</li>
-<li>
-<a href="https://github.com/RforMassSpectrometry/MsBackendSql" class="external-link"><code>MsBackendSql</code></a>
-(Chong Tang): SQL-based backend for very large data sets.</li>
-<li>
-<a href="https://github.com/RforMassSpectrometry/MsqlBackend" class="external-link"><code>MsqlBackend</code></a>:
-alternative SQL-backed backend optimized for MySQL databases.</li>
 <li><code>...</code></li>
 </ul>
 </div>
