@@ -12,7 +12,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding[utf8]{inputenc}
   %\VignettePackage{SpectraTutorials}
-  %\VignetteDepends{Spectra,mzR,RMariaDB,pheatmap,BiocStyle,CompoundDb,curl,MsqlBackend,MsBackendMassbank,RSQLite}
+  %\VignetteDepends{Spectra,mzR,RMariaDB,pheatmap,BiocStyle,CompoundDb,curl,MsBackendSql,MsBackendMassbank,RSQLite}
 bibliography: references.bib
 ---
 
@@ -771,7 +771,7 @@ In fact, the matching spectrum from HMDB is an experimental spectrum for
 ## An alternative way to store MS data
 
 For some use cases it might be useful to store the data from whole MS
-experiments in a central place. The `MsqlBackend` backend allows for example to
+experiments in a central place. The `MsBackendSql` backend allows for example to
 store such data into a relational database, such as simple *SQLite* files or
 *MySQL*/*MariaDB* database systems. The latter case would allow also remote
 access to a centrally stored data set. Also, performance, especially for large
@@ -792,17 +792,17 @@ We can next import the data from our example experiment into the selected
 database.
 
 ```{r}
-library(MsqlBackend)
+library(MsBackendSql)
 ## Create a database containing the full raw data
-createMsqlBackendDatabase(scon, fls)
+createMsBackendSqlDatabase(scon, fls)
 ```
 
-The `MsqlBackend` allows now to access and use the MS data stored in such a
+The `MsBackendSql` allows now to access and use the MS data stored in such a
 database. We simply provide the connection to the database as a parameter to the
-`Spectra` function and use the `MsqlBackend` as *backend*.
+`Spectra` function and use the `MsBackendSql` as *backend*.
 
 ```{r}
-sps_db <- Spectra(scon, source = MsqlBackend())
+sps_db <- Spectra(scon, source = MsBackendSql())
 sps_db
 ```
 
@@ -814,7 +814,7 @@ print(object.size(sps_db), units = "MB")
 ```
 
 The performance of this backend is also higher than for example of a
-`MsBackendMzR`. Below we compare the performance of the `MsqlBackend` on the
+`MsBackendMzR`. Below we compare the performance of the `MsBackendSql` on the
 present small data set to a `MsBackendDataFrame` (data in-memory) and a
 `MsBackendMzR` (data retrieved from original file).
 
@@ -830,7 +830,7 @@ microbenchmark(peaksData(sps_mzr),
                times = 10)
 ```
 
-Thus, the `MsqlBackend` has similar performance than having all the data in
+Thus, the `MsBackendSql` has similar performance than having all the data in
 memory. The performance is even better if smaller subsets of the data are
 loaded.
 

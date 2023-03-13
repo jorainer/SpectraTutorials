@@ -1,6 +1,6 @@
 Package: SpectraTutorials
 Title: Mass Spectrometry Data Analysis with Spectra
-Version: 0.7.1
+Version: 0.7.2
 Authors@R: c(
 	     person(given = "Johannes", family = "Rainer",
 		    email = "Johannes.Rainer@eurac.edu",
@@ -47,14 +47,14 @@ Suggests:
     msdata,
     MetaboAnnotation (>= 0.99.4),
     microbenchmark,
-    MsqlBackend,
+    MsBackendSql,
     RSQLite
 Remotes:
     RforMassSpectrometry/MetaboAnnotation,
     RforMassSpectrometry/CompoundDb,
     RforMassSpectrometry/MsBackendMgf,
     RforMassSpectrometry/Spectra,
-    RforMassSpectrometry/MsqlBackend
+    RforMassSpectrometry/MsBackendSql
 URL: https://jorainer.github.io/SpectraTutorials/
 BugReports: https://github.com/jorainer/SpectraTutorials/issues/new
 VignetteBuilder: knitr

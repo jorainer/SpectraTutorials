@@ -1,4 +1,4 @@
-FROM bioconductor/bioconductor_docker:RELEASE_3_16
+FROM bioconductor/bioconductor_docker:devel
 
 LABEL name="jorainer/spectra_tutorials" \
       url="https://github.com/jorainer/SpectraTutorials" \
@@ -20,7 +20,7 @@ RUN apt-get update; \
     chmod 777 /var/run/mysqld; \
     chmod 777 -R /var/lib/mysql;
 
-RUN service mysql start; \
+RUN service mariadb start; \
     mysql < scripts/mysql-prepare.sql;
 
 ## Download and install MassBank
@@ -30,7 +30,7 @@ RUN scripts/install-massbank.sh
 RUN scripts/mysql-init.sh
 
 ## Install the SpectraTutorials package and additional required packages
-RUN Rscript -e "options(repos = c(CRAN = 'https://cran.r-project.org')); BiocManager::install(ask = FALSE); BiocManager::install('RforMassSpectrometry/MsBackendMassbank'); BiocManager::install('RforMassSpectrometry/MsqlBackend')"
+RUN Rscript -e "options(repos = c(CRAN = 'https://cran.r-project.org')); BiocManager::install(ask = FALSE); BiocManager::install('RforMassSpectrometry/MsBackendMassbank'); BiocManager::install('RforMassSpectrometry/MsBackendSql')"
 
-RUN service mysql start && \
+RUN service mariadb start && \
     Rscript -e "options(repos = c(CRAN = 'https://cran.r-project.org')); devtools::install('.', dependencies = TRUE, build_vignettes = TRUE, repos = BiocManager::repositories())"

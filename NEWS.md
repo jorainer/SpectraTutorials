@@ -1,5 +1,9 @@
 # Version 0.7
 
+## Version 0.7.2
+
+- Use `MsBackendSql` instead of `MsqlBackend`.
+
 ## Version 0.7.1
 
 - Simplify/clarify description of spectra data processing.
