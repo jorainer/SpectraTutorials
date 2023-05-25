@@ -1,4 +1,4 @@
-FROM bioconductor/bioconductor_docker:devel
+FROM bioconductor/bioconductor_docker:RELEASE_3_17
 
 LABEL name="jorainer/spectra_tutorials" \
       url="https://github.com/jorainer/SpectraTutorials" \
