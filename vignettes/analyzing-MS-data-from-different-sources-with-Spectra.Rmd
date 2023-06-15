@@ -526,7 +526,7 @@ res
 ```
 
 As a result we got the (normalized dot product) similarity score between each
-tested MassBank spectrum (rows) against each experimental spectrum (columns).
+tested MassBank spectrum (columns) against each experimental spectrum (rows).
 
 ```{r}
 pheatmap(res)
@@ -542,8 +542,8 @@ best_match
 
 The `best_match` variable contains now the index of the best matching MassBank
 and experimental spectrum. Below we visualize these two using a *mirror plot*
-showing in the upper panel the MS2 spectrum from MassBank and in the lower panel
-the best matching experimental spectrum. Matching peaks are highlighted with a
+showing the best matches between experimental spectra (upper panel) and fragment
+spectra from MassBank (lower panel). Matching peaks are highlighted with a
 blue color. Plotting functions in `Spectra` are highly customizable and in the
 example below we add the m/z for each individual peak as an *annotation* to it
 but only if the intensity of the peak is higher than 5.
@@ -556,7 +556,7 @@ label_fun <- function(x) {
     mzs[ints < 5] <- ""
     mzs
 }
-plotSpectraMirror(mbank_sub[best_match[1]], sps[best_match[2]],
+plotSpectraMirror(sps[best_match[1]], mbank_sub[best_match[2]],
                   ppm = 20, labels = label_fun, labelPos = 2,
                   labelOffset = 0.2, labelSrt = -30)
 grid()
@@ -565,7 +565,7 @@ grid()
 As a comparison we plot also two spectra with a low similarity score.
 
 ```{r massbank-mirror-plot-low, fig.width = 7, fig.height = 7}
-plotSpectraMirror(mbank_sub[1], sps[3],
+plotSpectraMirror(sps[3], mbank_sub[1],
                   ppm = 20, labels = label_fun, labelPos = 2,
                   labelOffset = 0.2, labelSrt = -30)
 grid()
@@ -591,7 +591,7 @@ formula (`"formula"`) or its INChI key (`"inchikey"`). We thus next subset
 name.
 
 ```{r massbank-one-spectrum}
-mbank_best_match <- mbank_sub[best_match[1]]
+mbank_best_match <- mbank_sub[best_match[2]]
 mbank_best_match$compound_name
 ```
 

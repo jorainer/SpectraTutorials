@@ -1,5 +1,11 @@
 # Version 0.7
 
+## Version 0.7.3
+
+- Fix mislabeling columns as experimental spectra and rows as MassBank spectra
+  in the spectra similarity matrix (thanks to CSAMA2023 attendee for pointing
+  this out!).
+
 ## Version 0.7.2
 
 - Use `MsBackendSql` instead of `MsqlBackend`.
