@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">SpectraTutorials</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,7 +97,7 @@ UCLouvain, Brussels, Belgium&lt;/p&gt;"><sup>4</sup></a>
 
     
     
-<p><strong>Last modified:</strong> 2023-05-25 11:57:56.87092<br><strong>Compiled</strong>: Thu May 25 12:04:31 2023</p>
+<p><strong>Last modified:</strong> 2023-06-15 15:26:44.194605<br><strong>Compiled</strong>: Thu Jun 15 15:32:27 2023</p>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
@@ -441,7 +441,7 @@ simply using:</p>
 <span><span class="co">## 3         1     1.491         5</span></span>
 <span><span class="co">##  ... 33 more variables/columns.</span></span>
 <span><span class="co">## Processing:</span></span>
-<span><span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Thu May 25 12:04:37 2023]</span></span></code></pre>
+<span><span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Thu Jun 15 15:32:33 2023]</span></span></code></pre>
 <p>In our workshop, we next want to identify in our experimental data
 MS2 spectra that were generated from an ion that matches the m/z of the
 <code>[M+H]+</code> ion of the metabolite cystine (one of the standards
@@ -467,8 +467,8 @@ in m/z of 10 parts-per-million (ppm)).</p>
 <span><span class="co">## 6         2   240.020       804</span></span>
 <span><span class="co">##  ... 33 more variables/columns.</span></span>
 <span><span class="co">## Processing:</span></span>
-<span><span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Thu May 25 12:04:37 2023]</span></span>
-<span><span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Thu May 25 12:04:38 2023]</span></span></code></pre>
+<span><span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Thu Jun 15 15:32:33 2023]</span></span>
+<span><span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Thu Jun 15 15:32:33 2023]</span></span></code></pre>
 <p>In total 6 spectra matched our target precursor m/z.</p>
 </div>
 <div class="section level3">
@@ -758,7 +758,7 @@ spectra containing an actual peak matching the precursor m/z.</p>
 <span><span class="co">##  Use  'spectraVariables' to list all of them.</span></span>
 <span><span class="co">## Lazy evaluation queue: 1 processing step(s)</span></span>
 <span><span class="co">## Processing:</span></span>
-<span><span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Thu May 25 12:04:42 2023]</span></span></code></pre>
+<span><span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Thu Jun 15 15:32:37 2023]</span></span></code></pre>
 <p>This left us with 12 spectra for which we calculate the similarity
 against each of our experimental spectra using the
 <code>compareSpectra</code> function.</p>
@@ -781,8 +781,8 @@ against each of our experimental spectra using the
 <span><span class="co">## [5,] 0.4913249 0.7185230 0.2783447 0.6469762 0.6055037</span></span>
 <span><span class="co">## [6,] 0.5013606 0.7278495 0.2864854 0.6554185 0.5523657</span></span></code></pre>
 <p>As a result we got the (normalized dot product) similarity score
-between each tested MassBank spectrum (rows) against each experimental
-spectrum (columns).</p>
+between each tested MassBank spectrum (columns) against each
+experimental spectrum (rows).</p>
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html" class="external-link">pheatmap</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></code></pre></div>
 <p><img src="analyzing-MS-data-from-different-sources-with-Spectra_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
@@ -795,9 +795,9 @@ next determine the best matching pair from all the comparisons.</p>
 <span><span class="co">## [1,]   5   5</span></span></code></pre>
 <p>The <code>best_match</code> variable contains now the index of the
 best matching MassBank and experimental spectrum. Below we visualize
-these two using a <em>mirror plot</em> showing in the upper panel the
-MS2 spectrum from MassBank and in the lower panel the best matching
-experimental spectrum. Matching peaks are highlighted with a blue color.
+these two using a <em>mirror plot</em> showing the best matches between
+experimental spectra (upper panel) and fragment spectra from MassBank
+(lower panel). Matching peaks are highlighted with a blue color.
 Plotting functions in <code>Spectra</code> are highly customizable and
 in the example below we add the m/z for each individual peak as an
 <em>annotation</em> to it but only if the intensity of the peak is
@@ -810,7 +810,7 @@ higher than 5.</p>
 <span>    <span class="va">mzs</span><span class="op">[</span><span class="va">ints</span> <span class="op">&lt;</span> <span class="fl">5</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">""</span></span>
 <span>    <span class="va">mzs</span></span>
 <span><span class="op">}</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html" class="external-link">plotSpectraMirror</a></span><span class="op">(</span><span class="va">mbank_sub</span><span class="op">[</span><span class="va">best_match</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">sps</span><span class="op">[</span><span class="va">best_match</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html" class="external-link">plotSpectraMirror</a></span><span class="op">(</span><span class="va">sps</span><span class="op">[</span><span class="va">best_match</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">mbank_sub</span><span class="op">[</span><span class="va">best_match</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>,</span>
 <span>                  ppm <span class="op">=</span> <span class="fl">20</span>, labels <span class="op">=</span> <span class="va">label_fun</span>, labelPos <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>                  labelOffset <span class="op">=</span> <span class="fl">0.2</span>, labelSrt <span class="op">=</span> <span class="op">-</span><span class="fl">30</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/grid.html" class="external-link">grid</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -818,7 +818,7 @@ higher than 5.</p>
 <p>As a comparison we plot also two spectra with a low similarity
 score.</p>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html" class="external-link">plotSpectraMirror</a></span><span class="op">(</span><span class="va">mbank_sub</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">sps</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>,</span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/spectra-plotting.html" class="external-link">plotSpectraMirror</a></span><span class="op">(</span><span class="va">sps</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>, <span class="va">mbank_sub</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
 <span>                  ppm <span class="op">=</span> <span class="fl">20</span>, labels <span class="op">=</span> <span class="va">label_fun</span>, labelPos <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>                  labelOffset <span class="op">=</span> <span class="fl">0.2</span>, labelSrt <span class="op">=</span> <span class="op">-</span><span class="fl">30</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/grid.html" class="external-link">grid</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -863,7 +863,7 @@ get also information on the originating compound such as its name
 thus next subset <code>mbank_sub</code> to the best matching spectrum
 and display its associated compound name.</p>
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mbank_best_match</span> <span class="op">&lt;-</span> <span class="va">mbank_sub</span><span class="op">[</span><span class="va">best_match</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<code class="sourceCode R"><span><span class="va">mbank_best_match</span> <span class="op">&lt;-</span> <span class="va">mbank_sub</span><span class="op">[</span><span class="va">best_match</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="va">mbank_best_match</span><span class="op">$</span><span class="va">compound_name</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "Cystine"</span></span></code></pre>
 <p>Indeed, our experimental cystine spectrum matches (one) cystine
@@ -936,7 +936,7 @@ repository. Below we download this SQLite database to a temporary
 file.</p>
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Download the CompDb database using curl</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeroen/curl" class="external-link">curl</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jeroen.r-universe.dev/curl" class="external-link">curl</a></span><span class="op">)</span></span>
 <span><span class="va">dbname</span> <span class="op">&lt;-</span> <span class="st">"CompDb.Hsapiens.HMDB.5.0.sqlite"</span></span>
 <span><span class="va">db_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">dbname</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/curl/man/curl_download.html" class="external-link">curl_download</a></span><span class="op">(</span></span>
@@ -1104,7 +1104,7 @@ database as a parameter to the <code>Spectra</code> function and use the
 <span><span class="co">## 1578         2     95.0608         1</span></span>
 <span><span class="co">##  ... 34 more variables/columns.</span></span>
 <span><span class="co">##  Use  'spectraVariables' to list all of them.</span></span>
-<span><span class="co">## Database: /tmp/RtmpzswSNO/file67558dc2132</span></span></code></pre>
+<span><span class="co">## Database: /tmp/RtmpOGBZcB/file67d304dec5e</span></span></code></pre>
 <p>The memory footprint of this <code>Spectra</code> object is only very
 small as all the data is retrieved from the database
 <em>on-the-fly</em>.</p>
@@ -1127,10 +1127,14 @@ small as all the data is retrieved from the database
 <span>               <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html" class="external-link">peaksData</a></span><span class="op">(</span><span class="va">sps_db</span><span class="op">)</span>,</span>
 <span>               times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
-<span><span class="co">##                expr      min       lq     mean   median       uq      max neval</span></span>
-<span><span class="co">##  peaksData(sps_mzr) 376.6548 400.5926 439.4055 427.9445 489.3848 532.3718    10</span></span>
-<span><span class="co">##   peaksData(sps_df) 165.5719 173.7212 187.8967 179.4587 197.5205 223.0788    10</span></span>
-<span><span class="co">##   peaksData(sps_db)  83.6108  95.8803 225.2520 101.5984 136.0746 710.4203    10</span></span></code></pre>
+<span><span class="co">##                expr      min       lq     mean   median        uq       max</span></span>
+<span><span class="co">##  peaksData(sps_mzr) 357.4639 417.7954 936.2048 981.6988 1394.2676 1508.2412</span></span>
+<span><span class="co">##   peaksData(sps_df) 103.6052 113.7033 190.6181 127.7909  149.6242  750.0478</span></span>
+<span><span class="co">##   peaksData(sps_db)  67.8903  86.0429  99.1810  90.4845  114.2551  160.3275</span></span>
+<span><span class="co">##  neval</span></span>
+<span><span class="co">##     10</span></span>
+<span><span class="co">##     10</span></span>
+<span><span class="co">##     10</span></span></code></pre>
 <p>Thus, the <code>MsBackendSql</code> has similar performance than
 having all the data in memory. The performance is even better if smaller
 subsets of the data are loaded.</p>
@@ -1141,9 +1145,9 @@ subsets of the data are loaded.</p>
 <span>               times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
 <span><span class="co">##                      expr     min      lq     mean   median      uq     max</span></span>
-<span><span class="co">##  peaksData(sps_mzr[1:10]) 15.5765 15.9336 17.05021 16.24525 17.0480 23.5515</span></span>
-<span><span class="co">##   peaksData(sps_df[1:10])  6.6969  6.9653  7.39501  7.23905  7.2866  9.0349</span></span>
-<span><span class="co">##   peaksData(sps_db[1:10])  4.9900  5.2460  5.56981  5.46370  5.9771  6.2384</span></span>
+<span><span class="co">##  peaksData(sps_mzr[1:10]) 15.1892 15.8027 15.99555 15.94420 16.2416 16.8816</span></span>
+<span><span class="co">##   peaksData(sps_df[1:10])  5.8162  5.9211  6.18047  5.99625  6.5151  7.0078</span></span>
+<span><span class="co">##   peaksData(sps_db[1:10])  4.8683  5.1116  5.51832  5.24860  5.4758  7.8519</span></span>
 <span><span class="co">##  neval</span></span>
 <span><span class="co">##     10</span></span>
 <span><span class="co">##     10</span></span>
