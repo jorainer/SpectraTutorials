@@ -37,7 +37,7 @@
     
     <a class="navbar-brand me-2" href="index.html">SpectraTutorials</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,6 +52,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="articles/Spectra-backends.html">`Spectra`: an expandable infrastructure to handle mass spectrometry data</a>
     <a class="dropdown-item" href="articles/Spectra-matching-with-MetaboAnnotation.html">MS/MS Spectra Matching with the `MetaboAnnotation` Package</a>
     <a class="dropdown-item" href="articles/analyzing-MS-data-from-different-sources-with-Spectra.html">Seamless Integration of Mass Spectrometry Data from Different Sources with the `Spectra` Package</a>
   </div>
@@ -86,7 +87,8 @@
 </div>
 <p><a href="https://creativecommons.org/licenses/by-nc/4.0/" class="external-link"><img src="https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg" alt="License: CC BY-NC 4.0"></a> <img src="https://img.shields.io/docker/pulls/jorainer/spectra_tutorials" alt="docker pulls"><a href="https://hub.docker.com/repository/docker/jorainer/spectra_tutorials" class="external-link"><img src="https://img.shields.io/docker/v/jorainer/spectra_tutorials?label=docker%20image" alt="Docker Image Version (latest by date)"></a></p>
 <p><img src="reference/figures/Spectra.png" alt="Spectra"><img src="reference/figures/MsCoreUtils.png" alt="MsCoreUtils"><img src="reference/figures/MsBackendMassbank.png" alt="MsBackendMassbank"><img src="reference/figures/MsBackendMgf.png" alt="MsBackendMgf"><img src="reference/figures/CompoundDb.png" alt="CompoundDb"><img src="reference/figures/MetaboAnnotation.png" alt="MetaboAnnotation"></p>
-<p>Tutorials and workshops for the use of the <code>Spectra</code> Bioconductor package to analyze mass spectrometry (MS) data.</p>
+<p>Tutorials and workshops describing and explaining the infrastructure for mass spectrometry (MS) data analysis centered around Bioconductor’s <a href="https://bioconductor.org/packages/Spectra" class="external-link"><em>Spectra</em></a> package.</p>
+<p>These Workshops are also given (either in-person or virtually) at various conferences. If available, recordings of these are linked below in the respective workshop section.</p>
 </div>
 <div class="section level1">
 <h1 id="workshopstutorials">Workshops/Tutorials<a class="anchor" aria-label="anchor" href="#workshopstutorials"></a>
@@ -143,60 +145,6 @@
 </ul>
 </div>
 <div class="section level3">
-<h3 id="installation-and-participation">Installation and participation<a class="anchor" aria-label="anchor" href="#installation-and-participation"></a>
-</h3>
-<div class="section level4">
-<h4 id="docker-based-setup">Docker-based setup<a class="anchor" aria-label="anchor" href="#docker-based-setup"></a>
-</h4>
-<p>This workshop is available as a self-contained docker image simplifying installation and usage.</p>
-<ul>
-<li><p>Get the <a href="https://hub.docker.com/r/jorainer/spectra_tutorials" class="external-link">docker image</a> of this tutorial with <code>docker pull jorainer/spectra_tutorials:latest</code>.</p></li>
-<li>
-<p>Start docker using</p>
-<pre><code>docker run \
-    -e PASSWORD=bioc \
-    -p 8787:8787 \
-    jorainer/spectra_tutorials:latest</code></pre>
-</li>
-<li><p>Enter <code>http://localhost:8787</code> in a web browser and log in with username <code>rstudio</code> and password <code>bioc</code>.</p></li>
-<li><p>Open this R-markdown file (<em>vignettes/analyzing-MS-data-from-different-sources-with-Spectra.Rmd</em>) in the RStudio server version in the web browser and evaluate the R code blocks.</p></li>
-<li><p>To get the source code: clone <a href="https://github.com/jorainer/SpectraTutorials" class="external-link">this github repository</a>, e.g. with <code>git clone https://github.com/jorainer/SpectraTutorials</code>.</p></li>
-</ul>
-</div>
-<div class="section level4">
-<h4 id="manual-installation">Manual installation<a class="anchor" aria-label="anchor" href="#manual-installation"></a>
-</h4>
-<p>As an alternative, it is possible to install all required R packages locally on R and to download an SQLite database with MassBank annotations that will be required during the workshop.</p>
-<ul>
-<li>To get the source code: clone <a href="https://github.com/jorainer/SpectraTutorials" class="external-link">this github repository</a>, e.g. with <code>git   clone https://github.com/jorainer/SpectraTutorials</code>.</li>
-<li>Install the required R packages:</li>
-</ul>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span>R_REMOTES_NO_ERRORS_FROM_WARNINGS<span class="op">=</span><span class="st">"true"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"devtools"</span>, <span class="st">"rmarkdown"</span>, <span class="st">"BiocManager"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://bioconductor.github.io/BiocManager/reference/install.html" class="external-link">install</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BiocStyle"</span>,</span>
-<span>                       <span class="st">"MsCoreUtils"</span>,</span>
-<span>                       <span class="st">"Spectra"</span>,</span>
-<span>                       <span class="st">"pheatmap"</span>,</span>
-<span>                       <span class="st">"CompoundDb"</span>,</span>
-<span>                       <span class="st">"MsBackendMgf"</span>,</span>
-<span>                       <span class="st">"MsBackendMassbank"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://bioconductor.github.io/BiocManager/reference/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"jorainer/SpectraTutorials"</span><span class="op">)</span></span></code></pre></div>
-<ul>
-<li>Download the SQLite database with the content from MassBank from <a href="https://github.com/jorainer/SpectraTutorials/releases/tag/2021.03" class="external-link">here</a>.</li>
-</ul>
-</div>
-<div class="section level4">
-<h4 id="manual-installation-with-available-mysql-database">Manual installation with available MySQL database<a class="anchor" aria-label="anchor" href="#manual-installation-with-available-mysql-database"></a>
-</h4>
-<p>For more advanced users it is also possible to <em>manually</em> install all the resources required for this tutorial. In addition to R version &gt;= 4, specifically for the examples involving the <a href="https://massbank.eu/MassBank/" class="external-link">MassBank</a> database, a running MySQL/MariaDB server is also required.</p>
-<p>First install all R packages as detailed in the previous section. A MySQL database dump of the <code>MassBank</code> database can be downloaded from <a href="https://github.com/MassBank/MassBank-data/releases" class="external-link">the official github page</a>. A database named <code>MassBank</code> should then be created in the local MySQL/MariaDB server. The downloaded <em>.sql.gz</em> needs to be unzipped and can then be installed with <code>mysql MassBank &lt; *.sql</code>.</p>
-<p>The source code for all tutorials in this package can be downloaded with:</p>
-<pre><code>git clone https://github.com/jorainer/SpectraTutorials</code></pre>
-<p>Then open the R-markdown (<em>Rmd</em>) files of one of the tutorials (which are located within the <em>vignettes</em> folder with the editor of choice (e.g. RStudio, emacs, vim, …) and evaluate the R-code in the tutorial interactively.</p>
-</div>
-</div>
-<div class="section level3">
 <h3 id="rbioconductor-packages-used">R/Bioconductor packages used<a class="anchor" aria-label="anchor" href="#rbioconductor-packages-used"></a>
 </h3>
 <ul>
@@ -249,11 +197,90 @@
 </div>
 </div>
 <div class="section level2">
+<h2 id="spectra-an-expandable-infrastructure-to-handle-mass-spectrometry-data">
+<code>Spectra</code>: an expandable infrastructure to handle mass spectrometry data<a class="anchor" aria-label="anchor" href="#spectra-an-expandable-infrastructure-to-handle-mass-spectrometry-data"></a>
+</h2>
+<div class="section level3">
+<h3 id="short-description-1">Short description<a class="anchor" aria-label="anchor" href="#short-description-1"></a>
+</h3>
+<ul>
+<li>Explain different <em>representations</em> of mass spectrometry data along with their properties and advantages.</li>
+<li>Explain the caching and lazy processing queue of the <code>Spectra</code> package.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="description-1">Description<a class="anchor" aria-label="anchor" href="#description-1"></a>
+</h3>
+<p>The <code>r BiocStyle::Biocpkg("Spectra")</code> package provides a modern infrastructure for MS data handling specifically designed to enable extension to additional data resources or alternative data representations. These can be realized by extending the virtual <code>MsBackend</code> class and its related methods. Implementations of such <code>MsBackend</code> classes can be tailored for specific needs, such as low memory footprint, fast processing, remote data access, or also support for specific additional data types or variables. Importantly, data processing of <code>Spectra</code> objects is independent of the backend in use due to a lazy evaluation mechanism that caches data manipulations internally.</p>
+<p>This workshop discusses different available data representations for MS data along with their properties, advantages and performances. In addition, <em>Spectra</em>’s concept of lazy evaluation for data manipulations is presented, as well as a simple caching mechanism for data modifications. Finally, it explains how new <code>MsBackend</code> instances can be implemented and tested to ensure compliance.</p>
+</div>
+<div class="section level3">
+<h3 id="pre-requisites-1">Pre-requisites<a class="anchor" aria-label="anchor" href="#pre-requisites-1"></a>
+</h3>
+<ul>
+<li>Basic familiarity with R and Bioconductor.</li>
+<li>Basic understanding of Mass Spectrometry (MS) data.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="rbioconductor-packages-used-1">R/Bioconductor packages used<a class="anchor" aria-label="anchor" href="#rbioconductor-packages-used-1"></a>
+</h3>
+<ul>
+<li><a href="https://bioconductor.org/packages/Spectra" class="external-link"><code>Spectra</code></a></li>
+<li><a href="https://bioconductor.org/packages/MsBackendSql" class="external-link"><code>MsBackendSql</code></a></li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="workshop-goals-and-objectives-1">Workshop goals and objectives<a class="anchor" aria-label="anchor" href="#workshop-goals-and-objectives-1"></a>
+</h3>
+<p>This is a more technical demonstration of the internals of the <em>Spectra</em> package and design of its MS infrastructure. We’re not demonstrating any use cases or analysis workflows here.</p>
+<div class="section level4">
+<h4 id="learning-goals-1">Learning goals<a class="anchor" aria-label="anchor" href="#learning-goals-1"></a>
+</h4>
+<ul>
+<li>Understand how MS data is handled with <em>Spectra</em>.</li>
+<li>Understand differences and properties of different <code>MsBackend</code> implementations.</li>
+</ul>
+</div>
+<div class="section level4">
+<h4 id="learning-objectives-1">Learning objectives<a class="anchor" aria-label="anchor" href="#learning-objectives-1"></a>
+</h4>
+<ul>
+<li>Learn how MS data is handled with <code>Spectra</code>.</li>
+<li>Understand which data representations/backends fit which purpose/use case.</li>
+<li>Insights into the internals of the <code>Spectra</code> MS infrastructure to facilitate implementation of own backend(s).</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section level2">
 <h2 id="msms-spectra-matching-with-the-metaboannotation-package">MS/MS Spectra Matching with the <code>MetaboAnnotation</code> Package<a class="anchor" aria-label="anchor" href="#msms-spectra-matching-with-the-metaboannotation-package"></a>
 </h2>
 <p>The <code>Spectra</code> package provides all the functionality required for annotation and identification workflows for untargeted LC-MS/MS data, but, while being very flexible and customizable, it might be too cumbersome for beginners or analysts not accustomed with R. To fill this gap we developed the <a href="https://rformassspectrometry.github.io/MetaboAnnotation" class="external-link"><code>MetaboAnnotation</code></a> package that builds upon <code>Spectra</code> and provides functions for annotation of LC-MS and LC-MS/MS data sets tailored towards the less experienced R user.</p>
 <p>This tutorial shows how <code>MetaboAnnotatio</code> can be used in R-based LC-MS/MS annotation workflows.</p>
 <p>Note that there is also an additional tutorial for the <code>MetaboAnnotation</code>, <code>CompoundDb</code> and <code>MetaboCoreUtils</code> packages available: <a href="https://jorainer.github.io/MetaboAnnotationTutorials" class="external-link">MetaboAnnotationTutorials</a>.</p>
+</div>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<div class="section level3">
+<h3 id="docker-based-setup">Docker-based setup<a class="anchor" aria-label="anchor" href="#docker-based-setup"></a>
+</h3>
+<p>This workshop is available as a self-contained docker image simplifying installation and usage.</p>
+<ul>
+<li><p>Get the <a href="https://hub.docker.com/r/jorainer/spectra_tutorials" class="external-link">docker image</a> of this tutorial with <code>docker pull jorainer/spectra_tutorials:latest</code>.</p></li>
+<li>
+<p>Start docker using</p>
+<pre><code>docker run \
+    -e PASSWORD=bioc \
+    -p 8787:8787 \
+    jorainer/spectra_tutorials:latest</code></pre>
+</li>
+<li><p>Enter <code>http://localhost:8787</code> in a web browser and log in with username <code>rstudio</code> and password <code>bioc</code>.</p></li>
+<li><p>In the RStudio server version: open any of the R-markdown (<em>.Rmd</em>) files in the <em>vignettes</em> folder and evaluate the R code blocks.</p></li>
+<li><p>To get the source code: clone <a href="https://github.com/jorainer/SpectraTutorials" class="external-link">this github repository</a>, e.g. with <code>git clone https://github.com/jorainer/SpectraTutorials</code>.</p></li>
+</ul>
+</div>
 </div>
 </div>
 
