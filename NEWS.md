@@ -1,3 +1,10 @@
+# Version 0.8
+
+## Version 0.8.0
+
+- Add new tutorial *`Spectra`: an expandable infrastructure to handle mass
+  spectrometry data*.
+
 # Version 0.7
 
 ## Version 0.7.3

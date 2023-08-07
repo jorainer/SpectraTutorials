@@ -1,6 +1,6 @@
 Package: SpectraTutorials
 Title: Mass Spectrometry Data Analysis with Spectra
-Version: 0.7.3
+Version: 0.8.0
 Authors@R: c(
 	     person(given = "Johannes", family = "Rainer",
 		    email = "Johannes.Rainer@eurac.edu",
@@ -47,7 +47,7 @@ Suggests:
     msdata,
     MetaboAnnotation (>= 0.99.4),
     microbenchmark,
-    MsBackendSql,
+    MsBackendSql (>= 1.1.3),
     RSQLite
 Remotes:
     RforMassSpectrometry/MetaboAnnotation,

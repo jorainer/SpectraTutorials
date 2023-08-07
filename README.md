@@ -11,14 +11,18 @@
 ![CompoundDb](man/figures/CompoundDb.png)
 ![MetaboAnnotation](man/figures/MetaboAnnotation.png)
 
-Tutorials and workshops for the use of the `Spectra` Bioconductor package to
-analyze mass spectrometry (MS) data.
+Tutorials and workshops describing and explaining the infrastructure for mass
+spectrometry (MS) data analysis centered around Bioconductor's
+[*Spectra*](https://bioconductor.org/packages/Spectra) package.
+
+These Workshops are also given (either in-person or virtually) at various
+conferences. If available, recordings of these are linked below in the
+respective workshop section.
 
 
 # Workshops/Tutorials
 
 ## Seamless Integration of Mass Spectrometry Data from Different Sources
-
 
 ### Short description
 
@@ -74,87 +78,6 @@ The video recording of this workshop at the
 - Basic familiarity with R and Bioconductor.
 - Basic understanding of Mass Spectrometry (MS) data.
 
-
-### Installation and participation
-
-#### Docker-based setup
-
-This workshop is available as a self-contained docker image simplifying
-installation and usage.
-
-- Get the [docker image](https://hub.docker.com/r/jorainer/spectra_tutorials) of
-  this tutorial with `docker pull jorainer/spectra_tutorials:latest`.
-- Start docker using
-  ```
-  docker run \
-      -e PASSWORD=bioc \
-      -p 8787:8787 \
-      jorainer/spectra_tutorials:latest
-  ```
-- Enter `http://localhost:8787` in a web browser and log in with username
-  `rstudio` and password `bioc`.
-- Open this R-markdown file
-  (*vignettes/analyzing-MS-data-from-different-sources-with-Spectra.Rmd*) in the
-  RStudio server version in the web browser and evaluate the R code blocks.
-- To get the source code: clone [this github
-repository](https://github.com/jorainer/SpectraTutorials), e.g. with `git clone
-https://github.com/jorainer/SpectraTutorials`.
-
-
-#### Manual installation
-
-As an alternative, it is possible to install all required R packages locally on
-R and to download an SQLite database with MassBank annotations that will be
-required during the workshop.
-
-- To get the source code: clone [this github
-  repository](https://github.com/jorainer/SpectraTutorials), e.g. with `git
-  clone https://github.com/jorainer/SpectraTutorials`.
-- Install the required R packages:
-
-```r
-Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS="true")
-install.packages(c("devtools", "rmarkdown", "BiocManager"))
-BiocManager::install(c("BiocStyle",
-                       "MsCoreUtils",
-                       "Spectra",
-                       "pheatmap",
-					   "CompoundDb",
-					   "MsBackendMgf",
-					   "MsBackendMassbank"))
-BiocManager::install("jorainer/SpectraTutorials")
-```
-
-- Download the SQLite database with the content from MassBank from
-  [here](https://github.com/jorainer/SpectraTutorials/releases/tag/2021.03).
-
-
-
-#### Manual installation with available MySQL database
-
-For more advanced users it is also possible to *manually* install all the
-resources required for this tutorial. In addition to R version >= 4,
-specifically for the examples involving the
-[MassBank](https://massbank.eu/MassBank/) database, a running MySQL/MariaDB
-server is also required.
-
-First install all R packages as detailed in the previous section.
-A MySQL database dump of the `MassBank` database can be downloaded from [the
-official github page](https://github.com/MassBank/MassBank-data/releases). A
-database named `MassBank` should then be created in the local MySQL/MariaDB
-server. The downloaded *.sql.gz* needs to be unzipped and can then be installed
-with `mysql MassBank < *.sql`.
-
-The source code for all tutorials in this package can be downloaded with:
-
-```
-git clone https://github.com/jorainer/SpectraTutorials
-```
-
-Then open the R-markdown (*Rmd*) files of one of the tutorials (which are
-located within the *vignettes* folder with the editor of choice (e.g. RStudio,
-emacs, vim, ...) and evaluate the R-code in the tutorial interactively.
-
 ### R/Bioconductor packages used
 
 - [`Spectra`](https://bioconductor.org/packages/Spectra)
@@ -176,6 +99,65 @@ emacs, vim, ...) and evaluate the R-code in the tutorial interactively.
 | (Comparing spectra against HMDB)           | (5min)|
 
 
+## `Spectra`: an expandable infrastructure to handle mass spectrometry data
+
+### Short description
+
+- Explain different *representations* of mass spectrometry data along with their
+  properties and advantages.
+- Explain the caching and lazy processing queue of the `Spectra` package.
+
+
+### Description
+
+The `r BiocStyle::Biocpkg("Spectra")` package provides a modern infrastructure
+for MS data handling specifically designed to enable extension to additional
+data resources or alternative data representations. These can be realized by
+extending the virtual `MsBackend` class and its related methods. Implementations
+of such `MsBackend` classes can be tailored for specific needs, such as low
+memory footprint, fast processing, remote data access, or also support for
+specific additional data types or variables. Importantly, data processing of
+`Spectra` objects is independent of the backend in use due to a lazy evaluation
+mechanism that caches data manipulations internally.
+
+This workshop discusses different available data representations for MS data
+along with their properties, advantages and performances. In addition,
+*Spectra*'s concept of lazy evaluation for data manipulations is presented, as
+well as a simple caching mechanism for data modifications. Finally, it explains
+how new `MsBackend` instances can be implemented and tested to ensure
+compliance.
+
+### Pre-requisites
+
+- Basic familiarity with R and Bioconductor.
+- Basic understanding of Mass Spectrometry (MS) data.
+
+### R/Bioconductor packages used
+
+- [`Spectra`](https://bioconductor.org/packages/Spectra)
+- [`MsBackendSql`](https://bioconductor.org/packages/MsBackendSql)
+
+### Workshop goals and objectives
+
+This is a more technical demonstration of the internals of the *Spectra* package
+and design of its MS infrastructure. We're not demonstrating any use cases or
+analysis workflows here.
+
+#### Learning goals
+
+- Understand how MS data is handled with *Spectra*.
+- Understand differences and properties of different `MsBackend`
+  implementations.
+
+
+#### Learning objectives
+
+- Learn how MS data is handled with `Spectra`.
+- Understand which data representations/backends fit which purpose/use case.
+- Insights into the internals of the `Spectra` MS infrastructure to facilitate
+  implementation of own backend(s).
+
+
 
 ## MS/MS Spectra Matching with the `MetaboAnnotation` Package
 
@@ -193,3 +175,28 @@ annotation workflows.
 Note that there is also an additional tutorial for the `MetaboAnnotation`,
 `CompoundDb` and `MetaboCoreUtils` packages available:
 [MetaboAnnotationTutorials](https://jorainer.github.io/MetaboAnnotationTutorials).
+
+
+## Installation
+
+### Docker-based setup
+
+This workshop is available as a self-contained docker image simplifying
+installation and usage.
+
+- Get the [docker image](https://hub.docker.com/r/jorainer/spectra_tutorials) of
+  this tutorial with `docker pull jorainer/spectra_tutorials:latest`.
+- Start docker using
+  ```
+  docker run \
+      -e PASSWORD=bioc \
+      -p 8787:8787 \
+      jorainer/spectra_tutorials:latest
+  ```
+- Enter `http://localhost:8787` in a web browser and log in with username
+  `rstudio` and password `bioc`.
+- In the RStudio server version: open any of the R-markdown (*.Rmd*) files in
+  the *vignettes* folder and evaluate the R code blocks.
+- To get the source code: clone [this github
+repository](https://github.com/jorainer/SpectraTutorials), e.g. with `git clone
+https://github.com/jorainer/SpectraTutorials`.
