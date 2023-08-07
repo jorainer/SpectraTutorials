@@ -4,10 +4,11 @@
 ![docker pulls](https://img.shields.io/docker/pulls/jorainer/spectra_tutorials)
 [![Docker Image Version (latest by date)](https://img.shields.io/docker/v/jorainer/spectra_tutorials?label=docker%20image)](https://hub.docker.com/repository/docker/jorainer/spectra_tutorials)
 
-![Spectra](man/figures/Spectra.png)
+![Spectra](man/figures/Spectra-rainbow.png)
 ![MsCoreUtils](man/figures/MsCoreUtils.png)
 ![MsBackendMassbank](man/figures/MsBackendMassbank.png)
 ![MsBackendMgf](man/figures/MsBackendMgf.png)
+![MsBackendSql](man/figures/MsBackendSql.png)
 ![CompoundDb](man/figures/CompoundDb.png)
 ![MetaboAnnotation](man/figures/MetaboAnnotation.png)
 
