@@ -98,7 +98,7 @@ UCLouvain, Brussels, Belgium&lt;/p&gt;"><sup>4</sup></a>
 
     
     
-<p><strong>Last modified:</strong> 2023-08-07 08:26:55.144631<br><strong>Compiled</strong>: Mon Aug 7 08:31:26 2023</p>
+<p><strong>Last modified:</strong> 2023-08-08 05:58:51.017861<br><strong>Compiled</strong>: Tue Aug 8 06:03:08 2023</p>
 <div class="section level2">
 <h2 id="abstract">Abstract<a class="anchor" aria-label="anchor" href="#abstract"></a>
 </h2>
@@ -619,10 +619,10 @@ function. In addition we disable any parallel processing using
 <span>    times <span class="op">=</span> <span class="fl">13</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: microseconds</span></span>
-<span><span class="co">##          expr     min      lq        mean  median      uq     max neval</span></span>
-<span><span class="co">##  rtime(s_mem)    15.5    18.0    30.16923    35.5    38.6    42.7    13</span></span>
-<span><span class="co">##  rtime(s_mzr)   610.6   618.1   665.43846   638.6   662.7   961.9    13</span></span>
-<span><span class="co">##   rtime(s_db) 10103.7 10194.8 12331.33077 10283.9 10356.9 36454.4    13</span></span></code></pre>
+<span><span class="co">##          expr    min     lq        mean median     uq     max neval</span></span>
+<span><span class="co">##  rtime(s_mem)   15.2   20.0    31.53077   34.8   37.6    45.8    13</span></span>
+<span><span class="co">##  rtime(s_mzr)  497.1  535.2   577.41538  549.0  561.8   963.7    13</span></span>
+<span><span class="co">##   rtime(s_db) 9402.9 9478.0 11436.29231 9574.1 9775.8 33069.1    13</span></span></code></pre>
 <p>The <code>Spectra</code> object with the <code>MsBackendMemory</code>
 backend shows the highest performance, followed by the
 <code>Spectra</code> object with the <code>MsBackendMzR</code>, while
@@ -640,14 +640,10 @@ files.</p>
 <span>    times <span class="op">=</span> <span class="fl">7</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: microseconds</span></span>
-<span><span class="co">##              expr      min       lq       mean   median        uq      max</span></span>
-<span><span class="co">##  peaksData(s_mem)    949.5   1137.1   3408.971   1203.7   1259.45  16916.5</span></span>
-<span><span class="co">##  peaksData(s_mzr) 666729.6 672175.4 714960.743 677566.2 695811.60 924455.3</span></span>
-<span><span class="co">##   peaksData(s_db) 146713.4 149845.2 250654.657 151521.9 272210.15 612236.6</span></span>
-<span><span class="co">##  neval</span></span>
-<span><span class="co">##      7</span></span>
-<span><span class="co">##      7</span></span>
-<span><span class="co">##      7</span></span></code></pre>
+<span><span class="co">##              expr      min       lq     mean   median       uq      max neval</span></span>
+<span><span class="co">##  peaksData(s_mem)    669.6    903.2   2873.7    906.4    932.1  14869.3     7</span></span>
+<span><span class="co">##  peaksData(s_mzr) 730697.3 733311.5 737636.9 736528.3 739996.2 749617.5     7</span></span>
+<span><span class="co">##   peaksData(s_db) 138818.5 242012.0 311563.2 338819.1 341664.0 535953.0     7</span></span></code></pre>
 <p>The <code>MsBackendMemory</code> outperforms the two other backends
 also in this comparison. Both the <code>MsBackendMzR</code> and
 <code>MsBackendOfflineSql</code> need to import the data first into
@@ -664,10 +660,10 @@ the <code>MsBackendOfflineSql</code> from the SQL database.</p>
 <span>    <span class="va">s_db</span><span class="op">[</span><span class="va">idx</span><span class="op">]</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: microseconds</span></span>
-<span><span class="co">##        expr   min     lq    mean median      uq    max neval</span></span>
-<span><span class="co">##  s_mem[idx] 281.8 302.25 325.206  324.9  343.45  407.6   100</span></span>
-<span><span class="co">##  s_mzr[idx] 935.1 965.55 989.468  980.2 1004.75 1401.9   100</span></span>
-<span><span class="co">##   s_db[idx] 170.3 196.65 240.971  235.6  248.90 1921.8   100</span></span></code></pre>
+<span><span class="co">##        expr   min     lq    mean median     uq    max neval</span></span>
+<span><span class="co">##  s_mem[idx] 260.8 277.20 294.526  293.6 306.20  344.0   100</span></span>
+<span><span class="co">##  s_mzr[idx] 801.5 846.85 877.046  867.3 894.20 1293.1   100</span></span>
+<span><span class="co">##   s_db[idx] 148.8 166.30 198.423  185.2 194.05 1778.0   100</span></span></code></pre>
 <p>Here, the <code>MsBackendOfflineSql</code> has a clear advantage over
 the two other backends, because it needs to simply subset the integer
 vector of primary keys, while for the <code>MsBackendMemory</code> we
@@ -928,9 +924,9 @@ memory for faster access.</p>
 <span>    times <span class="op">=</span> <span class="fl">17</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
-<span><span class="co">##          expr     min      lq      mean  median      uq     max neval</span></span>
-<span><span class="co">##   rtime(s_db) 10.1118 10.2067 10.373382 10.2609 10.3152 12.2589    17</span></span>
-<span><span class="co">##  rtime(s_db2)  4.1900  4.3231  4.347871  4.3705  4.4127  4.4333    17</span></span></code></pre>
+<span><span class="co">##          expr    min     lq     mean median     uq     max neval</span></span>
+<span><span class="co">##   rtime(s_db) 9.3927 9.5232 9.700135 9.5923 9.6587 11.3993    17</span></span>
+<span><span class="co">##  rtime(s_db2) 3.8708 3.9382 4.043259 4.0209 4.1169  4.4442    17</span></span></code></pre>
 <p><em>Note</em>: the base <code>MsBackendCached</code> class defined in
 the <em>Spectra</em> package provides a caching mechanism for spectra
 variables. Thus, any <code>MsBackend</code> implementation extending
@@ -1038,9 +1034,9 @@ and not the full data, which can be beneficial for the performance.</p>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">intensity</a></span><span class="op">(</span><span class="va">s_db</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>,</span>
 <span>    times <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
-<span><span class="co">##                   expr      min       lq      mean   median        uq      max</span></span>
-<span><span class="co">##  intensity(s_db[1:10])  14.6211  14.6452  15.38006  15.0013  16.06555  16.6165</span></span>
-<span><span class="co">##  intensity(s_db)[1:10] 278.2644 287.0123 425.01610 525.4838 530.38145 536.5769</span></span>
+<span><span class="co">##                   expr      min        lq      mean   median        uq      max</span></span>
+<span><span class="co">##  intensity(s_db[1:10])  13.4598  13.75165  14.15123  13.8760  14.67915  14.8612</span></span>
+<span><span class="co">##  intensity(s_db)[1:10] 261.1812 370.96940 415.15427 474.2493 475.24665 478.2173</span></span>
 <span><span class="co">##  neval</span></span>
 <span><span class="co">##      7</span></span>
 <span><span class="co">##      7</span></span></code></pre>

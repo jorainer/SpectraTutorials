@@ -86,9 +86,27 @@
 </h1>
 </div>
 <p><a href="https://creativecommons.org/licenses/by-nc/4.0/" class="external-link"><img src="https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg" alt="License: CC BY-NC 4.0"></a> <img src="https://img.shields.io/docker/pulls/jorainer/spectra_tutorials" alt="docker pulls"><a href="https://hub.docker.com/repository/docker/jorainer/spectra_tutorials" class="external-link"><img src="https://img.shields.io/docker/v/jorainer/spectra_tutorials?label=docker%20image" alt="Docker Image Version (latest by date)"></a></p>
-<p><img src="reference/figures/Spectra.png" alt="Spectra"><img src="reference/figures/MsCoreUtils.png" alt="MsCoreUtils"><img src="reference/figures/MsBackendMassbank.png" alt="MsBackendMassbank"><img src="reference/figures/MsBackendMgf.png" alt="MsBackendMgf"><img src="reference/figures/CompoundDb.png" alt="CompoundDb"><img src="reference/figures/MetaboAnnotation.png" alt="MetaboAnnotation"></p>
+<p><img src="reference/figures/Spectra-rainbow.png" alt="Spectra"><img src="reference/figures/MsCoreUtils.png" alt="MsCoreUtils"><img src="reference/figures/MsBackendMassbank.png" alt="MsBackendMassbank"><img src="reference/figures/MsBackendMgf.png" alt="MsBackendMgf"><img src="reference/figures/MsBackendSql.png" alt="MsBackendSql"><img src="reference/figures/CompoundDb.png" alt="CompoundDb"><img src="reference/figures/MetaboAnnotation.png" alt="MetaboAnnotation"></p>
 <p>Tutorials and workshops describing and explaining the infrastructure for mass spectrometry (MS) data analysis centered around Bioconductor’s <a href="https://bioconductor.org/packages/Spectra" class="external-link"><em>Spectra</em></a> package.</p>
 <p>These Workshops are also given (either in-person or virtually) at various conferences. If available, recordings of these are linked below in the respective workshop section.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>For on-line code evaluation the workshops can also be run using a self-contained docker image with all R packages and a server version of RStudio (Posit) pre-installed. As an alternative, rendered versions of all workshops are available at <a href="https://jorainer.github.io/SpectraTutorials">SpectraTutorials</a> (navigate to the <em>Articles</em> drop-down menu and select the workshop of interest).</p>
+<p>For installation:</p>
+<ul>
+<li><p>Get the <a href="https://hub.docker.com/r/jorainer/spectra_tutorials" class="external-link">docker image</a> of this tutorial with <code>docker pull jorainer/spectra_tutorials:latest</code>.</p></li>
+<li>
+<p>Start docker using</p>
+<pre><code>docker run \
+    -e PASSWORD=bioc \
+    -p 8787:8787 \
+    jorainer/spectra_tutorials:latest</code></pre>
+</li>
+<li><p>Enter <code>http://localhost:8787</code> in a web browser and log in with username <code>rstudio</code> and password <code>bioc</code>.</p></li>
+<li><p>In the RStudio server version: open any of the R-markdown (<em>.Rmd</em>) files in the <em>vignettes</em> folder and evaluate the R code blocks.</p></li>
+</ul>
+</div>
 </div>
 <div class="section level1">
 <h1 id="workshopstutorials">Workshops/Tutorials<a class="anchor" aria-label="anchor" href="#workshopstutorials"></a>
@@ -96,10 +114,11 @@
 <div class="section level2">
 <h2 id="seamless-integration-of-mass-spectrometry-data-from-different-sources">Seamless Integration of Mass Spectrometry Data from Different Sources<a class="anchor" aria-label="anchor" href="#seamless-integration-of-mass-spectrometry-data-from-different-sources"></a>
 </h2>
+<p><a href="https://jorainer.github.io/SpectraTutorials/articles/analyzing-MS-data-from-different-sources-with-Spectra.html">rendered version</a></p>
 <div class="section level3">
 <h3 id="short-description">Short description<a class="anchor" aria-label="anchor" href="#short-description"></a>
 </h3>
-<p>In this workshop we will use <code>Spectra</code> to:</p>
+<p>In this workshop we will use <a href="https://bioconductor.org/packages/Spectra" class="external-link"><em>Spectra</em></a> to:</p>
 <ul>
 <li>import MS data from <em>mzML</em> files,</li>
 <li>select MS2 spectra for a certain compound,</li>
@@ -110,7 +129,7 @@
 <div class="section level3">
 <h3 id="description">Description<a class="anchor" aria-label="anchor" href="#description"></a>
 </h3>
-<p>This (instructor-led live demo) <a href="https://jorainer.github.io/SpectraTutorials/articles/analyzing-MS-data-from-different-sources-with-Spectra.html">workshop</a> explains the <code>Spectra</code> package and shows how this new infrastructure can be used to represent and analyze Mass Spectrometry (MS) data. The use of different data type and format specific <em>backends</em> guarantees an easy expandability of the infrastructure. This is illustrated in this tutorial on a simple use case, in which MS/MS (a.k.a. MS2) spectra, measured by an MS instrument, are compared and <em>matched</em> against a public spectral database containing public domain reference MS2 spectra.</p>
+<p>This (instructor-led live demo) <a href="https://jorainer.github.io/SpectraTutorials/articles/analyzing-MS-data-from-different-sources-with-Spectra.html">workshop</a> explains the <em>Spectra</em> package and shows how this new infrastructure can be used to represent and analyze Mass Spectrometry (MS) data. The use of different data type and format specific <em>backends</em> guarantees an easy expandability of the infrastructure. This is illustrated in this tutorial on a simple use case, in which MS/MS (a.k.a. MS2) spectra, measured by an MS instrument, are compared and <em>matched</em> against a public spectral database containing public domain reference MS2 spectra.</p>
 <p>The video recording of this workshop at the <a href="https://bioc2021.bioconductor.org/" class="external-link">BioC2021</a> conference is available <a href="https://youtu.be/CNvqlK3Wgx4" class="external-link">here</a>.</p>
 <p>The video recording of this workshop at the <a href="https://eurobioc2020.bioconductor.org/" class="external-link">EuroBioc2020</a> conference is available <a href="https://www.youtube.com/watch?v=W6JISCrAtk0" class="external-link">here</a>.</p>
 </div>
@@ -122,17 +141,17 @@
 </h4>
 <ul>
 <li>Understand how to import MS data into R.</li>
-<li>Understand the basic concept how different <em>backends</em> can be used in <code>Spectra</code> to work with MS data from various sources.</li>
+<li>Understand the basic concept how different <em>backends</em> can be used in <em>Spectra</em> to work with MS data from various sources.</li>
 </ul>
 </div>
 <div class="section level4">
 <h4 id="learning-objectives">Learning objectives<a class="anchor" aria-label="anchor" href="#learning-objectives"></a>
 </h4>
 <ul>
-<li>Import and export MS data with <code>Spectra</code>.</li>
+<li>Import and export MS data with <em>Spectra</em>.</li>
 <li>Integrate MS data from different resources into an MS data analysis workflow.</li>
 <li>Apply different data manipulations on MS data represented as a <code>Spectra</code> object.</li>
-<li>Use <code>Spectra</code> to perform spectra comparisons in R.</li>
+<li>Use <em>Spectra</em> to perform spectra comparisons in R.</li>
 </ul>
 </div>
 </div>
@@ -148,70 +167,31 @@
 <h3 id="rbioconductor-packages-used">R/Bioconductor packages used<a class="anchor" aria-label="anchor" href="#rbioconductor-packages-used"></a>
 </h3>
 <ul>
-<li><a href="https://bioconductor.org/packages/Spectra" class="external-link"><code>Spectra</code></a></li>
-<li><a href="https://bioconductor.org/packages/MsCoreUtils" class="external-link"><code>MsCoreUtils</code></a></li>
-<li><a href="https://bioconductor.org/packages/MsBackendMgf" class="external-link"><code>MsBackendMgf</code></a></li>
-<li><a href="https://bioconductor.org/packages/MsBackendMassbank" class="external-link"><code>MsBackendMassbank</code></a></li>
-<li><a href="https://bioconductor.org/packages/CompoundDb" class="external-link"><code>CompoundDb</code></a></li>
+<li><a href="https://bioconductor.org/packages/Spectra" class="external-link"><em>Spectra</em></a></li>
+<li><a href="https://bioconductor.org/packages/MsCoreUtils" class="external-link"><em>MsCoreUtils</em></a></li>
+<li><a href="https://bioconductor.org/packages/MsBackendMgf" class="external-link"><em>MsBackendMgf</em></a></li>
+<li><a href="https://bioconductor.org/packages/MsBackendMassbank" class="external-link"><em>MsBackendMassbank</em></a></li>
+<li><a href="https://bioconductor.org/packages/CompoundDb" class="external-link"><em>CompoundDb</em></a></li>
 </ul>
-</div>
-<div class="section level3">
-<h3 id="time-outline">Time outline<a class="anchor" aria-label="anchor" href="#time-outline"></a>
-</h3>
-<table class="table">
-<thead><tr class="header">
-<th>Activity</th>
-<th>Time</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td>Introduction (LC-MS/MS, <code>Spectra</code> package)</td>
-<td>10min</td>
-</tr>
-<tr class="even">
-<td>MS data import and handling</td>
-<td>5min</td>
-</tr>
-<tr class="odd">
-<td>Data processing and manipulation</td>
-<td>5min</td>
-</tr>
-<tr class="even">
-<td>Spectrum data comparison</td>
-<td>5min</td>
-</tr>
-<tr class="odd">
-<td>Comparing spectra against MassBank</td>
-<td>10min</td>
-</tr>
-<tr class="even">
-<td>Data export</td>
-<td>5min</td>
-</tr>
-<tr class="odd">
-<td>(Comparing spectra against HMDB)</td>
-<td>(5min)</td>
-</tr>
-</tbody>
-</table>
 </div>
 </div>
 <div class="section level2">
 <h2 id="spectra-an-expandable-infrastructure-to-handle-mass-spectrometry-data">
-<code>Spectra</code>: an expandable infrastructure to handle mass spectrometry data<a class="anchor" aria-label="anchor" href="#spectra-an-expandable-infrastructure-to-handle-mass-spectrometry-data"></a>
+<em>Spectra</em>: an expandable infrastructure to handle mass spectrometry data<a class="anchor" aria-label="anchor" href="#spectra-an-expandable-infrastructure-to-handle-mass-spectrometry-data"></a>
 </h2>
+<p><a href="https://jorainer.github.io/SpectraTutorials/articles/Spectra-backends.html">rendered version</a></p>
 <div class="section level3">
 <h3 id="short-description-1">Short description<a class="anchor" aria-label="anchor" href="#short-description-1"></a>
 </h3>
 <ul>
 <li>Explain different <em>representations</em> of mass spectrometry data along with their properties and advantages.</li>
-<li>Explain the caching and lazy processing queue of the <code>Spectra</code> package.</li>
+<li>Explain the caching and lazy processing queue of the <a href="https://bioconductor.org/packages/Spectra" class="external-link"><em>Spectra</em></a> package.</li>
 </ul>
 </div>
 <div class="section level3">
 <h3 id="description-1">Description<a class="anchor" aria-label="anchor" href="#description-1"></a>
 </h3>
-<p>The <code>r BiocStyle::Biocpkg("Spectra")</code> package provides a modern infrastructure for MS data handling specifically designed to enable extension to additional data resources or alternative data representations. These can be realized by extending the virtual <code>MsBackend</code> class and its related methods. Implementations of such <code>MsBackend</code> classes can be tailored for specific needs, such as low memory footprint, fast processing, remote data access, or also support for specific additional data types or variables. Importantly, data processing of <code>Spectra</code> objects is independent of the backend in use due to a lazy evaluation mechanism that caches data manipulations internally.</p>
+<p>The <em>Spectra</em> package provides a modern infrastructure for MS data handling specifically designed to enable extension to additional data resources or alternative data representations. These can be realized by extending the virtual <code>MsBackend</code> class and its related methods. Implementations of such <code>MsBackend</code> classes can be tailored for specific needs, such as low memory footprint, fast processing, remote data access, or also support for specific additional data types or variables. Importantly, data processing of <code>Spectra</code> objects is independent of the backend in use due to a lazy evaluation mechanism that caches data manipulations internally.</p>
 <p>This workshop discusses different available data representations for MS data along with their properties, advantages and performances. In addition, <em>Spectra</em>’s concept of lazy evaluation for data manipulations is presented, as well as a simple caching mechanism for data modifications. Finally, it explains how new <code>MsBackend</code> instances can be implemented and tested to ensure compliance.</p>
 </div>
 <div class="section level3">
@@ -226,8 +206,8 @@
 <h3 id="rbioconductor-packages-used-1">R/Bioconductor packages used<a class="anchor" aria-label="anchor" href="#rbioconductor-packages-used-1"></a>
 </h3>
 <ul>
-<li><a href="https://bioconductor.org/packages/Spectra" class="external-link"><code>Spectra</code></a></li>
-<li><a href="https://bioconductor.org/packages/MsBackendSql" class="external-link"><code>MsBackendSql</code></a></li>
+<li><a href="https://bioconductor.org/packages/Spectra" class="external-link"><em>Spectra</em></a></li>
+<li><a href="https://bioconductor.org/packages/MsBackendSql" class="external-link"><em>MsBackendSql</em></a></li>
 </ul>
 </div>
 <div class="section level3">
@@ -246,41 +226,20 @@
 <h4 id="learning-objectives-1">Learning objectives<a class="anchor" aria-label="anchor" href="#learning-objectives-1"></a>
 </h4>
 <ul>
-<li>Learn how MS data is handled with <code>Spectra</code>.</li>
+<li>Learn how MS data is handled with <em>Spectra</em>.</li>
 <li>Understand which data representations/backends fit which purpose/use case.</li>
-<li>Insights into the internals of the <code>Spectra</code> MS infrastructure to facilitate implementation of own backend(s).</li>
+<li>Insights into the internals of the <em>Spectra</em> MS infrastructure to facilitate implementation of own backend(s).</li>
 </ul>
 </div>
 </div>
 </div>
 <div class="section level2">
-<h2 id="msms-spectra-matching-with-the-metaboannotation-package">MS/MS Spectra Matching with the <code>MetaboAnnotation</code> Package<a class="anchor" aria-label="anchor" href="#msms-spectra-matching-with-the-metaboannotation-package"></a>
+<h2 id="msms-spectra-matching-with-the-metaboannotation-package">MS/MS Spectra Matching with the <em>MetaboAnnotation</em> Package<a class="anchor" aria-label="anchor" href="#msms-spectra-matching-with-the-metaboannotation-package"></a>
 </h2>
-<p>The <code>Spectra</code> package provides all the functionality required for annotation and identification workflows for untargeted LC-MS/MS data, but, while being very flexible and customizable, it might be too cumbersome for beginners or analysts not accustomed with R. To fill this gap we developed the <a href="https://rformassspectrometry.github.io/MetaboAnnotation" class="external-link"><code>MetaboAnnotation</code></a> package that builds upon <code>Spectra</code> and provides functions for annotation of LC-MS and LC-MS/MS data sets tailored towards the less experienced R user.</p>
-<p>This tutorial shows how <code>MetaboAnnotatio</code> can be used in R-based LC-MS/MS annotation workflows.</p>
-<p>Note that there is also an additional tutorial for the <code>MetaboAnnotation</code>, <code>CompoundDb</code> and <code>MetaboCoreUtils</code> packages available: <a href="https://jorainer.github.io/MetaboAnnotationTutorials" class="external-link">MetaboAnnotationTutorials</a>.</p>
-</div>
-<div class="section level2">
-<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h2>
-<div class="section level3">
-<h3 id="docker-based-setup">Docker-based setup<a class="anchor" aria-label="anchor" href="#docker-based-setup"></a>
-</h3>
-<p>This workshop is available as a self-contained docker image simplifying installation and usage.</p>
-<ul>
-<li><p>Get the <a href="https://hub.docker.com/r/jorainer/spectra_tutorials" class="external-link">docker image</a> of this tutorial with <code>docker pull jorainer/spectra_tutorials:latest</code>.</p></li>
-<li>
-<p>Start docker using</p>
-<pre><code>docker run \
-    -e PASSWORD=bioc \
-    -p 8787:8787 \
-    jorainer/spectra_tutorials:latest</code></pre>
-</li>
-<li><p>Enter <code>http://localhost:8787</code> in a web browser and log in with username <code>rstudio</code> and password <code>bioc</code>.</p></li>
-<li><p>In the RStudio server version: open any of the R-markdown (<em>.Rmd</em>) files in the <em>vignettes</em> folder and evaluate the R code blocks.</p></li>
-<li><p>To get the source code: clone <a href="https://github.com/jorainer/SpectraTutorials" class="external-link">this github repository</a>, e.g. with <code>git clone https://github.com/jorainer/SpectraTutorials</code>.</p></li>
-</ul>
-</div>
+<p><a href="https://jorainer.github.io/SpectraTutorials/articles/Spectra-matching-with-MetaboAnnotation.html">rendered version</a></p>
+<p>The <a href="https://bioconductor.org/packages/Spectra" class="external-link"><em>Spectra</em></a> package provides all the functionality required for annotation and identification workflows for untargeted LC-MS/MS data, but, while being very flexible and customizable, it might be too cumbersome for beginners or analysts not accustomed with R. To fill this gap we developed the <a href="https://bioconductor.org/packages/MetaboAnnotation" class="external-link"><em>MetaboAnnotation</em></a> package that builds upon <em>Spectra</em> and provides functions for annotation of LC-MS and LC-MS/MS data sets tailored towards the less experienced R user.</p>
+<p>This tutorial shows how <em>MetaboAnnotation</em> can be used in R-based LC-MS/MS annotation workflows.</p>
+<p>Note that there is also an additional tutorial for the <em>MetaboAnnotation</em>, <em>CompoundDb</em> and <em>MetaboCoreUtils</em> packages available: <a href="https://jorainer.github.io/MetaboAnnotationTutorials" class="external-link">MetaboAnnotationTutorials</a>.</p>
 </div>
 </div>
 
