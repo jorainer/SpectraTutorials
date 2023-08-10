@@ -4,6 +4,7 @@
 
 - Add new tutorial *`Spectra`: an expandable infrastructure to handle mass
   spectrometry data*.
+- Download MassBank data as an alternative from *AnnotationHub*.
 
 # Version 0.7
 

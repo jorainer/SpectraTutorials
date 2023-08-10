@@ -20,6 +20,9 @@ These Workshops are also given (either in-person or virtually) at various
 conferences. If available, recordings of these are linked below in the
 respective workshop section.
 
+See [NEWS.md](NEWS.md) for differences between versions and a change log.
+
+
 ## Installation
 
 For on-line code evaluation the workshops can also be run using a self-contained

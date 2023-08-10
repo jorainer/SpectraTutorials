@@ -80,13 +80,6 @@ commonly used for exchange of MS2 data.
 - Open this R-markdown file
   (*vignettes/analyzing-MS-data-from-different-sources-with-Spectra.Rmd*) in the
   RStudio server version in the web browser and evaluate the R code blocks.
-- To get the source code: clone [this github
-repository](https://github.com/jorainer/SpectraTutorials), e.g. with `git clone
-https://github.com/jorainer/SpectraTutorials`.
-
-For an alternative way to install the packages and data for the workshop see the
-*README* file of the workshop's [github
-repository](https://github.com/jorainer/SpectraTutorials).
 
 
 ## R/Bioconductor packages used
@@ -123,7 +116,7 @@ repository](https://github.com/jorainer/SpectraTutorials).
 
 ### Learning objectives
 
-- Import and export MS data with `Spectra`.
+- Import and export MS data with *Spectra*.
 - Integrate MS data from different resources into an MS data analysis workflow.
 - Apply different data manipulations on MS data represented as a `Spectra`
   object.
@@ -377,7 +370,11 @@ peaks of the individual spectra have to be matched against each other (i.e. it
 has to be determined which peak from one spectrum correspond to which from the
 other spectrum based on their mass-to-charge ratios). We specify `ppm = 20` so
 that peaks with a difference in m/z smaller than 20ppm will be considered
-matching.
+matching. By default, `compareSpectra` uses the (normalized) dot-product to
+calculate the similarity between the spectra, but a variety of different
+algorithms can be used instead (see the [*Spectra
+vignette*](https://rformassspectrometry.github.io/Spectra/articles/Spectra.html#comparing-spectra)
+for more information).
 
 ```{r compare-spectra-self}
 #' Pairwise comparison of all spectra
@@ -435,29 +432,36 @@ con <- dbConnect(MariaDB(), user = "massbank", dbname = "MassBank",
                  host = "localhost", pass = "massbank")
 ```
 
-Alternatively, if no MySQL database system is available or if this tutorial can
-not be run within *docker*, an SQLite database version of the MassBank data (in
-the format required for `MsBackendMassbankSql` is available
-[here](https://github.com/jorainer/SpectraTutorials/releases/tag/2021.03). After
-downloading the database *MassbankSql-2021-03.db* to the current R workspace,
-the resource can be loaded with the code below.
-
-```{r massbank-sqlite, eval = FALSE}
-## Alternative to the MySQL server - assuming the SQLite database was
-## stored to the R working directory.
-library(RSQLite)
-con <- dbConnect(SQLite(), "MassbankSql-2021-03.db")
-```
-
 We next load the `MsBackendMassbank` package and initialize a `Spectra` object
-with a `MsBackendMassbankSql` backend providing it with the database
-connection (either the MySQL or the SQLite connection generated above).
+with a `MsBackendMassbankSql` backend providing it with the database connection.
 
 ```{r massbank}
 library(MsBackendMassbank)
 #' Access the spectra data in MassBank
 mbank <- Spectra(con, source = MsBackendMassbankSql())
 mbank
+```
+
+Alternatively, if no MySQL database system is available or if this tutorial can
+not be run within *docker*, the MassBank data can also be retrieved from
+Bioconductor's `r Biocpkg("AnnotationHub")`. In that case `MsBackendCompDb`
+backend (defined in the `r Biocpkg()`) is used instead, but both backends
+retrieve their data from a SQL database and have the same properties. Below we
+list MassBank releases/versions available in Bioconductor's *AnnotationHub*.
+
+```{r}
+library(AnnotationHub)
+ah <- AnnotationHub()
+query(ah, "MassBank")
+```
+
+We can retrieve the respective release and access its spectra data with the code
+below. Note that *AnnotationHub* will cache the downloaded database locally and
+any subsequent call will not download the database again.
+
+```{r, eval = FALSE}
+mb <- ah[["AH107048"]]
+mbank <- Spectra(mb)
 ```
 
 The `Spectra` object `mbank` *represents* now the MS data from the
@@ -588,7 +592,11 @@ which it was measured or the ionization voltage used, we get also information on
 the originating compound such as its name (`"compound_name"`), its chemical
 formula (`"formula"`) or its INChI key (`"inchikey"`). We thus next subset
 `mbank_sub` to the best matching spectrum and display its associated compound
-name.
+name. Note that the database provided by *AnnotationHub* does contain compound
+names in a column/spectra variable `"name"` instead of `"compound_name"`, thus,
+if we used the option to download the MassBank data from *AnnotationHub* above,
+we would have to use `mbank_best_match$name` instead of
+`mbank_best_match$compound_name` below.
 
 ```{r massbank-one-spectrum}
 mbank_best_match <- mbank_sub[best_match[2]]
