@@ -163,10 +163,10 @@ This would be a basic representation of MS data in R. For obvious reasons it is
 however better to store such data in a single *container* than keeping it in
 separate, unrelated, variables. We thus create below a `Spectra` object from
 this MS data. `Spectra` objects can be created with the `Spectra` constructor
-function that takes (among other possibilities) a `data.frame` with the full MS
+function accepts (among other possibilities) a `data.frame` with the full MS
 data as input. Each row in that `data.frame` is expected to contain data from
-one spectrum. We therefore need to add the *m/z* and intensity values within a
-`list` to our data frame.
+one spectrum. We therefore need to add the *m/z* and intensity values as a
+`list` of numerical vectors to our data frame.
 
 ```{r}
 library(Spectra)
@@ -190,27 +190,23 @@ s$msLevel
 msLevel(s)
 ```
 
-Also, while we provided only the spectra variables `"msLevel"` and `"polarity"`,
-more variables are available by default. These are called *core spectra
-variables* and they can **always** be extracted from a `Spectra` object, even if
-they are not defined (in which case a `NA` is returned). The list of all
-available spectra variables in a `Spectra` can be extracted with
-the `spectraVariables` function:
+Also, while we provided only the spectra variables `"msLevel"` and `"polarity"`
+with out input data frame, more variables are available by default for a
+`Spectra` object. These are called *core spectra variables* and they can
+**always** be extracted from a `Spectra` object, even if they are not defined
+(in which case missing values are returned). Spectra variables available from a
+`Spectra` object can be listed with the `spectraVariables` function:
 
 ```{r}
 #' List all available spectra variables
 spectraVariables(s)
-```
 
-And values for these can always be extracted from a `Spectra` object.
-
-```{r}
 #' Extract the retention time spectra variable
 s$rtime
 ```
 
-So, we've now got a `Spectra` object representing a single MS spectrum - but, as
-the name of the class implies, it is actually designed to represent data from
+We've now got a `Spectra` object representing a single MS spectrum - but, as the
+name of the class implies, it is actually designed to represent data from
 multiple mass spectra (possibly from a whole experiment). Below we thus define
 again a `data.frame`, this time with 3 rows, and create a `Spectra` object from
 that. Also, we define some additional spectra variables providing the name and
@@ -249,8 +245,9 @@ spectraVariables(s)
 peaksVariables(s)
 ```
 
-The spectra are organized linearly, one after the other. Thus, our `Spectra` has
-a length of 3 and we can also subset the object using `[`.
+Spectra are organized linearly, i.e., one after the other. Thus, our `Spectra`
+has a length of 3 with each element being one spectrum. Subsetting works as for
+any other R object:
 
 ```{r}
 length(s)
@@ -259,16 +256,16 @@ length(s)
 s[2]
 ```
 
-A `Spectra` *behaves* thus similar to a `data.frame` with rows being individual
-spectra and columns being the spectra (or peaks) variables, that can be accessed
-with the `$` operator.
+A `Spectra` *behaves* similar to a `data.frame` with elements (*rows*) being
+individual spectra and *columns* being the spectra (or peaks) variables, that
+can be accessed with the `$` operator.
 
 ```{r}
 s$msLevel
 ```
 
-Similarly (as with a `data.frame`) we can also add new spectra variables
-(columns) using `$<-`.
+Similar to a `data.frame` we can also add new spectra variables (columns) using
+`$<-`.
 
 ```{r}
 #' Add a new spectra variable.
@@ -279,10 +276,18 @@ spectraVariables(s)
 The full peaks data can be extracted with the `peaksData` function, that returns
 a `list` of two-dimensional arrays with the values of the peaks variables. Each
 list element represents the peaks data from one spectrum, which is stored in a
-e.g. `matrix` with columns being the peaks variables and rows the values for
-each peak. The number of rows of such peak variable arrays depends on the number
-of mass peaks of each spectrum. Below we extract the peaks data of our `Spectra`
-and subset that to data from the second spectrum.
+e.g. `matrix` with columns being the peaks variables and rows the respective
+values for each peak. The number of rows of such peak variable arrays depends on
+the number of mass peaks of each spectrum. This number can be extracted either
+using `lengths`:
+
+```{r}
+#' Get the number of peaks per spectrum.
+lengths(s)
+```
+
+We next extract the peaks data of our `Spectra` and subset that to data from the
+second spectrum.
 
 ```{r}
 #' Extract the peaks matrix of the second spectrum
@@ -296,7 +301,8 @@ Finally, we can also visualize the peaks data of a spectrum in the `Spectra`.
 plotSpectra(s[2])
 ```
 
-Or to create such a spectrum plot *manually*:
+Such plots can obviously also be created *manually* from the individual peaks
+data:
 
 ```{r}
 plot(mz(s)[[2]], intensity(s)[[2]], type = "h",
@@ -306,9 +312,9 @@ plot(mz(s)[[2]], intensity(s)[[2]], type = "h",
 Experimental MS data is generally (ideally) stored in files in mzML, mzXML or
 CDF format. These are open file formats that can be read by most software. In
 Bioconductor, the `r Biocpkg("mzR")` package allows to read/write data in/to
-these formats. Below we create a `Spectra` object for such experimental data
-from two mzML files that are provided in Bioconductor's `r Biocpkg("msdata")`
-package.
+these formats. Also *Spectra* allows to represent data from such raw data files:
+below we create a `Spectra` object for such experimental data from two mzML
+files that are provided in Bioconductor's `r Biocpkg("msdata")` package.
 
 ```{r}
 #' Import MS data from 2 mzML files.
@@ -318,17 +324,17 @@ s2
 ```
 
 We have thus access to the raw experimental MS data through this `Spectra`
-object. In contrast to the first example we did however in this case not provide
-a `data.frame` with the MS data as input parameter to the `Spectra` call, but a
-`character` vector with the file names from which to import the data. Also, we
-specified in addition `source = MsBackendMzR()`. We thus already anticipate the
-concept of backends. With this parameter we tell `Spectra` to use the
+object. In contrast to the first example above, we used here the `Spectra`
+constructor providing a `character` vector with the file names and specified
+`source = MsBackendMzR()`. We thus already anticipate the concept of
+backends. With the `source` parameter we configured `Spectra` to use the
 `MsBackendMzR` backend to import and represent the MS data from the two mzML
 files.
 
-Like in our first example, we can subset the object or access any of its spectra
-variables. Note that for this `Spectra` object we have many more spectra
-variables available (depending on what is provided by the raw data files).
+Like in our first example, we can again subset the object or access any of its
+spectra variables. Note however that in this `Spectra` object we have many more
+spectra variables available (depending on what is provided by the raw data
+files).
 
 ```{r}
 #' Available spectra variables
@@ -349,7 +355,8 @@ plotSpectra(s2[4])
 ## Use of different *backends* with `Spectra`, why and how?
 
 While both `Spectra` objects *behave* the same way, i.e. all data can be
-accessed in the same way, they actually use different *backends* and thus data representations:
+accessed in the same way, they actually use different *backends* and thus data
+representations:
 
 ```{r}
 class(s@backend)
@@ -357,7 +364,7 @@ class(s2@backend)
 ```
 
 Our first example `Spectra` uses a `MsBackendMemory` backend that, as the name
-says, keeps all MS data in memory (within the backend object). In contrast, the
+tells, keeps all MS data in memory (within the backend object). In contrast, the
 second `Spectra` which represents the experimental MS data from the two mzML
 files uses the `MsBackendMzR` backend. This backend loads only general spectra
 data (variables) into memory while it imports the peaks data only *on-demand*
@@ -384,8 +391,9 @@ Examples:
   adds support for MS data files in Thermo Fisher Scientific's raw data file
   format.
 
-The backend that is able to import data from files in a certain format needs to
-be specified in the `Spectra` constructor call with the `source` parameter:
+To import data from files in a certain format, the respective backend able to
+handle such data needs to be specified with the parameter `source` in the
+`Spectra` constructor call:
 
 ```{r}
 #' Import MS data from mzML files
@@ -394,17 +402,18 @@ s_mzr <- Spectra(fls, source = MsBackendMzR())
 
 **Reason 2**: support different implementations to store or represent the
 data. This includes both *where* the data is stored or *how* it is
-stored. Specialized backends can be defined that are for example optimized for
-performance or for low memory demand.
+stored. Specialized backends can be defined that are, for example, optimized for
+high performance or for low memory demand.
 
 Examples:
 
-- `MsBackendMemory`: keeps all the MS data in memory and is optimized for a fast
-  and efficient access to the peaks data matrices (i.e., the *m/z* and intensity
-  values of the spectra).
-- `MsBackendMzR`: keeps only spectra variables in memory and retrieves the peaks
-  data on-the-fly from the original data files upon request. This guarantees a
-  lower memory footprint and enables also analysis of large MS experiments.
+- `MsBackendMemory` (defined in `r Biocpkg("Spectra")`): keeps all the MS data
+  in memory and is optimized for a fast and efficient access to the peaks data
+  matrices (i.e., the *m/z* and intensity values of the spectra).
+- `MsBackendMzR` (defined in `r Biocpkg("Spectra")`): keeps only spectra
+  variables in memory and retrieves the peaks data on-the-fly from the original
+  data files upon request. This guarantees a lower memory footprint and enables
+  also analysis of large MS experiments.
 - `MsBackendSql` (defined in the `r Biocpkg("MsBackendSql")` package): all MS
   data is stored in a SQL database. Has minimal memory requirements but any data
   (whether spectra or peaks variables) need to be retrieved from the
@@ -422,16 +431,17 @@ s_mem <- setBackend(s_mzr, MsBackendMemory())
 
 With the call above we loaded all MS data from the original data files into
 memory. As a third option we next store the full MS data into a SQL database by
-using/changing to a `MsBackendOfflineSql` backend defined by `r
-Biocpkg("MsBackendSql")` package. For the `setBackend` call we need to provide
-the connection information for the database that should contain the data. This
-includes the database driver that should be used (parameter `drv`, depending on
-the database system that should be used), the database name (parameter `dbname`)
-as well as eventual additional connection information like the host, username,
-port or password. Which of these parameters are required depends on the SQL
-database used and hence the driver (see also `?dbConnect` for more information
-on the parameters). In our example we will store the data in a simple small
-SQLite database, thus we use `drv = SQLite()` and provide with parameter
+using/changing to a `MsBackendOfflineSql` backend defined by the
+`r Biocpkg("MsBackendSql")` package.
+
+For the `setBackend` call we need to provide the connection information for the
+database that should contain the data. This includes the database driver
+(parameter `drv`, depending on the database system), the database name
+(parameter `dbname`) as well as eventual additional connection information like
+the host, username, port or password. Which of these parameters are required
+depends on the SQL database used and hence the driver (see also `?dbConnect` for
+more information on the parameters). In our example we will store the data in a
+SQLite database. We thus set `drv = SQLite()` and provide with parameter
 `dbname` the name of the SQLite database file (that should not yet exist). In
 addition, importantly, we disable parallel processing with `BPPARAM =
 SerialParam()` since most SQL databases don't support parallel data import.
@@ -473,10 +483,10 @@ backend keeps only the primary keys of the spectra in memory it's memory
 requirements are particularly small and is thus ideal to represent even very
 large MS experiments.
 
-We next evaluate the performance to extract spectra variables from the 3
-backends. We compare the time needed to extract the retention times from the 3
-`Spectra` object using the `microbenchmark` function. Also here we disable any
-potential parallel processing using `register(SerialParam())`.
+We next evaluate the performance to extract spectra variables. We compare the
+time needed to extract the retention times from the 3 `Spectra` object using the
+`microbenchmark` function. Also here we disable any potential parallel
+processing using `register(SerialParam())`.
 
 ```{r}
 #' Compare performance to extract the retention times.
@@ -490,10 +500,10 @@ microbenchmark(
 )
 ```
 
-The `Spectra` object with the `MsBackendMemory` backend shows the highest
-performance, followed by the `Spectra` object with the `MsBackendMzR`, while
-extraction of spectra variables is slowest for the `Spectra` with the
-`MsBackendOfflineSql`.
+Highest performance can be seen for the `Spectra` object with the
+`MsBackendMemory` backend, followed by the `Spectra` object with the
+`MsBackendMzR` backend, while extraction of spectra variables is slowest for the
+`Spectra` with the `MsBackendOfflineSql`.
 
 We next also evaluate the performance to extract peaks data, i.e. the individual
 *m/z* and intensity values for all spectra in the two files.
@@ -512,7 +522,8 @@ microbenchmark(
 The `MsBackendMemory` outperforms the two other backends also in this
 comparison. Both the `MsBackendMzR` and `MsBackendOfflineSql` need to import the
 data first into memory, the `MsBackendMzR` from the original mzML files and the
-`MsBackendOfflineSql` from the SQL database (which for this data is faster).
+`MsBackendOfflineSql` from the SQL database (which for the present data is
+more efficient).
 
 At last we evaluate the performance to subset any of the 3 `Spectra` objects to
 10 random spectra.
@@ -538,32 +549,34 @@ while the `MsBackendMemory` needs to subset the full data, and the
 Keeping all data in memory (e.g. by using a `MsBackendMemory`) has its obvious
 performance advantages, but might not be possible for all MS
 experiments. *On-disk* backends such as the `MsBackendMzR` or
-`MsBackendOfflineSql` allow, due to their low memory footprint, to analyze also
-very large data sets. This is further optimized by the build-in option for most
-`Spectra` methods to load and process MS data in chunks in contrast to loading
-and processing the full data as a whole. The performance of the *offline*
-backends `MsBackendMzR` and `MsBackendSql`/`MsBackendOfflineSql` depend also on
-the I/O capabilities of the hard disks containing the data files as well as, for
-the latter, the configuration of the SQL database system used.
+`MsBackendOfflineSql` allow, due to their lower memory footprint, to analyze
+also very large data sets. This is further optimized by the build-in option for
+most `Spectra` methods to load and process MS data only in small chunks in
+contrast to loading and processing the full data as a whole. The performance of
+the *offline* backends `MsBackendMzR` and `MsBackendSql`/`MsBackendOfflineSql`
+depend also on the I/O capabilities of the hard disks containing the data files
+as well as, for the latter, the configuration of the SQL database system used.
 
 
 ## Data manipulation and the lazy evaluation queue
 
-Different backends can be helpful, but for some data representations changing or
-adding values might simply not be possible. The `MsBackendMzR` backend for
-example retrieves the peaks data directly from the raw data files and we don't
-want any manipulation of *m/z* or intensity values to be directly written back
-to these original data files. Also other backends, specifically those that
-provide access to spectral reference databases (such as the
-`MsBackendMassbankSql` from the `r Biocpkg("MsBackendMassbank")` package or the
-`MsBackendCompDb` from the `r Biocpkg("CompoundDb")` package), are not supposed
-to allow any data changes to be written back to these databases.
+Not all data representations might, by design or because of the way the data is
+handled and stored, allow changing existing or adding new values. The
+`MsBackendMzR` backend for example retrieves the peaks data directly from the
+raw data files and we don't want any manipulation of *m/z* or intensity values
+to be directly written back to these original data files. Also other backends,
+specifically those that provide access to spectral reference databases (such as
+the `MsBackendMassbankSql` from the `r Biocpkg("MsBackendMassbank")` package or
+the `MsBackendCompDb` from the `r Biocpkg("CompoundDb")` package), are not
+supposed to allow any data changes to be written back to these databases.
 
-Any type of analysis requires however some sort of data manipulation, thus, we
-need for such backends some sort of mechanism to *cache* changes to the data.
-
-To illustrate how this is implemented for our 3 backend classes we below add a
-new spectra variable `"new_variable"` to each of our 3 `Spectra` objects.
+Data manipulations are however an integrative part of any data analysis and we
+thus need for such backends some mechanism that allows changes to data without
+propagating these to the original data resource. Some backend classes use
+dediacted *caching* mechanisms to enable adding, changing, or deleting spectra
+variables. To illustrate how this is implemented for our 3 backend classes we
+below add a new spectra variable `"new_variable"` to each of our 3 `Spectra`
+objects.
 
 ```{r}
 #' Assign new spectra variables.
@@ -592,7 +605,8 @@ s_mem@backend@spectraData |> head()
 ```
 
 Similarly, also the `MsBackendMzR` stores data for spectra variables (but not
-peaks variables!) within a `DataFrame`. *Note*: the use of a `DataFrame` instead
+peaks variables!) within a `DataFrame`. Adding a new spectra variable thus also
+added a new column to this `DataFrame`. *Note*: the use of a `DataFrame` instead
 of a `data.frame` in `MsBackendMzR` explains most of the performance differences
 to subset or access spectra variables we've seen between this backend and the
 `MsBackendMemory` above.
@@ -602,7 +616,7 @@ s_mzr@backend@spectraData
 ```
 
 Finally, also for the `MsBackendOfflineSql` backend, the new spectra variable is
-cached within a `data.frame` inside the object.
+cached within a dedicated `data.frame` inside the object.
 
 ```{r}
 s_db@backend@localData |> head()
@@ -625,14 +639,15 @@ microbenchmark(
 ```
 
 *Note*: the base `MsBackendCached` class defined in the *Spectra* package
-provides a caching mechanism for spectra variables. Thus, any `MsBackend`
-implementation extending this base class automatically inherit this mechanism
-from it and does not need to implement its own. Examples of backends extending
-`MsBackendCached` are, among others, `MsBackendSql`, `MsBackendOfflineSql`,
-and `MsBackendMassbankSql`.
+provides the caching mechanism for spectra variables of the
+`MsBackendOfflineSql` backend above. Thus, any `MsBackend` implementation
+extending this base class automatically inherit this mechanism from it and does
+not need to implement its own. Examples of backends extending `MsBackendCached`
+are, among others, `MsBackendSql`, `MsBackendOfflineSql`, and
+`MsBackendMassbankSql`.
 
 Analysis of MS data requires, in addition to changing or adding spectra
-variables as shown above also the possibility to manipulate peaks data (i.e. the
+variables also the possibility to manipulate peaks data (i.e. the
 *m/z* and intensity values of the individual mass peaks of the spectra). As a
 simple example we remove below all mass peaks with an intensity below 100 from
 the data set and compare the number of peaks per spectra before and after that
@@ -656,9 +671,9 @@ s_mzr <- filterIntensity(s_mzr, intensity = 100)
 s_db <- filterIntensity(s_db, intensity = 100)
 ```
 
-And in fact the number of peaks were also reduced for these two backends even if
-they do not keep the peak data in memory and, as discussed before, we do not
-allow changes to the data file (or the database) containing the original data.
+The number of peaks were also reduced for these two backends although they do
+not keep the peak data in memory and, as discussed before, we do not allow
+changes to the data file (or the database) containing the original data.
 
 ```{r}
 #' Evaluate that subsetting worked for all.
@@ -669,9 +684,9 @@ median(lengths(s_db))
 
 Due to their (generally) limited and manageable size, the caching mechanisms
 described above work well and efficiently for spectra variables. MS peaks data
-(*m/z* and intensity values of the individual peaks of MS spectra) in contrast
-represents however a much larger data volumes. Thus, in-memory caching of
-changes to peaks data is not generally possible for all types of MS data.
+(*m/z* and intensity values of the individual peaks of MS spectra) however
+represent much larger data volumes. Thus, in-memory caching of changes to peaks
+data is not generally possible for all types of MS data.
 
 For that reason we are not caching changes to the values within the objects, but
 the actual data manipulation operation itself. This is done automatically by the
@@ -684,9 +699,10 @@ s_db@processingQueue
 ```
 
 Each time peaks data is accessed (like with the `intensity` call in the example
-below), the `Spectra` object will first get the *raw* peaks data from the
-backend, check its processing queue and, if that is not empty, apply each of the
-contained cached processing steps to the peaks data before returning it.
+below), the `Spectra` object will first request the *raw* peaks data from the
+backend, check its own processing queue and, if that is not empty, apply each of
+the contained cached processing steps to the peaks data before returning it to
+the user.
 
 ```{r}
 #' Access intensity values and extract those of the 1st spectrum.
@@ -695,7 +711,7 @@ intensity(s_db)[[1L]]
 
 As a nice side effect, if only a subset of the data is accessed, the data
 manipulations need only to be applied to the requested data subset, and not the
-full data, which can be beneficial for the performance.
+full data. This can have a positive impact on overall performance:
 
 ```{r}
 #' Compare extraction of intensity values.
@@ -705,10 +721,10 @@ microbenchmark(
     times = 7)
 ```
 
-This mechanism is implemented in the `Spectra` object and is thus independent of
-the backend. Ultimately, it allows to apply also data manipulations to MS data
-from data resources that would be inherently *read-only* (such as e.g. reference
-libraries of fragment spectra).
+This lazy processing mechanism is implemented in the `Spectra` object and is
+thus independent of the backend used to represent the data. Thus, it allows to
+apply also data manipulations to MS data from data resources that would be
+inherently *read-only* (such as e.g. reference libraries of fragment spectra).
 
 In addition, since we are not changing peaks data, we can also *undo* data
 manipulations. A simple `reset` call on a `Spectra` object will restore the data
