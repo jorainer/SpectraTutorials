@@ -12,7 +12,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding[utf8]{inputenc}
   %\VignettePackage{SpectraTutorials}
-  %\VignetteDepends{Spectra,mzR,RMariaDB,pheatmap,BiocStyle,CompoundDb,curl,MsBackendSql,MsBackendMassbank,RSQLite}
+  %\VignetteDepends{Spectra,mzR,RMariaDB,pheatmap,BiocStyle,CompoundDb,curl,MsBackendSql,MsBackendMassbank,RSQLite,AnnotationHub}
 bibliography: references.bib
 ---
 
@@ -445,9 +445,10 @@ mbank
 Alternatively, if no MySQL database system is available or if this tutorial can
 not be run within *docker*, the MassBank data can also be retrieved from
 Bioconductor's `r Biocpkg("AnnotationHub")`. In that case `MsBackendCompDb`
-backend (defined in the `r Biocpkg()`) is used instead, but both backends
-retrieve their data from a SQL database and have the same properties. Below we
-list MassBank releases/versions available in Bioconductor's *AnnotationHub*.
+backend (defined in the `r Biocpkg("CompoundDb")`) is used instead, but both
+backends retrieve their data from a SQL database and have the same
+properties. Below we list MassBank releases/versions available in Bioconductor's
+*AnnotationHub*.
 
 ```{r}
 library(AnnotationHub)

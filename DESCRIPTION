@@ -48,8 +48,10 @@ Suggests:
     MetaboAnnotation (>= 0.99.4),
     microbenchmark,
     MsBackendSql (>= 1.1.3),
-    RSQLite
+    RSQLite,
+    AnnotationHub
 Remotes:
+    RforMassSpectrometry/ProtGenerics,
     RforMassSpectrometry/MetaboAnnotation,
     RforMassSpectrometry/CompoundDb,
     RforMassSpectrometry/MsBackendMgf,
