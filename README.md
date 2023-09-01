@@ -20,7 +20,7 @@ These Workshops are also given (either in-person or virtually) at various
 conferences. If available, recordings of these are linked below in the
 respective workshop section.
 
-See [NEWS.md](NEWS.md) for differences between versions and a change log.
+See [NEWS.md](NEWS.md) for information on the current version and a change log.
 
 
 ## Installation
