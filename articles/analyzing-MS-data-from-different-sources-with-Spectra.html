@@ -98,7 +98,7 @@ UCLouvain, Brussels, Belgium&lt;/p&gt;"><sup>4</sup></a>
 
     
     
-<p><strong>Last modified:</strong> 2023-08-24 07:02:12.55401<br><strong>Compiled</strong>: Thu Aug 24 07:08:51 2023</p>
+<p><strong>Last modified:</strong> 2023-09-01 09:33:52.260834<br><strong>Compiled</strong>: Fri Sep 1 09:44:57 2023</p>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
@@ -436,7 +436,7 @@ simply using:</p>
 <span><span class="co">## 3         1     1.491         5</span></span>
 <span><span class="co">##  ... 33 more variables/columns.</span></span>
 <span><span class="co">## Processing:</span></span>
-<span><span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Thu Aug 24 07:08:56 2023]</span></span></code></pre>
+<span><span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Fri Sep  1 09:45:04 2023]</span></span></code></pre>
 <p>In our workshop, we next want to identify in our experimental data
 MS2 spectra that were generated from an ion that matches the m/z of the
 <code>[M+H]+</code> ion of the metabolite cystine (one of the standards
@@ -462,8 +462,8 @@ in m/z of 10 parts-per-million (ppm)).</p>
 <span><span class="co">## 6         2   240.020       804</span></span>
 <span><span class="co">##  ... 33 more variables/columns.</span></span>
 <span><span class="co">## Processing:</span></span>
-<span><span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Thu Aug 24 07:08:56 2023]</span></span>
-<span><span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Thu Aug 24 07:08:57 2023]</span></span></code></pre>
+<span><span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Fri Sep  1 09:45:04 2023]</span></span>
+<span><span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Fri Sep  1 09:45:04 2023]</span></span></code></pre>
 <p>In total 6 spectra matched our target precursor m/z.</p>
 </div>
 <div class="section level3">
@@ -643,7 +643,7 @@ releases/versions available in Bioconductor’s
 <span><span class="va">ah</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationHub/man/AnnotationHub-class.html" class="external-link">AnnotationHub</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/AnnotationHub/man/AnnotationHub-class.html" class="external-link">query</a></span><span class="op">(</span><span class="va">ah</span>, <span class="st">"MassBank"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## AnnotationHub with 3 records</span></span>
-<span><span class="co">## # snapshotDate(): 2023-04-24</span></span>
+<span><span class="co">## # snapshotDate(): 2023-04-25</span></span>
 <span><span class="co">## # $dataprovider: MassBank</span></span>
 <span><span class="co">## # $species: NA</span></span>
 <span><span class="co">## # $rdataclass: CompDb</span></span>
@@ -777,7 +777,7 @@ spectra containing an actual peak matching the precursor m/z.</p>
 <span><span class="co">##  Use  'spectraVariables' to list all of them.</span></span>
 <span><span class="co">## Lazy evaluation queue: 1 processing step(s)</span></span>
 <span><span class="co">## Processing:</span></span>
-<span><span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Thu Aug 24 07:09:06 2023]</span></span></code></pre>
+<span><span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Fri Sep  1 09:45:18 2023]</span></span></code></pre>
 <p>This left us with 12 spectra for which we calculate the similarity
 against each of our experimental spectra using the
 <code>compareSpectra</code> function.</p>
@@ -1131,7 +1131,7 @@ database as a parameter to the <code>Spectra</code> function and use the
 <span><span class="co">## 1578         2     95.0608         1</span></span>
 <span><span class="co">##  ... 34 more variables/columns.</span></span>
 <span><span class="co">##  Use  'spectraVariables' to list all of them.</span></span>
-<span><span class="co">## Database: /tmp/Rtmp4jPDGP/file71a43859737</span></span></code></pre>
+<span><span class="co">## Database: /tmp/RtmpzrSqC5/file730c0a3da0</span></span></code></pre>
 <p>The memory footprint of this <code>Spectra</code> object is only very
 small as all the data is retrieved from the database
 <em>on-the-fly</em>.</p>
@@ -1154,10 +1154,10 @@ small as all the data is retrieved from the database
 <span>               <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html" class="external-link">peaksData</a></span><span class="op">(</span><span class="va">sps_db</span><span class="op">)</span>,</span>
 <span>               times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
-<span><span class="co">##                expr      min       lq     mean    median        uq       max</span></span>
-<span><span class="co">##  peaksData(sps_mzr) 342.4851 358.4809 730.3170 435.94725 1445.7713 1599.5292</span></span>
-<span><span class="co">##   peaksData(sps_df) 102.3302 106.0279 229.4263 123.95085  157.6377  730.3877</span></span>
-<span><span class="co">##   peaksData(sps_db)  61.9185  71.7520  84.3653  82.10895   86.6430  118.2184</span></span>
+<span><span class="co">##                expr      min       lq     mean   median       uq       max</span></span>
+<span><span class="co">##  peaksData(sps_mzr) 406.3746 411.3144 568.7876 448.8168 461.3439 1694.5000</span></span>
+<span><span class="co">##   peaksData(sps_df) 166.5841 172.4073 279.3379 201.9174 219.3912 1029.0904</span></span>
+<span><span class="co">##   peaksData(sps_db)  89.2029 114.8865 293.4110 133.5245 150.5666  988.2404</span></span>
 <span><span class="co">##  neval</span></span>
 <span><span class="co">##     10</span></span>
 <span><span class="co">##     10</span></span>
@@ -1172,9 +1172,9 @@ subsets of the data are loaded.</p>
 <span>               times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
 <span><span class="co">##                      expr     min      lq     mean   median      uq     max</span></span>
-<span><span class="co">##  peaksData(sps_mzr[1:10]) 14.4415 14.5008 14.79479 14.81475 14.9428 15.3081</span></span>
-<span><span class="co">##   peaksData(sps_df[1:10])  5.7419  5.8334  6.23592  5.86040  6.0980  9.1282</span></span>
-<span><span class="co">##   peaksData(sps_db[1:10])  4.2783  4.4360  4.55356  4.58125  4.6426  4.8676</span></span>
+<span><span class="co">##  peaksData(sps_mzr[1:10]) 17.2213 17.6716 19.03474 19.46935 19.6884 20.4917</span></span>
+<span><span class="co">##   peaksData(sps_df[1:10])  8.0062  8.3430  9.14019  8.58655  9.0445 13.5827</span></span>
+<span><span class="co">##   peaksData(sps_db[1:10])  5.4190  5.6442  6.18935  6.13830  6.6506  7.3179</span></span>
 <span><span class="co">##  neval</span></span>
 <span><span class="co">##     10</span></span>
 <span><span class="co">##     10</span></span>
