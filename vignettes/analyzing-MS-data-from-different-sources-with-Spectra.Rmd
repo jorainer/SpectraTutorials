@@ -466,7 +466,7 @@ mbank <- Spectra(mb)
 ```
 
 The `Spectra` object `mbank` *represents* now the MS data from the
-MassBank database with in total `length(mbank)` spectra. In fact, the `mbank`
+MassBank database with in total `r length(mbank)` spectra. In fact, the `mbank`
 object itself does not contain any MS data, but only the primary keys of the
 spectra in the MassBank database. Hence, it has also a relatively low memory
 footprint.
