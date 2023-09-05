@@ -231,7 +231,7 @@ rtime(sps_all) |> head()
 ```
 
 Our `Spectra` object contains information from in total `r length(sps_all)`
-spectra from `length(unique(dataOrigin(sps_all)))` mzML files. By using the
+spectra from `r length(unique(dataOrigin(sps_all)))` mzML files. By using the
 `MsBackendMzR` backend, only general information about each spectrum is kept in
 memory resulting in a low memory footprint.
 
