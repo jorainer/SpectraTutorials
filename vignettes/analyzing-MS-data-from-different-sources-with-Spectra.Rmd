@@ -720,7 +720,7 @@ spectraVariables(hmdb)
 
 Also here, we want to filter the data resource first for spectra with a matching
 precursor m/z. Unfortunately, HMDB does not provided the spectra's precursor m/z
-and we hence need to used the `containsMz` function to find spectra containing a
+and we hence need to use the `containsMz` function to find spectra containing a
 peak with an m/z matching the m/z of our ion of interest. In addition, We need
 to use a rather large `tolerance` value (which defines the maximal acceptable
 absolute difference in m/z values) since some of the experimental spectra in
