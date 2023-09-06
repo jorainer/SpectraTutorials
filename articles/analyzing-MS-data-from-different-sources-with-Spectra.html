@@ -98,7 +98,7 @@ UCLouvain, Brussels, Belgium&lt;/p&gt;"><sup>4</sup></a>
 
     
     
-<p><strong>Last modified:</strong> 2023-09-01 09:33:52.260834<br><strong>Compiled</strong>: Fri Sep 1 09:44:57 2023</p>
+<p><strong>Last modified:</strong> 2023-09-06 12:24:15.180901<br><strong>Compiled</strong>: Wed Sep 6 12:34:03 2023</p>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
@@ -385,10 +385,9 @@ the first spectra using either <code>$rtime</code> or the function
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">rtime</a></span><span class="op">(</span><span class="va">sps_all</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 0.273 0.570 0.873 1.183 1.491 1.798</span></span></code></pre>
 <p>Our <code>Spectra</code> object contains information from in total
-1578 spectra from <code>length(unique(dataOrigin(sps_all)))</code> mzML
-files. By using the <code>MsBackendMzR</code> backend, only general
-information about each spectrum is kept in memory resulting in a low
-memory footprint.</p>
+1578 spectra from 2 mzML files. By using the <code>MsBackendMzR</code>
+backend, only general information about each spectrum is kept in memory
+resulting in a low memory footprint.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html" class="external-link">object.size</a></span><span class="op">(</span><span class="va">sps_all</span><span class="op">)</span>, units <span class="op">=</span> <span class="st">"MB"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 0.4 Mb</span></span></code></pre>
@@ -436,7 +435,7 @@ simply using:</p>
 <span><span class="co">## 3         1     1.491         5</span></span>
 <span><span class="co">##  ... 33 more variables/columns.</span></span>
 <span><span class="co">## Processing:</span></span>
-<span><span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Fri Sep  1 09:45:04 2023]</span></span></code></pre>
+<span><span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Wed Sep  6 12:34:09 2023]</span></span></code></pre>
 <p>In our workshop, we next want to identify in our experimental data
 MS2 spectra that were generated from an ion that matches the m/z of the
 <code>[M+H]+</code> ion of the metabolite cystine (one of the standards
@@ -462,8 +461,8 @@ in m/z of 10 parts-per-million (ppm)).</p>
 <span><span class="co">## 6         2   240.020       804</span></span>
 <span><span class="co">##  ... 33 more variables/columns.</span></span>
 <span><span class="co">## Processing:</span></span>
-<span><span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Fri Sep  1 09:45:04 2023]</span></span>
-<span><span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Fri Sep  1 09:45:04 2023]</span></span></code></pre>
+<span><span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Wed Sep  6 12:34:09 2023]</span></span>
+<span><span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Wed Sep  6 12:34:09 2023]</span></span></code></pre>
 <p>In total 6 spectra matched our target precursor m/z.</p>
 </div>
 <div class="section level3">
@@ -665,10 +664,10 @@ the database again.</p>
 <span><span class="va">mbank</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">mb</span><span class="op">)</span></span></code></pre></div>
 <p>The <code>Spectra</code> object <code>mbank</code>
 <em>represents</em> now the MS data from the MassBank database with in
-total <code>length(mbank)</code> spectra. In fact, the
-<code>mbank</code> object itself does not contain any MS data, but only
-the primary keys of the spectra in the MassBank database. Hence, it has
-also a relatively low memory footprint.</p>
+total 86576 spectra. In fact, the <code>mbank</code> object itself does
+not contain any MS data, but only the primary keys of the spectra in the
+MassBank database. Hence, it has also a relatively low memory
+footprint.</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html" class="external-link">object.size</a></span><span class="op">(</span><span class="va">mbank</span><span class="op">)</span>, units <span class="op">=</span> <span class="st">"MB"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 6.6 Mb</span></span></code></pre>
@@ -777,7 +776,7 @@ spectra containing an actual peak matching the precursor m/z.</p>
 <span><span class="co">##  Use  'spectraVariables' to list all of them.</span></span>
 <span><span class="co">## Lazy evaluation queue: 1 processing step(s)</span></span>
 <span><span class="co">## Processing:</span></span>
-<span><span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Fri Sep  1 09:45:18 2023]</span></span></code></pre>
+<span><span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Wed Sep  6 12:34:21 2023]</span></span></code></pre>
 <p>This left us with 12 spectra for which we calculate the similarity
 against each of our experimental spectra using the
 <code>compareSpectra</code> function.</p>
@@ -1032,7 +1031,7 @@ each spectrum are:</p>
 <span><span class="co">## [33] "synonym"</span></span></code></pre>
 <p>Also here, we want to filter the data resource first for spectra with
 a matching precursor m/z. Unfortunately, HMDB does not provided the
-spectra’s precursor m/z and we hence need to used the
+spectra’s precursor m/z and we hence need to use the
 <code>containsMz</code> function to find spectra containing a peak with
 an m/z matching the m/z of our ion of interest. In addition, We need to
 use a rather large <code>tolerance</code> value (which defines the
@@ -1131,7 +1130,7 @@ database as a parameter to the <code>Spectra</code> function and use the
 <span><span class="co">## 1578         2     95.0608         1</span></span>
 <span><span class="co">##  ... 34 more variables/columns.</span></span>
 <span><span class="co">##  Use  'spectraVariables' to list all of them.</span></span>
-<span><span class="co">## Database: /tmp/RtmpzrSqC5/file730c0a3da0</span></span></code></pre>
+<span><span class="co">## Database: /tmp/RtmpGQ0nbx/file7225c9a60e</span></span></code></pre>
 <p>The memory footprint of this <code>Spectra</code> object is only very
 small as all the data is retrieved from the database
 <em>on-the-fly</em>.</p>
@@ -1154,10 +1153,10 @@ small as all the data is retrieved from the database
 <span>               <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html" class="external-link">peaksData</a></span><span class="op">(</span><span class="va">sps_db</span><span class="op">)</span>,</span>
 <span>               times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
-<span><span class="co">##                expr      min       lq     mean   median       uq       max</span></span>
-<span><span class="co">##  peaksData(sps_mzr) 406.3746 411.3144 568.7876 448.8168 461.3439 1694.5000</span></span>
-<span><span class="co">##   peaksData(sps_df) 166.5841 172.4073 279.3379 201.9174 219.3912 1029.0904</span></span>
-<span><span class="co">##   peaksData(sps_db)  89.2029 114.8865 293.4110 133.5245 150.5666  988.2404</span></span>
+<span><span class="co">##                expr      min       lq     mean   median        uq       max</span></span>
+<span><span class="co">##  peaksData(sps_mzr) 411.1317 414.2690 834.9969 494.0872 1609.1797 1874.1297</span></span>
+<span><span class="co">##   peaksData(sps_df) 119.8279 137.6852 350.5767 160.1590  811.4626  849.2745</span></span>
+<span><span class="co">##   peaksData(sps_db)  70.2477  99.4347 105.6584 106.3017  121.2727  126.1511</span></span>
 <span><span class="co">##  neval</span></span>
 <span><span class="co">##     10</span></span>
 <span><span class="co">##     10</span></span>
@@ -1171,10 +1170,10 @@ subsets of the data are loaded.</p>
 <span>               <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html" class="external-link">peaksData</a></span><span class="op">(</span><span class="va">sps_db</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>               times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
-<span><span class="co">##                      expr     min      lq     mean   median      uq     max</span></span>
-<span><span class="co">##  peaksData(sps_mzr[1:10]) 17.2213 17.6716 19.03474 19.46935 19.6884 20.4917</span></span>
-<span><span class="co">##   peaksData(sps_df[1:10])  8.0062  8.3430  9.14019  8.58655  9.0445 13.5827</span></span>
-<span><span class="co">##   peaksData(sps_db[1:10])  5.4190  5.6442  6.18935  6.13830  6.6506  7.3179</span></span>
+<span><span class="co">##                      expr     min      lq     mean  median      uq     max</span></span>
+<span><span class="co">##  peaksData(sps_mzr[1:10]) 16.8818 16.9924 17.81716 17.5592 18.2405 20.6797</span></span>
+<span><span class="co">##   peaksData(sps_df[1:10])  6.7466  6.8228  7.11421  6.9574  7.2595  8.1533</span></span>
+<span><span class="co">##   peaksData(sps_db[1:10])  5.0245  5.2380  5.41415  5.3662  5.5465  6.0744</span></span>
 <span><span class="co">##  neval</span></span>
 <span><span class="co">##     10</span></span>
 <span><span class="co">##     10</span></span>
