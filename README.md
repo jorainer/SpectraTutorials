@@ -196,3 +196,10 @@ annotation workflows.
 Note that there is also an additional tutorial for the *MetaboAnnotation*,
 *CompoundDb* and *MetaboCoreUtils* packages available:
 [MetaboAnnotationTutorials](https://jorainer.github.io/MetaboAnnotationTutorials).
+
+
+# Acknowledgments
+
+Thank you to [Philippine Louail](https://github.com/philouail) for
+fixing typos and suggesting improvements in the *Spectra: an expandable
+infrastructure to handle mass spectrometry data*.
