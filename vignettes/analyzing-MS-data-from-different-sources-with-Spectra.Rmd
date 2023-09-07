@@ -231,7 +231,7 @@ rtime(sps_all) |> head()
 ```
 
 Our `Spectra` object contains information from in total `r length(sps_all)`
-spectra from `length(unique(dataOrigin(sps_all)))` mzML files. By using the
+spectra from `r length(unique(dataOrigin(sps_all)))` mzML files. By using the
 `MsBackendMzR` backend, only general information about each spectrum is kept in
 memory resulting in a low memory footprint.
 
@@ -466,7 +466,7 @@ mbank <- Spectra(mb)
 ```
 
 The `Spectra` object `mbank` *represents* now the MS data from the
-MassBank database with in total `length(mbank)` spectra. In fact, the `mbank`
+MassBank database with in total `r length(mbank)` spectra. In fact, the `mbank`
 object itself does not contain any MS data, but only the primary keys of the
 spectra in the MassBank database. Hence, it has also a relatively low memory
 footprint.
@@ -720,7 +720,7 @@ spectraVariables(hmdb)
 
 Also here, we want to filter the data resource first for spectra with a matching
 precursor m/z. Unfortunately, HMDB does not provided the spectra's precursor m/z
-and we hence need to used the `containsMz` function to find spectra containing a
+and we hence need to use the `containsMz` function to find spectra containing a
 peak with an m/z matching the m/z of our ion of interest. In addition, We need
 to use a rather large `tolerance` value (which defines the maximal acceptable
 absolute difference in m/z values) since some of the experimental spectra in
