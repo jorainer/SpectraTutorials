@@ -372,7 +372,7 @@ mode discussed in [@gattoMSnbaseEfficientElegant2020a]). The advantage of this
 *offline* storage mode is a lower memory footprint that enables also the
 analysis of large data experiments on *standard* computers.
 
-Why different backends?
+**Why different backends?**
 
 **Reason 1**: support for additional file formats. The backend class defines the
 functionality to import/export data from/to specific file formats. The `Spectra`
@@ -815,7 +815,6 @@ manipulations to MS data from data resources that would be inherently
 the analysis of MS data independently of *where* and *how* the data is stored.
 
 
-
 ## Implementing your own `MsBackend`
 
 - New backends for `Spectra` should extend the `MsBackend` class and implement
@@ -844,6 +843,14 @@ the analysis of MS data independently of *where* and *how* the data is stored.
   - designed to support very large data sets.
   - easily extendable.
   - support for a variety of MS data file formats and data representations.
+  - caching mechanism and processing queue allow data analysis also of
+    *read-only* data resources.
 
+
+
+# Acknowledgments
+
+Thank you to [Philippine Louail](https://github.com/philouail) for
+fixing typos and suggesting improvements.
 
 # References
