@@ -1,6 +1,6 @@
 Package: SpectraTutorials
 Title: Mass Spectrometry Data Analysis with Spectra
-Version: 0.8.0
+Version: 0.8.1
 Authors@R: c(
 	     person(given = "Johannes", family = "Rainer",
 		    email = "Johannes.Rainer@eurac.edu",
@@ -17,7 +17,10 @@ Authors@R: c(
 	     person(given = "Sebastian", family = "Gibb",
 		    email = "mail@sebastiangibb.de",
 		    role = c("aut"),
-		    comment = c(ORCID = "0000-0001-7406-4443")))
+		    comment = c(ORCID = "0000-0001-7406-4443")),
+         person(given = "Philippine", family = "Louail",
+            email = "philippine.louail@eurac.edu",
+            role = c("ctb")))
 Description: These workshops and tutorials provide use cases and examples for
     mass spectrometry data handling and analysis using the Spectra Bioconductor
     package and how these can be included into other R-based analyis workflows.

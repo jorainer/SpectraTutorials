@@ -1,5 +1,9 @@
 # Version 0.8
 
+## Version 0.8.1
+
+- Include feedback and suggestions from Philippine Louail.
+
 ## Version 0.8.0
 
 - Add new tutorial *`Spectra`: an expandable infrastructure to handle mass

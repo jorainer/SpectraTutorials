@@ -850,7 +850,7 @@ the analysis of MS data independently of *where* and *how* the data is stored.
 
 # Acknowledgments
 
-Thank you to [Philippine Louail](https://github.com/philouail) for
-fixing typos and suggesting improvements.
+Thank you to [Philippine Louail](https://github.com/philouail) for fixing typos
+and suggesting improvements.
 
 # References
