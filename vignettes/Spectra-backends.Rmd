@@ -632,6 +632,31 @@ values, are stored (as a new column) in the caching data frame:
 s_db@backend@localData |> head()
 ```
 
+Actually, why do we not want to change the data directly in the database? It
+should be fairly simple to add a new column to the database table or change the
+values in that. There are actually two reasons to **not** do that: firstly we
+don't want to change the *raw* data that might be stored in the database
+(e.g. if the database contains reference MS2 spectra, such as in the case of a
+`Spectra` with MassBank data) and secondly, we want to avoid the following
+situation: imagine we create a copy of our `s_db` variable and change the
+retention times in that variable:
+
+```{r}
+#' Change values in a copy of the variable
+s_db2 <- s_db
+rtime(s_db2) <- rtime(s_db2) + 10
+```
+
+Writing these changes back to the database would also change the retention time
+values in the original `s_db` variable and that is for obvious reasons not
+desired.
+
+```{r}
+#' Retention times of original copy should NOT change
+rtime(s_db) |> head()
+rtime(s_db2) |> head()
+```
+
 Note that this can also be used for `MsBackendOfflineSql` backends to
 cache spectra variables in memory for faster access.
 

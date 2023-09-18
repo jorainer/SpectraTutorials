@@ -1,5 +1,9 @@
 # Version 0.8
 
+## Version 0.8.2
+
+- Add second example why caching changes is better than saving to database.
+
 ## Version 0.8.1
 
 - Include feedback and suggestions from Philippine Louail.
