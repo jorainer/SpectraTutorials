@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Seamless Integration of Mass Spectrometry Data from Different Sources with the `Spectra` Package">
 <meta property="og:description" content="SpectraTutorials">
@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">SpectraTutorials</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -98,7 +98,7 @@ UCLouvain, Brussels, Belgium&lt;/p&gt;"><sup>4</sup></a>
 
     
     
-<p><strong>Last modified:</strong> 2023-09-18 09:50:20.924635<br><strong>Compiled</strong>: Mon Sep 18 09:59:34 2023</p>
+<p><strong>Last modified:</strong> 2023-12-05 09:09:17.878995<br><strong>Compiled</strong>: Tue Dec 5 09:15:46 2023</p>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
@@ -111,8 +111,8 @@ instrumentation, the generated data can easily become very large. Also,
 additional resources of MS data exist, such as spectra libraries and
 databases, all with their own specific file formats and database systems
 that sometimes do not support manipulations of the original data.</p>
-<p>Learning from experiences with the <em><a href="https://bioconductor.org/packages/3.17/MSnbase" class="external-link">MSnbase</a></em>
-Bioconductor package, the <em><a href="https://bioconductor.org/packages/3.17/Spectra" class="external-link">Spectra</a></em>
+<p>Learning from experiences with the <em><a href="https://bioconductor.org/packages/3.18/MSnbase" class="external-link">MSnbase</a></em>
+Bioconductor package, the <em><a href="https://bioconductor.org/packages/3.18/Spectra" class="external-link">Spectra</a></em>
 package was developed to provide an even more flexible and expandable
 infrastructure for MS data in R. This package implements a clear
 separation between the user interface and the code to provide, store and
@@ -435,7 +435,7 @@ simply using:</p>
 <span><span class="co">## 3         1     1.491         5</span></span>
 <span><span class="co">##  ... 33 more variables/columns.</span></span>
 <span><span class="co">## Processing:</span></span>
-<span><span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Mon Sep 18 09:59:39 2023]</span></span></code></pre>
+<span><span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Tue Dec  5 09:15:50 2023]</span></span></code></pre>
 <p>In our workshop, we next want to identify in our experimental data
 MS2 spectra that were generated from an ion that matches the m/z of the
 <code>[M+H]+</code> ion of the metabolite cystine (one of the standards
@@ -461,8 +461,8 @@ in m/z of 10 parts-per-million (ppm)).</p>
 <span><span class="co">## 6         2   240.020       804</span></span>
 <span><span class="co">##  ... 33 more variables/columns.</span></span>
 <span><span class="co">## Processing:</span></span>
-<span><span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Mon Sep 18 09:59:39 2023]</span></span>
-<span><span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Mon Sep 18 09:59:40 2023]</span></span></code></pre>
+<span><span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Tue Dec  5 09:15:50 2023]</span></span>
+<span><span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Tue Dec  5 09:15:50 2023]</span></span></code></pre>
 <p>In total 6 spectra matched our target precursor m/z.</p>
 </div>
 <div class="section level3">
@@ -591,7 +591,7 @@ molecules are available, such as:</p>
 <p>For some of these databases <code>MsBackend</code> interfaces are
 already implemented allowing inclusion of their data directly into
 R-based analysis workflows. Access to MassBank data is for example
-possible with the <em><a href="https://bioconductor.org/packages/3.17/MsBackendMassbank" class="external-link">MsBackendMassbank</a></em>
+possible with the <em><a href="https://bioconductor.org/packages/3.18/MsBackendMassbank" class="external-link">MsBackendMassbank</a></em>
 package. This package provides the <code>MsBackendMassbank</code> for
 import/export of <a href="https://github.com/MassBank/MassBank-data" class="external-link">MassBank files</a> as
 well as the <code>MsBackendMassbankSql</code> backend that directly
@@ -631,8 +631,8 @@ connection.</p>
 <span><span class="co">##  Use  'spectraVariables' to list all of them.</span></span></code></pre>
 <p>Alternatively, if no MySQL database system is available or if this
 tutorial can not be run within <em>docker</em>, the MassBank data can
-also be retrieved from Bioconductor’s <em><a href="https://bioconductor.org/packages/3.17/AnnotationHub" class="external-link">AnnotationHub</a></em>.
-In that case <code>MsBackendCompDb</code> backend (defined in the <em><a href="https://bioconductor.org/packages/3.17/CompoundDb" class="external-link">CompoundDb</a></em>)
+also be retrieved from Bioconductor’s <em><a href="https://bioconductor.org/packages/3.18/AnnotationHub" class="external-link">AnnotationHub</a></em>.
+In that case <code>MsBackendCompDb</code> backend (defined in the <em><a href="https://bioconductor.org/packages/3.18/CompoundDb" class="external-link">CompoundDb</a></em>)
 is used instead, but both backends retrieve their data from a SQL
 database and have the same properties. Below we list MassBank
 releases/versions available in Bioconductor’s
@@ -642,7 +642,7 @@ releases/versions available in Bioconductor’s
 <span><span class="va">ah</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/AnnotationHub/man/AnnotationHub-class.html" class="external-link">AnnotationHub</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/AnnotationHub/man/AnnotationHub-class.html" class="external-link">query</a></span><span class="op">(</span><span class="va">ah</span>, <span class="st">"MassBank"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## AnnotationHub with 3 records</span></span>
-<span><span class="co">## # snapshotDate(): 2023-04-25</span></span>
+<span><span class="co">## # snapshotDate(): 2023-10-20</span></span>
 <span><span class="co">## # $dataprovider: MassBank</span></span>
 <span><span class="co">## # $species: NA</span></span>
 <span><span class="co">## # $rdataclass: CompDb</span></span>
@@ -776,7 +776,7 @@ spectra containing an actual peak matching the precursor m/z.</p>
 <span><span class="co">##  Use  'spectraVariables' to list all of them.</span></span>
 <span><span class="co">## Lazy evaluation queue: 1 processing step(s)</span></span>
 <span><span class="co">## Processing:</span></span>
-<span><span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Mon Sep 18 09:59:51 2023]</span></span></code></pre>
+<span><span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Tue Dec  5 09:15:59 2023]</span></span></code></pre>
 <p>This left us with 12 spectra for which we calculate the similarity
 against each of our experimental spectra using the
 <code>compareSpectra</code> function.</p>
@@ -913,7 +913,7 @@ repository/R package.</p>
 <h3 id="data-export">Data export<a class="anchor" aria-label="anchor" href="#data-export"></a>
 </h3>
 <p>At last we want to export our spectra to a file in MGF format. For
-this we use the <em><a href="https://bioconductor.org/packages/3.17/MsBackendMgf" class="external-link">MsBackendMgf</a></em>
+this we use the <em><a href="https://bioconductor.org/packages/3.18/MsBackendMgf" class="external-link">MsBackendMgf</a></em>
 package which provides the <code>MsBackendMgf</code> backend that adds
 support for MGF file import/export to <code>Spectra</code> objects.</p>
 <p>Data from <code>Spectra</code> objects can generally be exported with
@@ -952,7 +952,7 @@ resources using the <a href="https://rformassspectrometry.github.io/CompoundDb" 
 package. This packages allows for example to create annotation databases
 for MoNA, MassBank or HMDB. <code>CompDb</code> with annotations for
 small compounds from different resources will become available also on
-Bioconductors <em><a href="https://bioconductor.org/packages/3.17/AnnotationHub" class="external-link">AnnotationHub</a></em>.</p>
+Bioconductors <em><a href="https://bioconductor.org/packages/3.18/AnnotationHub" class="external-link">AnnotationHub</a></em>.</p>
 <p>A <code>CompDb</code> database containing all compound annotations
 along with all (experimental) MS2 spectra is provided as a data release
 in the <a href="https://jorainer.github.io/MetaboAnnotationTutorials/" class="external-link">MetaboAnnotationTutorials</a>
@@ -1101,17 +1101,15 @@ eventually in even better performance).</p>
 <p>We can next import the data from our example experiment into the
 selected database.</p>
 <div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/MsBackendSql" class="external-link">MsBackendSql</a></span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning: multiple methods tables found for 'uniqueMsLevels'</span></span></code></pre>
-<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">## Create a database containing the full raw data</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/MsBackendSql" class="external-link">MsBackendSql</a></span><span class="op">)</span></span>
+<span><span class="co">## Create a database containing the full raw data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/MsBackendSql/man/MsBackendSql.html" class="external-link">createMsBackendSqlDatabase</a></span><span class="op">(</span><span class="va">scon</span>, <span class="va">fls</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
 <p>The <code>MsBackendSql</code> allows now to access and use the MS
 data stored in such a database. We simply provide the connection to the
 database as a parameter to the <code>Spectra</code> function and use the
 <code>MsBackendSql</code> as <em>backend</em>.</p>
-<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sps_db</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">scon</span>, source <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/MsBackendSql/man/MsBackendSql.html" class="external-link">MsBackendSql</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">sps_db</span></span></code></pre></div>
 <pre><code><span><span class="co">## MSn data (Spectra) with 1578 spectra in a MsBackendSql backend:</span></span>
@@ -1130,11 +1128,11 @@ database as a parameter to the <code>Spectra</code> function and use the
 <span><span class="co">## 1578         2     95.0608         1</span></span>
 <span><span class="co">##  ... 34 more variables/columns.</span></span>
 <span><span class="co">##  Use  'spectraVariables' to list all of them.</span></span>
-<span><span class="co">## Database: /tmp/RtmpNSFnJ0/file738551ec332</span></span></code></pre>
+<span><span class="co">## Database: /tmp/Rtmp8PSjCo/file72476a12197</span></span></code></pre>
 <p>The memory footprint of this <code>Spectra</code> object is only very
 small as all the data is retrieved from the database
 <em>on-the-fly</em>.</p>
-<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html" class="external-link">object.size</a></span><span class="op">(</span><span class="va">sps_db</span><span class="op">)</span>, units <span class="op">=</span> <span class="st">"MB"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 0.1 Mb</span></span></code></pre>
 <p>The performance of this backend is also higher than for example of a
@@ -1142,7 +1140,7 @@ small as all the data is retrieved from the database
 <code>MsBackendSql</code> on the present small data set to a
 <code>MsBackendDataFrame</code> (data in-memory) and a
 <code>MsBackendMzR</code> (data retrieved from original file).</p>
-<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Load the data to different backends</span></span>
 <span><span class="va">sps_mzr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/Spectra.html" class="external-link">Spectra</a></span><span class="op">(</span><span class="va">fls</span>, source <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/MsBackend.html" class="external-link">MsBackendMzR</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">sps_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html" class="external-link">setBackend</a></span><span class="op">(</span><span class="va">sps_mzr</span>, <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/MsBackend.html" class="external-link">MsBackendDataFrame</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
@@ -1153,10 +1151,10 @@ small as all the data is retrieved from the database
 <span>               <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html" class="external-link">peaksData</a></span><span class="op">(</span><span class="va">sps_db</span><span class="op">)</span>,</span>
 <span>               times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
-<span><span class="co">##                expr      min       lq     mean   median       uq       max</span></span>
-<span><span class="co">##  peaksData(sps_mzr) 361.3365 383.7532 755.9134 449.7209 550.2721 2456.2211</span></span>
-<span><span class="co">##   peaksData(sps_df) 112.1369 116.8373 132.1905 130.4618 151.9783  155.1050</span></span>
-<span><span class="co">##   peaksData(sps_db)  79.8473  86.7213 223.6163 103.9590 113.0695  766.7648</span></span>
+<span><span class="co">##                expr       min        lq      mean   median        uq       max</span></span>
+<span><span class="co">##  peaksData(sps_mzr) 257.38043 279.94393 409.83186 309.5956 350.96996 956.12619</span></span>
+<span><span class="co">##   peaksData(sps_df)  81.88257  98.45020 104.34838 104.2593 118.27750 118.43437</span></span>
+<span><span class="co">##   peaksData(sps_db)  47.46898  53.22407  62.45025  60.9762  74.91102  79.79879</span></span>
 <span><span class="co">##  neval</span></span>
 <span><span class="co">##     10</span></span>
 <span><span class="co">##     10</span></span>
@@ -1164,20 +1162,20 @@ small as all the data is retrieved from the database
 <p>Thus, the <code>MsBackendSql</code> has similar performance than
 having all the data in memory. The performance is even better if smaller
 subsets of the data are loaded.</p>
-<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html" class="external-link">peaksData</a></span><span class="op">(</span><span class="va">sps_mzr</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>               <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html" class="external-link">peaksData</a></span><span class="op">(</span><span class="va">sps_df</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>               <span class="fu"><a href="https://rdrr.io/pkg/Spectra/man/hidden_aliases.html" class="external-link">peaksData</a></span><span class="op">(</span><span class="va">sps_db</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>               times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
-<span><span class="co">##                      expr     min      lq     mean  median      uq     max</span></span>
-<span><span class="co">##  peaksData(sps_mzr[1:10]) 14.1710 14.5932 15.03072 14.9976 15.3854 15.9742</span></span>
-<span><span class="co">##   peaksData(sps_df[1:10])  5.3178  5.5775  5.99964  5.9252  6.3591  7.0975</span></span>
-<span><span class="co">##   peaksData(sps_db[1:10])  4.0353  4.2863  4.71165  4.4337  4.7144  7.4835</span></span>
-<span><span class="co">##  neval</span></span>
-<span><span class="co">##     10</span></span>
-<span><span class="co">##     10</span></span>
-<span><span class="co">##     10</span></span></code></pre>
+<span><span class="co">##                      expr      min       lq      mean   median        uq</span></span>
+<span><span class="co">##  peaksData(sps_mzr[1:10]) 9.665231 9.733448 11.578363 9.886057 10.471554</span></span>
+<span><span class="co">##   peaksData(sps_df[1:10]) 4.051564 4.079166  4.226335 4.168067  4.235768</span></span>
+<span><span class="co">##   peaksData(sps_db[1:10]) 2.837020 2.988482  3.127493 3.145069  3.250351</span></span>
+<span><span class="co">##        max neval</span></span>
+<span><span class="co">##  24.067594    10</span></span>
+<span><span class="co">##   4.777438    10</span></span>
+<span><span class="co">##   3.394379    10</span></span></code></pre>
 <p>A real world use case for such a backend would be to store a large MS
 experiment in a central place. Data analysts could connect to that
 central database, explore and subset the data and ultimately either load
