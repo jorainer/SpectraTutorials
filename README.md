@@ -198,6 +198,18 @@ Note that there is also an additional tutorial for the *MetaboAnnotation*,
 [MetaboAnnotationTutorials](https://jorainer.github.io/MetaboAnnotationTutorials).
 
 
+## Contribution
+
+For contributions, see the [RforMassSpectrometry contributions
+guideline](https://rformassspectrometry.github.io/RforMassSpectrometry/articles/RforMassSpectrometry.html#contributions).
+
+
+## Code of Conduct
+
+See the [RforMassSpectrometry Code of
+Conduct](https://rformassspectrometry.github.io/RforMassSpectrometry/articles/RforMassSpectrometry.html#code-of-conduct).
+
+
 # Acknowledgments
 
 Thank you to [Philippine Louail](https://github.com/philouail) for
