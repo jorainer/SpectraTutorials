@@ -1,6 +1,6 @@
 Package: SpectraTutorials
 Title: Mass Spectrometry Data Analysis with Spectra
-Version: 0.9.0
+Version: 1.0.0
 Authors@R: c(
 	     person(given = "Johannes", family = "Rainer",
 		    email = "Johannes.Rainer@eurac.edu",
@@ -57,4 +57,4 @@ URL: https://jorainer.github.io/SpectraTutorials/
 BugReports: https://github.com/jorainer/SpectraTutorials/issues/new
 VignetteBuilder: knitr
 RoxygenNote: 7.2.1
-DockerImage: jorainer/spectra_tutorials:latest
+DockerImage: jorainer/spectra_tutorials:RELEASE_3_19

@@ -27,20 +27,22 @@ See [NEWS.md](NEWS.md) for information on the current version and a change log.
 
 For on-line code evaluation the workshops can also be run using a self-contained
 docker image with all R packages and a server version of RStudio (Posit)
-pre-installed. As an alternative, rendered versions of all workshops are
-available at [SpectraTutorials](https://jorainer.github.io/SpectraTutorials)
-(navigate to the *Articles* drop-down menu and select the workshop of interest).
+pre-installed. The current docker container bases (and includes) the official
+docker container for **Bioconductor release 3.19**. As an alternative, rendered
+versions of all workshops are available at
+[SpectraTutorials](https://jorainer.github.io/SpectraTutorials) (navigate to the
+*Articles* drop-down menu and select the workshop of interest).
 
 For installation:
 
 - Get the [docker image](https://hub.docker.com/r/jorainer/spectra_tutorials) of
-  this tutorial with `docker pull jorainer/spectra_tutorials:latest`.
+  this tutorial with `docker pull jorainer/spectra_tutorials:RELEASE_3_19`.
 - Start docker using
   ```
   docker run \
       -e PASSWORD=bioc \
       -p 8787:8787 \
-      jorainer/spectra_tutorials:latest
+      jorainer/spectra_tutorials:RELEASE_3_19
   ```
 - Enter `http://localhost:8787` in a web browser and log in with username
   `rstudio` and password `bioc`.

@@ -1,3 +1,7 @@
+# Version 1.0
+
+- Use R 4.4 and Bioconductor 3.19.
+
 # Version 0.9
 
 ## Version 0.9.0
