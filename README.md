@@ -3,6 +3,7 @@
 [![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
 ![docker pulls](https://img.shields.io/docker/pulls/jorainer/spectra_tutorials)
 [![Docker Image Version (latest by date)](https://img.shields.io/docker/v/jorainer/spectra_tutorials?label=docker%20image)](https://hub.docker.com/repository/docker/jorainer/spectra_tutorials)
+[![DOI](https://zenodo.org/badge/302563584.svg)](https://zenodo.org/doi/10.5281/zenodo.11210189)
 
 ![Spectra](man/figures/Spectra-rainbow.png)
 ![MsCoreUtils](man/figures/MsCoreUtils.png)
