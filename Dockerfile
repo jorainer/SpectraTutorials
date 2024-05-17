@@ -30,7 +30,7 @@ RUN scripts/install-massbank.sh
 RUN scripts/mysql-init.sh
 
 ## Install the SpectraTutorials package and additional required packages
-RUN Rscript -e "options(repos = c(CRAN = 'https://cran.r-project.org')); BiocManager::install(ask = FALSE); BiocManager::install('RforMassSpectrometry/MsBackendMassbank'); BiocManager::install('RforMassSpectrometry/MsBackendSql')"
+RUN Rscript -e "options(repos = c(CRAN = 'https://cran.r-project.org')); BiocManager::install(ask = FALSE); BiocManager::install('MsBackendMassbank'); BiocManager::install('MsBackendSql')"
 
 RUN service mariadb start && \
     Rscript -e "options(repos = c(CRAN = 'https://cran.r-project.org')); devtools::install('.', dependencies = TRUE, build_vignettes = TRUE, repos = BiocManager::repositories())"
