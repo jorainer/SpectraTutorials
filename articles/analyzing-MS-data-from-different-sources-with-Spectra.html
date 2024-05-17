@@ -98,7 +98,7 @@ UCLouvain, Brussels, Belgium&lt;/p&gt;"><sup>4</sup></a>
 
     
     
-<p><strong>Last modified:</strong> 2024-05-17 14:04:17.424737<br><strong>Compiled</strong>: Fri May 17 14:09:36 2024</p>
+<p><strong>Last modified:</strong> 2024-05-17 15:09:18.980484<br><strong>Compiled</strong>: Fri May 17 15:14:46 2024</p>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
@@ -438,7 +438,7 @@ simply using:</p>
 <span><span class="co">## 3         1     1.491         5</span></span>
 <span><span class="co">##  ... 33 more variables/columns.</span></span>
 <span><span class="co">## Processing:</span></span>
-<span><span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Fri May 17 14:09:40 2024]</span></span></code></pre>
+<span><span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Fri May 17 15:14:50 2024]</span></span></code></pre>
 <p>In our workshop, we next want to identify in our experimental data
 MS2 spectra that were generated from an ion that matches the m/z of the
 <code>[M+H]+</code> ion of the metabolite cystine (one of the standards
@@ -464,8 +464,8 @@ in m/z of 10 parts-per-million (ppm)).</p>
 <span><span class="co">## 6         2   240.020       804</span></span>
 <span><span class="co">##  ... 33 more variables/columns.</span></span>
 <span><span class="co">## Processing:</span></span>
-<span><span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Fri May 17 14:09:40 2024]</span></span>
-<span><span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Fri May 17 14:09:40 2024]</span></span></code></pre>
+<span><span class="co">##  Switch backend from MsBackendMzR to MsBackendDataFrame [Fri May 17 15:14:50 2024]</span></span>
+<span><span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Fri May 17 15:14:50 2024]</span></span></code></pre>
 <p>In total 6 spectra matched our target precursor m/z.</p>
 </div>
 <div class="section level3">
@@ -784,7 +784,7 @@ spectra containing an actual peak matching the precursor m/z.</p>
 <span><span class="co">##  Use  'spectraVariables' to list all of them.</span></span>
 <span><span class="co">## Lazy evaluation queue: 1 processing step(s)</span></span>
 <span><span class="co">## Processing:</span></span>
-<span><span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Fri May 17 14:09:48 2024]</span></span></code></pre>
+<span><span class="co">##  Filter: select spectra with precursor m/z matching 241.0311 [Fri May 17 15:14:58 2024]</span></span></code></pre>
 <p>This left us with 12 spectra for which we calculate the similarity
 against each of our experimental spectra using the
 <code><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">compareSpectra()</a></code> function.</p>
@@ -1151,7 +1151,7 @@ for SQLite is the file name of the database).</p>
 <span><span class="co">## 1578         1          NA         1</span></span>
 <span><span class="co">##  ... 34 more variables/columns.</span></span>
 <span><span class="co">##  Use  'spectraVariables' to list all of them.</span></span>
-<span><span class="co">## Database: /tmp/RtmpscQFqX/fileeae479f47ad</span></span></code></pre>
+<span><span class="co">## Database: /tmp/RtmpdWN6Si/fileeb61b8bbd6d</span></span></code></pre>
 <p>The memory footprint of this <code>Spectra</code> object is only very
 small as all the data is retrieved from the database
 <em>on-the-fly</em>.</p>
@@ -1177,14 +1177,14 @@ higher-performance in-memory backend would be available
 <span>               <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/peaksData.html" class="external-link">peaksData</a></span><span class="op">(</span><span class="va">sps_db</span><span class="op">)</span>,</span>
 <span>               times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
-<span><span class="co">##                expr       min        lq      mean    median        uq</span></span>
-<span><span class="co">##  peaksData(sps_mzr) 272.61497 279.93407 425.31103 309.83662 317.51824</span></span>
-<span><span class="co">##   peaksData(sps_df)  82.79383  96.04517 106.78148 100.13293 128.23367</span></span>
-<span><span class="co">##   peaksData(sps_db)  52.89115  59.55610  69.26605  65.85904  85.16414</span></span>
-<span><span class="co">##         max neval</span></span>
-<span><span class="co">##  1548.86966    10</span></span>
-<span><span class="co">##   133.89797    10</span></span>
-<span><span class="co">##    86.16455    10</span></span></code></pre>
+<span><span class="co">##                expr       min        lq     mean    median        uq        max</span></span>
+<span><span class="co">##  peaksData(sps_mzr) 257.98599 271.21035 405.0853 291.90277 318.47166 1453.31571</span></span>
+<span><span class="co">##   peaksData(sps_df)  80.53632  94.51695 102.1983  97.56079 119.51402  123.42252</span></span>
+<span><span class="co">##   peaksData(sps_db)  50.83269  55.45460  64.1689  61.47447  73.98056   79.34897</span></span>
+<span><span class="co">##  neval</span></span>
+<span><span class="co">##     10</span></span>
+<span><span class="co">##     10</span></span>
+<span><span class="co">##     10</span></span></code></pre>
 <p>Thus, the <code>MsBackendOfflineSql</code> has similar performance
 than having all the data in memory. The performance is even better if
 smaller subsets of the data are loaded.</p>
@@ -1194,14 +1194,14 @@ smaller subsets of the data are loaded.</p>
 <span>               <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/peaksData.html" class="external-link">peaksData</a></span><span class="op">(</span><span class="va">sps_db</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>               times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
-<span><span class="co">##                      expr       min        lq      mean    median        uq</span></span>
-<span><span class="co">##  peaksData(sps_mzr[1:10]) 10.723417 11.186059 12.923746 11.655220 12.190033</span></span>
-<span><span class="co">##   peaksData(sps_df[1:10])  3.539373  3.737403  3.965834  3.951337  4.275036</span></span>
-<span><span class="co">##   peaksData(sps_db[1:10])  3.621757  4.224282  4.603907  4.474016  4.874835</span></span>
+<span><span class="co">##                      expr      min        lq      mean    median        uq</span></span>
+<span><span class="co">##  peaksData(sps_mzr[1:10]) 9.988927 10.078534 11.645226 10.222617 10.443314</span></span>
+<span><span class="co">##   peaksData(sps_df[1:10]) 3.349589  3.408379  3.710431  3.477924  3.505230</span></span>
+<span><span class="co">##   peaksData(sps_db[1:10]) 3.115613  3.167048  3.538452  3.271033  3.411745</span></span>
 <span><span class="co">##        max neval</span></span>
-<span><span class="co">##  23.846750    10</span></span>
-<span><span class="co">##   4.371947    10</span></span>
-<span><span class="co">##   6.294283    10</span></span></code></pre>
+<span><span class="co">##  21.977442    10</span></span>
+<span><span class="co">##   5.698932    10</span></span>
+<span><span class="co">##   5.737264    10</span></span></code></pre>
 <p>A real world use case for such a backend would be to store a large MS
 experiment in a central place. Data analysts could connect to that
 central database, explore and subset the data and ultimately either load
