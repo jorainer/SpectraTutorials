@@ -71,14 +71,16 @@ Sources* vignette in this package for a general introduction to MS.
 
 ## Installation
 
+- This version of the tutorial bases on package versions available through
+  **Bioconductor release 3.19**.
 - Get the [docker image](https://hub.docker.com/r/jorainer/spectra_tutorials) of
-  this tutorial with `docker pull jorainer/spectra_tutorials:latest`.
+  this tutorial with `docker pull jorainer/spectra_tutorials:RELEASE_3_19`.
 - Start docker using
   ```
   docker run \
       -e PASSWORD=bioc \
       -p 8787:8787 \
-      jorainer/spectra_tutorials:latest
+      jorainer/spectra_tutorials:RELEASE_3_19
   ```
 - Enter `http://localhost:8787` in a web browser and log in with username
   `rstudio` and password `bioc`.
@@ -195,7 +197,7 @@ with out input data frame, more variables are available by default for a
 `Spectra` object. These are called *core spectra variables* and they can
 **always** be extracted from a `Spectra` object, even if they are not defined
 (in which case missing values are returned). Spectra variables available from a
-`Spectra` object can be listed with the `spectraVariables` function:
+`Spectra` object can be listed with the `spectraVariables()` function:
 
 ```{r}
 #' List all available spectra variables
@@ -273,12 +275,13 @@ s$new_variable <- c("a", "b", "c")
 spectraVariables(s)
 ```
 
-The full peak data can be extracted with the `peaksData` function, that returns
-a `list` of two-dimensional arrays with the values of the peak variables. Each
-list element represents the peak data from one spectrum, which is stored in a
-e.g. `matrix` with columns being the peak variables and rows the respective
-values for each peak. The number of rows of such peak variable arrays depends on
-the number of mass peaks of each spectrum. This number can be extracted using `lengths`:
+The full peak data can be extracted with the `peaksData()` function, that
+returns a `list` of two-dimensional arrays with the values of the peak
+variables. Each list element represents the peak data from one spectrum, which
+is stored in a e.g. `matrix` with columns being the peak variables and rows the
+respective values for each peak. The number of rows of such peak variable arrays
+depends on the number of mass peaks of each spectrum. This number can be
+extracted using `lengths()`:
 
 ```{r}
 #' Get the number of peaks per spectrum.
@@ -434,8 +437,8 @@ memory. As a third option we next store the full MS data into a SQL database by
 using/changing to a `MsBackendOfflineSql` backend defined by the
 `r Biocpkg("MsBackendSql")` package.
 
-For the `setBackend` call we need to provide the connection information for the
-database that should contain the data. This includes the database driver
+For the `setBackend()` call we need to provide the connection information for
+the database that should contain the data. This includes the database driver
 (parameter `drv`, depending on the database system), the database name
 (parameter `dbname`) as well as eventual additional connection information like
 the host, username, port or password. Which of these parameters are required
@@ -462,7 +465,7 @@ s_db <- setBackend(s_mzr, MsBackendOfflineSql(), drv = SQLite(),
 ```
 
 *Note*: a more efficient way to import MS data from data files into a SQL
-database is the `createMsBackendSqlDatabase` from the *MsBackendSql*
+database is the `createMsBackendSqlDatabase()` from the *MsBackendSql*
 package. Also, for larger data sets it is suggested to use more advanced and
 powerful SQL database systems (e.g. MySQL/MariaDB SQL databases).
 
@@ -484,7 +487,7 @@ experiments.
 
 We next evaluate the performance to extract spectra variables. We compare the
 time needed to extract the retention times from the 3 `Spectra` objects using
-the `microbenchmark` function. With `register(SerialParam())` we globally
+the `microbenchmark()` function. With `register(SerialParam())` we globally
 disable parallel processing for *Spectra* to ensure the results to be
 independent that.
 
@@ -733,7 +736,7 @@ data, along with all of its parameters, is automatically added to an internal
 directly for the `Spectra` class and backends thus do not have to implement
 their own.
 
-When calling `filterIntensity` above, the data was actually not modified, but
+When calling `filterIntensity()` above, the data was actually not modified, but
 the function to filter the peaks data was added to this processig queue. The
 function along with all possibly defined parameters was added as a
 `ProcessingStep` object:
@@ -758,11 +761,11 @@ and all of its parameters with:
 s_db@processingQueue[[1L]]@ARGS
 ```
 
-Each time peaks data is accessed (like with the `intensity` call in the example
-below), the `Spectra` object will first request the *raw* peaks data from the
-backend, check its own processing queue and, if that is not empty, apply each of
-the contained cached processing steps to the peaks data before returning it to
-the user.
+Each time peaks data is accessed (like with the `intensity()` call in the
+example below), the `Spectra` object will first request the *raw* peaks data
+from the backend, check its own processing queue and, if that is not empty,
+apply each of the contained cached processing steps to the peaks data before
+returning it to the user.
 
 ```{r}
 #' Access intensity values and extract those of the 1st spectrum.
@@ -784,15 +787,15 @@ microbenchmark(
 
 Next to the number of common peaks data manipulation methods that are already
 implemented for `Spectra`, and that all make use of this processing queue, there
-is also the `addProcessing` function that allows to apply any user-provided
+is also the `addProcessing()` function that allows to apply any user-provided
 function to the peaks data (using the same lazy evaluation mechanism). As a
 simple example we define below a function that *scales* all intensities in a
 spectrum such that the total intensity sum per spectrum is 1. Functions for
-`addProcessing` are expected to take a peaks array as input and should again
+`addProcessing()` are expected to take a peaks array as input and should again
 return a peaks array as their result. Note also that the `...` in the function
 definition below is required, because internally additional parameters, such as
 the spectrum's MS level, are by default passed along to the function (see also
-the `addProcessing` documentation entry in `?Spectra` for more information and
+the `addProcessing()` documentation entry in `?Spectra` for more information and
 more advanced examples).
 
 ```{r}
@@ -822,7 +825,7 @@ such a scaling function should generally not be used for (quantitative) MS1 data
 (as in our example here).
 
 Finally, since through this lazy evaluation mechanism we are not changing actual
-peaks data, we can also *undo* data manipulations. A simple `reset` call on a
+peaks data, we can also *undo* data manipulations. A simple `reset()` call on a
 `Spectra` object will restore the data in the object to its initial state (in
 fact it simply clears the processing queue).
 

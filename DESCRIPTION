@@ -33,7 +33,7 @@ Depends:
 Imports:
     curl
 Suggests:
-    Spectra (>= 1.5.8),
+    Spectra (>= 1.14.0),
     Biobase,
     BiocStyle,
     knitr,
@@ -42,15 +42,15 @@ Suggests:
     mzR,
     RMariaDB,
     pheatmap,
-    MsBackendMgf (>= 1.3.2),
+    MsBackendMgf (>= 1.12.0),
     MsBackendMassbank (>= 0.3.3),
     pander,
     CompoundDb (>= 0.99.6),
     xcms,
     msdata,
-    MetaboAnnotation (>= 0.99.4),
+    MetaboAnnotation (>= 1.8.1),
     microbenchmark,
-    MsBackendSql (>= 1.1.3),
+    MsBackendSql (>= 1.4.0),
     RSQLite,
     AnnotationHub
 URL: https://jorainer.github.io/SpectraTutorials/

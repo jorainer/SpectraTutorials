@@ -66,14 +66,16 @@ commonly used for exchange of MS2 data.
 
 ## Installation and Participation
 
+- The present version of the tutorial bases on package versions available
+  through the **Bioconductor release 3.19**.
 - Get the [docker image](https://hub.docker.com/r/jorainer/spectra_tutorials) of
-  this tutorial with `docker pull jorainer/spectra_tutorials:latest`.
+  this tutorial with `docker pull jorainer/spectra_tutorials:RELEASE_3_19`.
 - Start docker using
   ```
   docker run \
       -e PASSWORD=bioc \
       -p 8787:8787 \
-      jorainer/spectra_tutorials:latest
+      jorainer/spectra_tutorials:RELEASE_3_19
   ```
 - Enter `http://localhost:8787` in a web browser and log in with username
   `rstudio` and password `bioc`.
@@ -211,8 +213,9 @@ sps_all <- Spectra(fls, source = MsBackendMzR())
 
 The MS data is now represented by a `Spectra` object, which can be thought of as
 a `data.frame` with rows being the individual spectra and columns the spectra
-*variables* (such as `"rtime"`, i.e. the retention time). The `spectraVariables`
-function lists all available variables within such a `Spectra` object.
+*variables* (such as `"rtime"`, i.e. the retention time). The
+`spectraVariables()` function lists all available variables within such a
+`Spectra` object.
 
 ```{r spectraVariables0}
 #' List all available spectra variables (attributes)
@@ -222,7 +225,7 @@ spectraVariables(sps_all)
 Each spectra variable can be accessed either *via* `$` and its name or by using
 its dedicated access function (which is the preferred way). Below we extract the
 retention times of the first spectra using either `$rtime` or the function
-`rtime`.
+`rtime()`.
 
 ```{r rtime}
 #' Access the spectras' retention time
@@ -239,9 +242,9 @@ memory resulting in a low memory footprint.
 print(object.size(sps_all), units = "MB")
 ```
 
-The spectra's m/z and intensity values can be accessed with the `mz` or
-`intensity` functions or also with the `peaksData` function that returns a list
-of numeric matrices with the m/z and intensity values. By using an
+The spectra's m/z and intensity values can be accessed with the `mz()` or
+`intensity()` functions or also with the `peaksData()` function that returns a
+list of numeric matrices with the m/z and intensity values. By using an
 `MsBackendMzR` backend, these are retrieved on demand from the original data
 files each time the functions are called.
 
@@ -278,7 +281,7 @@ sps_all[c(4, 2, 5)]
 In our workshop, we next want to identify in our experimental data MS2 spectra
 that were generated from an ion that matches the m/z of the `[M+H]+` ion of the
 metabolite cystine (one of the standards added to the sample mix measured in the
-present experimental data). We thus use below the `filterPrecursorMzValues`
+present experimental data). We thus use below the `filterPrecursorMzValues()`
 function to subset the data to MS2 spectra matching that m/z (accepting a
 difference in m/z of 10 parts-per-million (ppm)).
 
@@ -296,7 +299,7 @@ In total `r length(sps)` spectra matched our target precursor m/z.
 
 ## Data processing and manipulation
 
-The `plotSpectra` function can be used to visualize spectra. Below we plot the
+The `plotSpectra()` function can be used to visualize spectra. Below we plot the
 first spectrum from our data subset.
 
 ```{r raw-ms2, fig.width = 7, fig.height = 7}
@@ -310,7 +313,7 @@ intensity smaller than 5% of the maximum intensity of each spectrum (i.e. the
 base peak intensity). To this end we define a function that takes intensity
 values from each spectrum as input and returns a logical value whether the peak
 should be retained (`TRUE`) or not (`FALSE`). This function is then passed to
-the `filterIntensity` function to perform the actual filtering of the spectra.
+the `filterIntensity()` function to perform the actual filtering of the spectra.
 
 ```{r filter-intensity}
 #' Define a filtering function
@@ -333,7 +336,7 @@ are relative to each spectrum's highest peak intensity. To this end we define a
 function that takes a *peak matrix* as input (i.e. a `numeric` matrix with
 columns containing the m/z and intensity values) and returns a two-column
 `numeric` matrix. This function is then passed with parameter `FUN` to the
-`addProcessing` function to perform the desired data processing.
+`addProcessing()` function to perform the desired data processing.
 
 ```{r scale}
 #' Define a function to scale the intensities. `x` is expected to be a
@@ -347,9 +350,10 @@ scale_int <- function(x, ...) {
 sps <- addProcessing(sps, scale_int)
 ```
 
-The `addProcessing` function allows to add **any** user-defined data
+The `addProcessing()` function allows to add **any** user-defined data
 manipulation operation on MS data (i.e. the peaks matrices) in a `Spectra`
-object.
+object. Note that, for scaling of peak intensities, there would also be a
+dedicated function, `scalePeaks()`, available.
 
 To show the effect of the data processing we extract the intensities of the
 first spectrum:
@@ -370,7 +374,7 @@ peaks of the individual spectra have to be matched against each other (i.e. it
 has to be determined which peak from one spectrum correspond to which from the
 other spectrum based on their mass-to-charge ratios). We specify `ppm = 20` so
 that peaks with a difference in m/z smaller than 20ppm will be considered
-matching. By default, `compareSpectra` uses the (normalized) dot-product to
+matching. By default, `compareSpectra()` uses the (normalized) dot-product to
 calculate the similarity between the spectra, but a variety of different
 algorithms can be used instead (see the [*Spectra
 vignette*](https://rformassspectrometry.github.io/Spectra/articles/Spectra.html#comparing-spectra)
@@ -383,7 +387,7 @@ sim_mat
 ```
 
 The pairwise spectra similarities are represented with the heatmap below (note
-that RStudio in the docker might crash by the `pheatmap` call - to avoid this
+that RStudio in the docker might crash by the `pheatmap()` call - to avoid this
 add `filename = "hm.pdf"` to the `heatmap` call).
 
 ```{r ms2-heatmap, fig.width = 7, fig.height = 7}
@@ -423,7 +427,7 @@ workflows. Access to MassBank data is for example possible with the
 database.
 
 Below we connect to a local installation of the MassBank MySQL database (release
-*2021.03* which is provided within the docker image of this tutorial).
+*2023.11* which is provided within the docker image of this tutorial).
 
 ```{r massbank-library, eval = TRUE}
 library(RMariaDB)
@@ -456,9 +460,10 @@ ah <- AnnotationHub()
 query(ah, "MassBank")
 ```
 
-We can retrieve the respective release and access its spectra data with the code
-below. Note that *AnnotationHub* will cache the downloaded database locally and
-any subsequent call will not download the database again.
+We can retrieve the respective release (*2021.03* in this case) and access its
+spectra data with the code below. Note that *AnnotationHub* will cache the
+downloaded database locally and any subsequent call will not download the
+database again.
 
 ```{r, eval = FALSE}
 mb <- ah[["AH107048"]]
@@ -476,7 +481,7 @@ print(object.size(mbank), units = "MB")
 ```
 
 Any operation on a `Spectra` object with this backend will load the requested
-data from the database on demand. Calling `intensity` on such a `Spectra`
+data from the database on demand. Calling `intensity()` on such a `Spectra`
 object would for example retrieve the intensity values for all spectra from the
 database. Below we extract the peaks matrix for the first spectrum.
 
@@ -502,15 +507,15 @@ m/z and intensity values within the MassBank database. How is this then
 possible? It works, because any data manipulation operation on a `Spectra`
 object is cached within the object's *lazy evaluation queue* and any such
 operation is applied to the m/z and intensity values *on-the-fly* whenever the
-data is requested (i.e. whenever `mz` or `intensity` is called on it). As a side
-effect, this also allows to *undo* certain data operations by simply calling
-`reset` on the `Spectra` object.
+data is requested (i.e. whenever `mz()` or `intensity()` is called on it). As a
+side effect, this also allows to *undo* certain data operations by simply
+calling `reset()` on the `Spectra` object.
 
 We next want to compare our experimental spectra against the spectra from
 MassBank. Instead of comparing against all `r length(mbank)` available spectra,
 we first filter the MassBank database to spectra with a precursor m/z matching
 the one of the *[M+H]+* ion of cystine. Note that, as an alternative to the
-`filterPrecursorMzValues` used below, we could also use the `containsMz`
+`filterPrecursorMzValues()` used below, we could also use the `containsMz()`
 function to screen for spectra containing an actual peak matching the precursor
 m/z.
 
@@ -521,7 +526,7 @@ mbank_sub
 ```
 
 This left us with `r length(mbank_sub)` spectra for which we calculate the
-similarity against each of our experimental spectra using the `compareSpectra`
+similarity against each of our experimental spectra using the `compareSpectra()`
 function.
 
 ```{r massbank-compare-subset}
@@ -580,8 +585,8 @@ Since we could identify a MassBank spectrum with a high similarity to our
 experimental spectra we would also like to know which compound this spectrum
 actually represents. `Spectra` objects are generally very flexible and can have
 arbitrarily many additional annotation fields (i.e.  *spectra variables*) for
-each spectrum. Thus, we below use the `spectraVariables` function to list all of
-the variables that are available in our MassBank `Spectra` object.
+each spectrum. Thus, we below use the `spectraVariables()` function to list all
+of the variables that are available in our MassBank `Spectra` object.
 
 ```{r massbank-spectra-variables}
 #' What variables are available in MassBank
@@ -635,7 +640,7 @@ the `r BiocStyle::Biocpkg("MsBackendMgf")` package which provides the
 `MsBackendMgf` backend that adds support for MGF file import/export to `Spectra`
 objects.
 
-Data from `Spectra` objects can generally be exported with the `export`
+Data from `Spectra` objects can generally be exported with the `export()`
 function. The format in which the data is exported depends on the specified
 `MsBackend` class. By using an instance of `MsBackendMgf` we define to export
 the data to a file in MGF format.
@@ -652,6 +657,7 @@ Below we read the first 6 lines from the resulting file.
 ```{r}
 readLines("Cystine_ce20.mgf", n = 6)
 ```
+
 
 ## Comparing spectra against HMDB
 
@@ -720,8 +726,8 @@ spectraVariables(hmdb)
 
 Also here, we want to filter the data resource first for spectra with a matching
 precursor m/z. Unfortunately, HMDB does not provided the spectra's precursor m/z
-and we hence need to use the `containsMz` function to find spectra containing a
-peak with an m/z matching the m/z of our ion of interest. In addition, We need
+and we hence need to use the `containsMz()` function to find spectra containing
+a peak with an m/z matching the m/z of our ion of interest. In addition, We need
 to use a rather large `tolerance` value (which defines the maximal acceptable
 absolute difference in m/z values) since some of the experimental spectra in
 HMDB seem to be recorded by not well calibrated instrument.
@@ -794,7 +800,8 @@ even better performance).
 
 ```{r}
 library(RSQLite)
-scon <- dbConnect(SQLite(), tempfile())
+db_file <- tempfile()
+scon <- dbConnect(SQLite(), db_file)
 ```
 
 We can next import the data from our example experiment into the selected
@@ -804,14 +811,24 @@ database.
 library(MsBackendSql)
 ## Create a database containing the full raw data
 createMsBackendSqlDatabase(scon, fls)
+dbDisconnect(scon)
 ```
 
-The `MsBackendSql` allows now to access and use the MS data stored in such a
-database. We simply provide the connection to the database as a parameter to the
-`Spectra` function and use the `MsBackendSql` as *backend*.
+The `MsBackendSql` or `MsBackendOfflineSql` backends allow now to access and use
+the MS data stored in such a database. The `MsBackendOfflineSql` does not keep
+an active connection to the database but reconnects to the database when
+needed. While having a slightly lower performance, this allows the object to be
+*serialized*, e.g. saved to and reloaded from disk using the `save()` and
+`load()` functions. To access the data within the SQL database We simply the
+name to the database as a parameter to the `Spectra()` function and use the
+`MsBackendOfflineSql` as *backend*. For the `MsBackendOfflineSql` we need to
+specify the SQL *driver*, in our case, since we are using a SQLite database, it
+will be `SQLite()` as well as the name of the database (which for SQLite is the
+file name of the database).
 
 ```{r}
-sps_db <- Spectra(scon, source = MsBackendSql())
+sps_db <- Spectra(db_file, drv = SQLite(),
+                  source = MsBackendOfflineSql())
 sps_db
 ```
 
@@ -823,9 +840,11 @@ print(object.size(sps_db), units = "MB")
 ```
 
 The performance of this backend is also higher than for example of a
-`MsBackendMzR`. Below we compare the performance of the `MsBackendSql` on the
-present small data set to a `MsBackendDataFrame` (data in-memory) and a
-`MsBackendMzR` (data retrieved from original file).
+`MsBackendMzR`. Below we compare the performance of the `MsBackendOfflineSql` on
+the present small data set to a `MsBackendDataFrame` (data in-memory) and a
+`MsBackendMzR` (data retrieved from original file). Note that in more recent
+versions of the *Spectra* package a higher-performance in-memory backend would
+be available (`MsBackendMemory`).
 
 ```{r}
 ## Load the data to different backends
@@ -839,8 +858,8 @@ microbenchmark(peaksData(sps_mzr),
                times = 10)
 ```
 
-Thus, the `MsBackendSql` has similar performance than having all the data in
-memory. The performance is even better if smaller subsets of the data are
+Thus, the `MsBackendOfflineSql` has similar performance than having all the data
+in memory. The performance is even better if smaller subsets of the data are
 loaded.
 
 ```{r}
@@ -855,7 +874,7 @@ in a central place. Data analysts could connect to that central database,
 explore and subset the data and ultimately either load subsets of the data into
 the (local) memory by changing the backend of the data subset to e.g. a
 `MsBackendDataFrame` or store the data subset to local files e.g. in mzML
-format by using the `export` method and the `MsBackendMzR` backend.
+format by using the `export()` method and the `MsBackendMzR` backend.
 
 
 # Short summary
@@ -898,8 +917,8 @@ the data is stored, even if the data itself is *read-only*.
 - [`MsExperiment`](https://github.com/rformassspectrometry/MsExperiment) to
   represent whole MS experiments (incl. `Spectra`, sample annotation, data
   quantitation, annotation files etc).
-- [`msQC`](https://github.com/tnaake/msQC) (Thomas Naake): QC measures for MS
-  data.
+- [`MsQuality`](https://github.com/tnaake/MsQuality) (Thomas Naake): QC measures
+  for MS data [@naake_msquality_2023].
 - [`MsBackendMsp`](https://github.com/rformassspectrometry/MsBackendMsp)
   (Steffen Neumann): backend for files in MSP format.
 - `...`
