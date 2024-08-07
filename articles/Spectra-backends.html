@@ -73,7 +73,7 @@ UCLouvain, Brussels, Belgium&lt;/p&gt;"><sup>3</sup></a>
 
     
     
-<p><strong>Last modified:</strong> 2024-08-07 11:15:58.719114<br><strong>Compiled</strong>: Wed Aug 7 11:21:43 2024</p>
+<p><strong>Last modified:</strong> 2024-08-07 13:59:30.280951<br><strong>Compiled</strong>: Wed Aug 7 14:05:02 2024</p>
 <div class="section level2">
 <h2 id="abstract">Abstract<a class="anchor" aria-label="anchor" href="#abstract"></a>
 </h2>
@@ -661,9 +661,9 @@ independent that.</p>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: microseconds</span></span>
 <span><span class="co">##          expr      min       lq       mean   median       uq       max neval</span></span>
-<span><span class="co">##  rtime(s_mem)   11.091   12.252   17.48962   13.566   22.592    28.042    13</span></span>
-<span><span class="co">##  rtime(s_mzr)  368.188  394.036  440.15315  404.827  414.855   793.242    13</span></span>
-<span><span class="co">##   rtime(s_db) 6458.048 6515.595 6930.52492 6533.378 6649.175 11146.939    13</span></span></code></pre>
+<span><span class="co">##  rtime(s_mem)   11.601   13.606   18.54846   14.066   25.207    26.850    13</span></span>
+<span><span class="co">##  rtime(s_mzr)  380.499  393.063  430.95954  407.700  411.316   775.035    13</span></span>
+<span><span class="co">##   rtime(s_db) 6606.986 6670.564 7029.03346 6701.462 6768.036 10818.096    13</span></span></code></pre>
 <p>Highest performance can be seen for the <code>Spectra</code> object
 with the <code>MsBackendMemory</code> backend, followed by the
 <code>Spectra</code> object with the <code>MsBackendMzR</code> backend,
@@ -685,14 +685,14 @@ files.</p>
 <span>    times <span class="op">=</span> <span class="fl">7</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: microseconds</span></span>
-<span><span class="co">##              expr        min          lq        mean    median       uq</span></span>
-<span><span class="co">##  peaksData(s_mem)    451.554    546.0305    613.3806    641.92    671.6</span></span>
-<span><span class="co">##  peaksData(s_mzr) 504294.618 516531.3680 546904.0799 522300.53 529714.3</span></span>
-<span><span class="co">##   peaksData(s_db)  93220.280 101277.5505 209418.2931 284248.95 292369.8</span></span>
+<span><span class="co">##              expr        min         lq        mean     median         uq</span></span>
+<span><span class="co">##  peaksData(s_mem)    313.564    485.475    587.1587    654.831    691.629</span></span>
+<span><span class="co">##  peaksData(s_mzr) 506064.643 512911.311 546472.9341 517375.658 521932.397</span></span>
+<span><span class="co">##   peaksData(s_db)  96600.480 101941.963 221392.5210 300670.733 310743.569</span></span>
 <span><span class="co">##         max neval</span></span>
-<span><span class="co">##     764.929     7</span></span>
-<span><span class="co">##  709242.059     7</span></span>
-<span><span class="co">##  301164.031     7</span></span></code></pre>
+<span><span class="co">##     787.508     7</span></span>
+<span><span class="co">##  732182.824     7</span></span>
+<span><span class="co">##  327105.369     7</span></span></code></pre>
 <p>The <code>MsBackendMemory</code> outperforms the two other backends
 also in this comparison. Both the <code>MsBackendMzR</code> and
 <code>MsBackendOfflineSql</code> need to import this data, the
@@ -710,10 +710,10 @@ present data is more efficient).</p>
 <span>    <span class="va">s_db</span><span class="op">[</span><span class="va">idx</span><span class="op">]</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: microseconds</span></span>
-<span><span class="co">##        expr     min      lq     mean   median       uq      max neval</span></span>
-<span><span class="co">##  s_mem[idx] 223.117 231.202 239.3604 238.3300 244.4970  280.254   100</span></span>
-<span><span class="co">##  s_mzr[idx] 638.173 663.926 681.7434 673.9245 690.0945  983.238   100</span></span>
-<span><span class="co">##   s_db[idx] 132.818 142.146 163.0196 149.1240 157.0135 1405.206   100</span></span></code></pre>
+<span><span class="co">##        expr     min       lq     mean   median       uq      max neval</span></span>
+<span><span class="co">##  s_mem[idx] 228.025 237.6585 248.2724 245.0770 252.8715  332.339   100</span></span>
+<span><span class="co">##  s_mzr[idx] 647.267 668.4360 692.3161 683.9395 703.4315 1021.684   100</span></span>
+<span><span class="co">##   s_db[idx] 134.882 143.2670 164.5098 151.1460 157.0930 1426.860   100</span></span></code></pre>
 <p>Here, the <code>MsBackendOfflineSql</code> has a clear advantage over
 the two other backends, because it only needs to subset the integer
 vector of primary keys (the only data it keeps in memory), while the
@@ -1006,8 +1006,8 @@ backends to cache spectra variables in memory for faster access.</p>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
 <span><span class="co">##          expr      min       lq     mean   median       uq      max neval</span></span>
-<span><span class="co">##   rtime(s_db) 6.434704 6.487172 6.624639 6.512158 6.618147 7.703244    17</span></span>
-<span><span class="co">##  rtime(s_db2) 2.855305 2.911049 3.037114 2.930135 2.978595 4.570711    17</span></span></code></pre>
+<span><span class="co">##   rtime(s_db) 6.960315 7.214658 7.401589 7.348638 7.536118 8.059633    17</span></span>
+<span><span class="co">##  rtime(s_db2) 3.071725 3.186961 3.348120 3.285474 3.335969 4.605124    17</span></span></code></pre>
 <p><em>Note</em>: the <code>MsBackendCached</code> class from the
 <em>Spectra</em> package provides the internal
 <code>data.frame</code>-based caching mechanism described above. The
@@ -1095,7 +1095,7 @@ with:</p>
 <span><span class="co">##         return(x)</span></span>
 <span><span class="co">##     x[which(between(x[, "intensity"], intensity)), , drop = FALSE]</span></span>
 <span><span class="co">## }</span></span>
-<span><span class="co">## &lt;bytecode: 0x560fbadf9240&gt;</span></span>
+<span><span class="co">## &lt;bytecode: 0x5614ecd3a240&gt;</span></span>
 <span><span class="co">## &lt;environment: namespace:Spectra&gt;</span></span></code></pre>
 <p>and all of its parameters with:</p>
 <div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
@@ -1152,12 +1152,12 @@ performance:</p>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">intensity</a></span><span class="op">(</span><span class="va">s_mem</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>,</span>
 <span>    times <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
-<span><span class="co">##                    expr       min        lq       mean     median         uq</span></span>
-<span><span class="co">##  intensity(s_mem[1:10])  3.364347   3.50014   3.637076   3.578407   3.818886</span></span>
-<span><span class="co">##  intensity(s_mem)[1:10] 99.216294 100.02592 131.332931 100.740903 106.595507</span></span>
+<span><span class="co">##                    expr        min         lq       mean     median         uq</span></span>
+<span><span class="co">##  intensity(s_mem[1:10])   3.563091   3.642931   3.845829   3.837824   4.029011</span></span>
+<span><span class="co">##  intensity(s_mem)[1:10] 100.059288 101.404671 135.300812 101.762232 111.921505</span></span>
 <span><span class="co">##         max neval</span></span>
-<span><span class="co">##    3.878728     7</span></span>
-<span><span class="co">##  306.130471     7</span></span></code></pre>
+<span><span class="co">##    4.176004     7</span></span>
+<span><span class="co">##  318.631814     7</span></span></code></pre>
 <p>Next to the number of common peaks data manipulation methods that are
 already implemented for <code>Spectra</code>, and that all make use of
 this processing queue, there is also the <code><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">addProcessing()</a></code>
