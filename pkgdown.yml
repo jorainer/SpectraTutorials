@@ -1,12 +1,11 @@
-pandoc: 3.1.13
-pkgdown: 2.0.9
+pandoc: '3.2'
+pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
   analyzing-MS-data-from-different-sources-with-Spectra: analyzing-MS-data-from-different-sources-with-Spectra.html
   Spectra-backends: Spectra-backends.html
   Spectra-matching-with-MetaboAnnotation: Spectra-matching-with-MetaboAnnotation.html
-last_built: 2024-05-17T15:14Z
+last_built: 2024-08-07T11:20Z
 urls:
   reference: https://jorainer.github.io/SpectraTutorials/reference
   article: https://jorainer.github.io/SpectraTutorials/articles
-

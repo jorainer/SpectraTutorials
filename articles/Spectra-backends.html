@@ -5,73 +5,50 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="SpectraTutorials">
 <title>Spectra: an expandable infrastructure to handle mass spectrometry data • SpectraTutorials</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Spectra: an expandable infrastructure to handle mass spectrometry data">
-<meta property="og:description" content="SpectraTutorials">
-<meta property="og:image" content="https://jorainer.github.io/SpectraTutorials/logo.png">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Spectra: an expandable infrastructure to handle mass spectrometry data">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
-    
 
-    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary" data-bs-theme="dark"><div class="container">
-    
+
+    <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="../index.html">SpectraTutorials</a>
 
     <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
-    
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="active nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/analyzing-MS-data-from-different-sources-with-Spectra.html">Seamless Integration of Mass Spectrometry Data from Different Sources with the `Spectra` Package</a>
-    <a class="dropdown-item" href="../articles/Spectra-backends.html">Spectra: an expandable infrastructure to handle mass spectrometry data</a>
-    <a class="dropdown-item" href="../articles/Spectra-matching-with-MetaboAnnotation.html">MS/MS Spectra Matching with the `MetaboAnnotation` Package</a>
-  </div>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="../articles/analyzing-MS-data-from-different-sources-with-Spectra.html">Seamless Integration of Mass Spectrometry Data from Different Sources with the `Spectra` Package</a></li>
+    <li><a class="dropdown-item" href="../articles/Spectra-backends.html">Spectra: an expandable infrastructure to handle mass spectrometry data</a></li>
+    <li><a class="dropdown-item" href="../articles/Spectra-matching-with-MetaboAnnotation.html">MS/MS Spectra Matching with the `MetaboAnnotation` Package</a></li>
+  </ul>
 </li>
-<li class="nav-item">
-  <a class="nav-link" href="../news/index.html">Changelog</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
-<form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
-</form>
-
-      <ul class="navbar-nav">
-<li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/jorainer/SpectraTutorials/" aria-label="github">
-    <span class="fab fa fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
+<ul class="navbar-nav">
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
+</form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/jorainer/SpectraTutorials/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
-    
+
   </div>
 </nav><div class="container template-article">
 
@@ -90,13 +67,13 @@ UCLouvain, Brussels, Belgium&lt;/p&gt;"><sup>3</sup></a>
 </h4>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/jorainer/SpectraTutorials/blob/HEAD/vignettes/Spectra-backends.Rmd" class="external-link"><code>vignettes/Spectra-backends.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/jorainer/SpectraTutorials/blob/main/vignettes/Spectra-backends.Rmd" class="external-link"><code>vignettes/Spectra-backends.Rmd</code></a></small>
       <div class="d-none name"><code>Spectra-backends.Rmd</code></div>
     </div>
 
     
     
-<p><strong>Last modified:</strong> 2024-05-17 15:09:18.976484<br><strong>Compiled</strong>: Fri May 17 15:15:29 2024</p>
+<p><strong>Last modified:</strong> 2024-08-07 11:15:58.719114<br><strong>Compiled</strong>: Wed Aug 7 11:21:43 2024</p>
 <div class="section level2">
 <h2 id="abstract">Abstract<a class="anchor" aria-label="anchor" href="#abstract"></a>
 </h2>
@@ -684,9 +661,9 @@ independent that.</p>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: microseconds</span></span>
 <span><span class="co">##          expr      min       lq       mean   median       uq       max neval</span></span>
-<span><span class="co">##  rtime(s_mem)   11.362   12.023   18.65023   14.327   24.837    30.106    13</span></span>
-<span><span class="co">##  rtime(s_mzr)  363.107  395.979  444.10546  403.513  437.155   809.440    13</span></span>
-<span><span class="co">##   rtime(s_db) 6503.253 6589.985 7059.01377 6611.075 6871.460 11319.178    13</span></span></code></pre>
+<span><span class="co">##  rtime(s_mem)   11.091   12.252   17.48962   13.566   22.592    28.042    13</span></span>
+<span><span class="co">##  rtime(s_mzr)  368.188  394.036  440.15315  404.827  414.855   793.242    13</span></span>
+<span><span class="co">##   rtime(s_db) 6458.048 6515.595 6930.52492 6533.378 6649.175 11146.939    13</span></span></code></pre>
 <p>Highest performance can be seen for the <code>Spectra</code> object
 with the <code>MsBackendMemory</code> backend, followed by the
 <code>Spectra</code> object with the <code>MsBackendMzR</code> backend,
@@ -708,14 +685,14 @@ files.</p>
 <span>    times <span class="op">=</span> <span class="fl">7</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: microseconds</span></span>
-<span><span class="co">##              expr        min         lq        mean     median          uq</span></span>
-<span><span class="co">##  peaksData(s_mem)    308.516    450.571    566.2539    592.736    680.8405</span></span>
-<span><span class="co">##  peaksData(s_mzr) 502642.408 509107.326 541867.1089 515216.417 519180.0720</span></span>
-<span><span class="co">##   peaksData(s_db)  93157.332 307003.404 309305.2491 307670.113 311613.8405</span></span>
+<span><span class="co">##              expr        min          lq        mean    median       uq</span></span>
+<span><span class="co">##  peaksData(s_mem)    451.554    546.0305    613.3806    641.92    671.6</span></span>
+<span><span class="co">##  peaksData(s_mzr) 504294.618 516531.3680 546904.0799 522300.53 529714.3</span></span>
+<span><span class="co">##   peaksData(s_db)  93220.280 101277.5505 209418.2931 284248.95 292369.8</span></span>
 <span><span class="co">##         max neval</span></span>
-<span><span class="co">##     799.702     7</span></span>
-<span><span class="co">##  718636.142     7</span></span>
-<span><span class="co">##  527074.810     7</span></span></code></pre>
+<span><span class="co">##     764.929     7</span></span>
+<span><span class="co">##  709242.059     7</span></span>
+<span><span class="co">##  301164.031     7</span></span></code></pre>
 <p>The <code>MsBackendMemory</code> outperforms the two other backends
 also in this comparison. Both the <code>MsBackendMzR</code> and
 <code>MsBackendOfflineSql</code> need to import this data, the
@@ -733,10 +710,10 @@ present data is more efficient).</p>
 <span>    <span class="va">s_db</span><span class="op">[</span><span class="va">idx</span><span class="op">]</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: microseconds</span></span>
-<span><span class="co">##        expr     min       lq     mean   median       uq      max neval</span></span>
-<span><span class="co">##  s_mem[idx] 221.693 230.4050 237.3611 235.1535 242.9585  274.231   100</span></span>
-<span><span class="co">##  s_mzr[idx] 630.737 653.6595 669.4425 662.6010 672.7300 1041.904   100</span></span>
-<span><span class="co">##   s_db[idx] 132.787 140.5120 161.1052 147.5210 151.9485 1375.827   100</span></span></code></pre>
+<span><span class="co">##        expr     min      lq     mean   median       uq      max neval</span></span>
+<span><span class="co">##  s_mem[idx] 223.117 231.202 239.3604 238.3300 244.4970  280.254   100</span></span>
+<span><span class="co">##  s_mzr[idx] 638.173 663.926 681.7434 673.9245 690.0945  983.238   100</span></span>
+<span><span class="co">##   s_db[idx] 132.818 142.146 163.0196 149.1240 157.0135 1405.206   100</span></span></code></pre>
 <p>Here, the <code>MsBackendOfflineSql</code> has a clear advantage over
 the two other backends, because it only needs to subset the integer
 vector of primary keys (the only data it keeps in memory), while the
@@ -1029,8 +1006,8 @@ backends to cache spectra variables in memory for faster access.</p>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
 <span><span class="co">##          expr      min       lq     mean   median       uq      max neval</span></span>
-<span><span class="co">##   rtime(s_db) 6.489417 6.551513 6.691657 6.571270 6.677538 7.894318    17</span></span>
-<span><span class="co">##  rtime(s_db2) 2.839698 2.937801 3.059807 2.977746 2.988756 4.579865    17</span></span></code></pre>
+<span><span class="co">##   rtime(s_db) 6.434704 6.487172 6.624639 6.512158 6.618147 7.703244    17</span></span>
+<span><span class="co">##  rtime(s_db2) 2.855305 2.911049 3.037114 2.930135 2.978595 4.570711    17</span></span></code></pre>
 <p><em>Note</em>: the <code>MsBackendCached</code> class from the
 <em>Spectra</em> package provides the internal
 <code>data.frame</code>-based caching mechanism described above. The
@@ -1118,7 +1095,7 @@ with:</p>
 <span><span class="co">##         return(x)</span></span>
 <span><span class="co">##     x[which(between(x[, "intensity"], intensity)), , drop = FALSE]</span></span>
 <span><span class="co">## }</span></span>
-<span><span class="co">## &lt;bytecode: 0x563a328a4d88&gt;</span></span>
+<span><span class="co">## &lt;bytecode: 0x560fbadf9240&gt;</span></span>
 <span><span class="co">## &lt;environment: namespace:Spectra&gt;</span></span></code></pre>
 <p>and all of its parameters with:</p>
 <div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
@@ -1175,12 +1152,12 @@ performance:</p>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">intensity</a></span><span class="op">(</span><span class="va">s_mem</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>,</span>
 <span>    times <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: milliseconds</span></span>
-<span><span class="co">##                    expr       min         lq       mean     median         uq</span></span>
-<span><span class="co">##  intensity(s_mem[1:10])  3.270902   3.294116   3.597047   3.470455   3.884242</span></span>
-<span><span class="co">##  intensity(s_mem)[1:10] 99.553073 100.012446 103.313517 102.495263 106.859816</span></span>
+<span><span class="co">##                    expr       min        lq       mean     median         uq</span></span>
+<span><span class="co">##  intensity(s_mem[1:10])  3.364347   3.50014   3.637076   3.578407   3.818886</span></span>
+<span><span class="co">##  intensity(s_mem)[1:10] 99.216294 100.02592 131.332931 100.740903 106.595507</span></span>
 <span><span class="co">##         max neval</span></span>
-<span><span class="co">##    4.081254     7</span></span>
-<span><span class="co">##  107.401757     7</span></span></code></pre>
+<span><span class="co">##    3.878728     7</span></span>
+<span><span class="co">##  306.130471     7</span></span></code></pre>
 <p>Next to the number of common peaks data manipulation methods that are
 already implemented for <code>Spectra</code>, and that all make use of
 this processing queue, there is also the <code><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">addProcessing()</a></code>
@@ -1307,7 +1284,7 @@ Research</em>, September. <a href="https://doi.org/10.1021/acs.jproteome.0c00313
 </div>
 </div>
 
-  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
 
@@ -1318,15 +1295,15 @@ Research</em>, September. <a href="https://doi.org/10.1021/acs.jproteome.0c00313
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
     </footer>
 </div>
 
-  
 
-  
+
+
 
   </body>
 </html>

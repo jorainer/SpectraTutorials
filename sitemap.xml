@@ -1,39 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://jorainer.github.io/SpectraTutorials/404.html</loc>
-  </url>
-  <url>
-    <loc>https://jorainer.github.io/SpectraTutorials/Abstract-EuroBioc2020.html</loc>
-  </url>
-  <url>
-    <loc>https://jorainer.github.io/SpectraTutorials/Abstract-EuroBioc2022.html</loc>
-  </url>
-  <url>
-    <loc>https://jorainer.github.io/SpectraTutorials/Abstract-EuroBioc2023.html</loc>
-  </url>
-  <url>
-    <loc>https://jorainer.github.io/SpectraTutorials/articles/Spectra-backends.html</loc>
-  </url>
-  <url>
-    <loc>https://jorainer.github.io/SpectraTutorials/articles/Spectra-matching-with-MetaboAnnotation.html</loc>
-  </url>
-  <url>
-    <loc>https://jorainer.github.io/SpectraTutorials/articles/analyzing-MS-data-from-different-sources-with-Spectra.html</loc>
-  </url>
-  <url>
-    <loc>https://jorainer.github.io/SpectraTutorials/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://jorainer.github.io/SpectraTutorials/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://jorainer.github.io/SpectraTutorials/index.html</loc>
-  </url>
-  <url>
-    <loc>https://jorainer.github.io/SpectraTutorials/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://jorainer.github.io/SpectraTutorials/reference/index.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://jorainer.github.io/SpectraTutorials/404.html</loc></url>
+<url><loc>https://jorainer.github.io/SpectraTutorials/Abstract-EuroBioc2020.html</loc></url>
+<url><loc>https://jorainer.github.io/SpectraTutorials/Abstract-EuroBioc2022.html</loc></url>
+<url><loc>https://jorainer.github.io/SpectraTutorials/Abstract-EuroBioc2023.html</loc></url>
+<url><loc>https://jorainer.github.io/SpectraTutorials/articles/Spectra-backends.html</loc></url>
+<url><loc>https://jorainer.github.io/SpectraTutorials/articles/Spectra-matching-with-MetaboAnnotation.html</loc></url>
+<url><loc>https://jorainer.github.io/SpectraTutorials/articles/analyzing-MS-data-from-different-sources-with-Spectra.html</loc></url>
+<url><loc>https://jorainer.github.io/SpectraTutorials/articles/index.html</loc></url>
+<url><loc>https://jorainer.github.io/SpectraTutorials/authors.html</loc></url>
+<url><loc>https://jorainer.github.io/SpectraTutorials/index.html</loc></url>
+<url><loc>https://jorainer.github.io/SpectraTutorials/news/index.html</loc></url>
+<url><loc>https://jorainer.github.io/SpectraTutorials/reference/index.html</loc></url>
 </urlset>
+
