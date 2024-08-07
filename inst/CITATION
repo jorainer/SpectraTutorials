@@ -4,7 +4,10 @@ citEntry(entry = "Manual",
          title  = "SpectraTutorials: Mass Spectrometry Data Analysis with Spectra",
          author = personList(
            person(given = "Johannes", family = "Rainer"),
-           person(given = "Philippine", family = "Louail")
+           person(given = "Philippine", family = "Louail"),
+           person(given = "Michael", family = "Witting"),
+           person(given = "Laurent", family = "Gatto"),
+           person(given = "Sebastian", family = "Gibb")
          ),
          publisher = "Zenodo",
          year = "2024",
@@ -12,8 +15,8 @@ citEntry(entry = "Manual",
          version = "v1.0.0",
          doi = "10.5281/zenodo.11210190",
          url = "https://doi.org/10.5281/zenodo.11210190",
-         textVersion = paste0("Johannes Rainer, & Philippine Louail. (2024). ",
-                              "SpectraTutorials version 1.0.0: Mass ",
+         textVersion = paste0("Rainer J, Louail P, Witting M, Gatto L, Gibb S. ",
+                              "(2024). SpectraTutorials version 1.0.0: Mass ",
                               "Spectrometry Data Analysis with Spectra. ",
                               "Zenodo. https://doi.org/10.5281/zenodo.11210190")
          )
