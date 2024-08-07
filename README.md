@@ -24,6 +24,16 @@ respective workshop section.
 See [NEWS.md](NEWS.md) for information on the current version and a change log.
 
 
+## Citation
+
+This tutorials (and future versions) are deposited at
+[Zenodo](https://zenodo.org). To cite this version of the tutorial:
+
+Johannes Rainer and Philippine Louail. SpectraTutorials version 1.0.0: Mass
+Spectrometry Data Analysis with Spectra. Zenodo, May
+17, 2024. https://doi.org/10.5281/zenodo.11210190
+
+
 ## Installation
 
 For on-line code evaluation the workshops can also be run using a self-contained
